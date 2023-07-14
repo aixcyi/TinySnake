@@ -8,7 +8,6 @@ import com.intellij.openapi.ui.popup.JBPopupFactory;
 import com.intellij.openapi.ui.popup.JBPopupListener;
 import com.intellij.openapi.ui.popup.LightweightWindowEvent;
 import com.intellij.openapi.util.Pair;
-import com.intellij.openapi.wm.WindowManager;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.ui.ColoredListCellRenderer;
@@ -114,8 +113,6 @@ public class GenerateDunderAllAction extends AnAction {
                 .setTitle("选择导出到 __all__ 的符号")
                 .createPopup();
 
-        JFrame frame = WindowManager.getInstance().getFrame(event.getProject());
-        if (frame == null) return;
-        popup.showInCenterOf(frame);
+        popup.showInBestPositionFor(event.getDataContext());
     }
 }
