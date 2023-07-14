@@ -1,0 +1,41 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+    <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
+    <id>cn.aixcyi.plugin.TinySnake</id>
+
+    <!-- Public plugin name should be written in Title Case.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
+    <name>Tiny Snake</name>
+
+    <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
+    <vendor email="75880483+aixcyi@users.noreply.github.com" url="https://www.yourcompany.com">aixcyi</vendor>
+
+    <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
+         Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
+    <description><![CDATA[
+    一个 PyCharm 小插件，用于提升自己的 Python 开发体验。
+
+    主要功能包括：生成__all__变量值。
+]]></description>
+
+    <!-- Product and plugin compatibility requirements.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.python</depends>
+
+    <!-- Extension points defined by the plugin.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
+    <extensions defaultExtensionNs="com.intellij">
+    </extensions>
+
+    <actions>
+        <!-- text 中的下划线被转义了，所以需要双双下划线来表示双下划线 -->
+        <action id="GenerateGetterAction"
+                class="cn.aixcyi.plugin.tinysnake.GenerateDunderAllAction"
+                text="____all____">
+            <add-to-group group-id="GenerateGroup" anchor="last"/>
+        </action>
+
+    </actions>
+</idea-plugin>
