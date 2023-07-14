@@ -100,13 +100,13 @@ public class GenerateDunderAllAction extends AnAction {
                 })
                 .addListener(new JBPopupListener() {
                     @Override
-                    public void beforeShown(@NotNull LightweightWindowEvent event) {
-                        JBPopupListener.super.beforeShown(event);
+                    public void beforeShown(@NotNull LightweightWindowEvent e) {
+                        JBPopupListener.super.beforeShown(e);
                     }
 
                     @Override
-                    public void onClosed(@NotNull LightweightWindowEvent event) {
-                        JBPopupListener.super.onClosed(event);
+                    public void onClosed(@NotNull LightweightWindowEvent e) {
+                        JBPopupListener.super.onClosed(e);
                     }
                 })
                 .setAdText("Ctrl+单击 选择多个，Shift+单击 批量选择")
