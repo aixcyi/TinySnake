@@ -5,13 +5,11 @@ import com.intellij.lang.Language;
 import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.ui.popup.JBPopup;
 import com.intellij.openapi.ui.popup.JBPopupFactory;
-import com.intellij.openapi.ui.popup.JBPopupListener;
-import com.intellij.openapi.ui.popup.LightweightWindowEvent;
 import com.intellij.openapi.util.Pair;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.ui.ColoredListCellRenderer;
-import com.intellij.ui.components.JBList;
+import com.intellij.util.Consumer;
 import com.jetbrains.python.psi.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -28,6 +26,7 @@ import static javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION;
  * @author aixcyi
  */
 public class GenerateDunderAllAction extends AnAction {
+    public static final String VAR_NAME_DUNDER_ALL = "__all__";
 
     @Override
     public @NotNull ActionUpdateThread getActionUpdateThread() {
@@ -50,33 +49,42 @@ public class GenerateDunderAllAction extends AnAction {
         if (psi == null) return;
         PyFile file = (PyFile) psi;
 
-        List<Pair<String, Icon>> symbols = new ArrayList<>();
-        Set<String> exports = new HashSet<>();
+        List<String> symbols = new ArrayList<>();  // 顶层所有符号
+        List<Icon> icons = new ArrayList<>();  // symbols 原对象的类型对应的符号
+        Set<String> exports = new HashSet<>();  // __all__ 导出的所有符号
 
         // 遍历所有顶层表达式获取：类名、函数名、变量名
         file.getStatements().forEach(statement -> {
-            if (statement instanceof PyClass) symbols.add(new Pair<>(statement.getName(), Nodes.Class));
-            if (statement instanceof PyFunction) symbols.add(new Pair<>(statement.getName(), Nodes.Method));
-            if (statement instanceof PyAssignmentStatement assignment) {
-
-                // 变量名需要从赋值表达式 PyAssignmentStatement 中获取
-                // 因为存在元组解包，所以需要用循环来提取普通变量
+            // 类定义
+            if (statement instanceof PyClass) {
+                symbols.add(statement.getName());
+                icons.add(Nodes.Class);
+            }
+            // 函数定义
+            else if (statement instanceof PyFunction) {
+                symbols.add(statement.getName());
+                icons.add(Nodes.Method);
+            }
+            // 赋值表达式
+            else if (statement instanceof PyAssignmentStatement assignment) {
+                // 因为赋值表达式存在元组解包的情况，
+                // 所以需要用循环来提取普通变量
                 for (Pair<PyExpression, PyExpression> target : assignment.getTargetsToValuesMapping()) {
                     String varName = target.first.getName();
 
                     // 顶层的普通变量
-                    if (!Objects.equals(varName, "__all__")) {
-                        symbols.add(new Pair<>(varName, Nodes.Variable));
+                    if (!Objects.equals(varName, VAR_NAME_DUNDER_ALL)) {
+                        symbols.add(varName);
+                        icons.add(Nodes.Variable);
                         continue;
                     }
-
                     // 所有通过 __all__ 公开的符号
                     for (PsiElement child : target.second.getChildren())
                         if (child instanceof PyStringLiteralExpression string)
                             exports.add(string.getStringValue());
                 }
             }
-            // TODO: if (statement instanceof PyIfStatement) {}
+            // TODO: else if (statement instanceof PyIfStatement) {}
         });
 
         // TODO:
@@ -88,25 +96,21 @@ public class GenerateDunderAllAction extends AnAction {
                 .setSelectionMode(MULTIPLE_INTERVAL_SELECTION)
                 .setRenderer(new ColoredListCellRenderer<>() {
                     @Override
-                    protected void customizeCellRenderer(@NotNull JList<? extends Pair<String, Icon>> list,
-                                                         Pair<String, Icon> value,
+                    protected void customizeCellRenderer(@NotNull JList<? extends String> list,
+                                                         String value,
                                                          int index,
                                                          boolean selected,
                                                          boolean hasFocus) {
-                        this.append(value.first);
-                        this.setIcon(value.second);
-                        this.setEnabled(!exports.contains(value.first));
+                        this.append(value);
+                        this.setIcon(icons.get(index));
+                        this.setEnabled(!exports.contains(value));
                     }
                 })
-                .addListener(new JBPopupListener() {
+                .setItemsChosenCallback(new Consumer<Set<? extends String>>() {
                     @Override
-                    public void beforeShown(@NotNull LightweightWindowEvent e) {
-                        JBPopupListener.super.beforeShown(e);
-                    }
-
-                    @Override
-                    public void onClosed(@NotNull LightweightWindowEvent e) {
-                        JBPopupListener.super.onClosed(e);
+                    public void consume(Set<? extends String> choices) {
+                        // TODO: choices - exports 之后才是用户可以添加的
+                        choices.forEach(System.out::println);
                     }
                 })
                 .setAdText("Ctrl+单击 选择多个，Shift+单击 批量选择")
