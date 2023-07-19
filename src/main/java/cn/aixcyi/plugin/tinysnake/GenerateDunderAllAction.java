@@ -50,8 +50,8 @@ public class GenerateDunderAllAction extends AnAction {
         DunderAllEntity all = new DunderAllEntity(file);  // 遍历所有顶层表达式获取所有符号
 
         // TODO:
-        //  JBList<Pair<String, Icon>> choices = new JBList<>(symbols);
-        //  choices.setEmptyText("没有可公开的顶级符号");
+        JBList<String> options = new JBList<>(new CollectionListModel<>(all.symbols));
+        options.getEmptyText().setText("没有可公开的顶级符号");
 
         JBPopup popup = JBPopupFactory.getInstance()
                 .createPopupChooserBuilder(all.symbols)
