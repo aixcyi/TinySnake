@@ -23,11 +23,16 @@ public class DunderAllEntity {
     public List<String> exports = new ArrayList<>();  // __all__ 导出的所有符号
 
     public DunderAllEntity(PyFile file) {
-        file.getStatements().forEach(this::add);
+        file.getStatements().forEach(this::collect);
         reexport();
     }
 
-    private void add(PyStatement statement) {
+    /**
+     * 解析表达式，并收集该表达式的符号（类定义的类名、函数定义的函数名、赋值语句的变量名等）。
+     *
+     * @param statement 一条顶层表达式。
+     */
+    private void collect(PyStatement statement) {
         // 类定义
         if (statement instanceof PyClass) {
             symbols.add(statement.getName());
