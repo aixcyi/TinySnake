@@ -61,7 +61,12 @@ public class DunderAllEntity {
                 }
             }
         }
-        // TODO: else if (statement instanceof PyIfStatement) {}
+        // 判断语句
+        else if (statement instanceof PyIfStatement declaration) {
+            for (PyStatement ps : declaration.getIfPart().getStatementList().getStatements()) {
+                collect(ps);
+            }
+        }
     }
 
     /**
