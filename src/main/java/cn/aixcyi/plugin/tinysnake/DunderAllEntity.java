@@ -5,6 +5,7 @@ import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Pair;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.util.QualifiedName;
 import com.jetbrains.python.psi.*;
 import com.jetbrains.python.psi.impl.PyElementGeneratorImpl;
 import org.jetbrains.annotations.NotNull;
@@ -12,7 +13,6 @@ import org.jetbrains.annotations.NotNull;
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
 public class DunderAllEntity {
@@ -44,21 +44,34 @@ public class DunderAllEntity {
         // 函数定义
         else if (statement instanceof PyFunction) {
             symbols.add(statement.getName());
-            icons.add(AllIcons.Nodes.Method);
+            icons.add(AllIcons.Nodes.Function);
         }
         // 赋值表达式
         else if (statement instanceof PyAssignmentStatement assignment) {
             // 因为赋值表达式存在元组解包的情况，
             // 所以需要用循环来提取普通变量
-            for (Pair<PyExpression, PyExpression> target : assignment.getTargetsToValuesMapping()) {
-                String varName = target.first.getName();
-
-                // 顶层的 __all__ 变量
-                if (Objects.equals(varName, VAR_NAME)) {
-                    varValue = target.second;
+            for (Pair<PyExpression, PyExpression> pair : assignment.getTargetsToValuesMapping()) {
+                String varName = pair.first.getName();
+                if (varName == null) continue;
+                // 过滤掉附属的变量，比如 meow.age = 6
+                if (pair.first instanceof PyTargetExpression target) {
+                    QualifiedName qName = target.asQualifiedName();
+                    if (qName != null && !qName.toString().equals(varName)) {
+                        continue;
+                    }
                 }
-                // 顶层除 __all__ 以外的普通变量
-                else {
+
+                // 变量 __all__
+                if (varName.equals(VAR_NAME)) {
+                    varValue = pair.second;
+                }
+                // 其它 dunder 变量
+                else if (varName.startsWith("__")) {
+                    symbols.add(varName);
+                    icons.add(AllIcons.Nodes.Variable);  // TODO: 图标与【结构】中的对不上
+                }
+                // 公开变量
+                else if (!varName.startsWith("_")) {
                     symbols.add(varName);
                     icons.add(AllIcons.Nodes.Variable);
                 }
