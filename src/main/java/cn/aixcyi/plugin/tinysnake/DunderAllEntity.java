@@ -73,28 +73,32 @@ public class DunderAllEntity {
     }
 
     /**
-     * 往 __all__ 变量的值添加“字符串”。
+     * 往 __all__ 变量的值添加“字符串”。如果没有这个变量，就找个合适的地方创建之。
      *
      * @param project 项目。
      * @param items   所有需要添加的"字符串"。
      */
     public void adds(@NotNull final Set<? extends String> items, @NotNull Project project) {
+        Runnable runnable;
         PyElementGeneratorImpl generator = new PyElementGeneratorImpl(project);
         if (varValue == null) {
             String soup = String.join(", ", items.stream().map(this::literalize).toList());
-            String text = "__all__ = [" + soup + "]";
-            WriteCommandAction.runWriteCommandAction(project, "生成 __all__", "GenerateDunderAll", () -> {
-                PyAssignmentStatement s = generator.createFromText(file.getLanguageLevel(), PyAssignmentStatement.class, text);
-                file.addBefore(s, findProperlyPlace());
-            });
+            String text = "__all__ = [\n" + soup + "\n]";
+            runnable = () -> file.addBefore(
+                    generator.createFromText(file.getLanguageLevel(), PyAssignmentStatement.class, text),
+                    findProperlyPlace()
+            );
         } else {
-            exports.forEach(items::remove);
-            WriteCommandAction.runWriteCommandAction(project, "生成 __all__", "GenerateDunderAll", () -> {
+            exports.forEach(items::remove);  // 去除已经在 __all__ 里的符号
+            runnable = () -> {
                 for (String item : items) {
                     varValue.add(generator.createStringLiteralFromString(item));
                 }
-            });
+            };
         }
+        WriteCommandAction.runWriteCommandAction(
+                project, "生成 __all__", "GenerateDunderAll", runnable
+        );
     }
 
     /**
@@ -118,7 +122,7 @@ public class DunderAllEntity {
             }
             // 拿不到注释，所以不作判断
 
-            // 其它语句都排在 __all__ 后面，
+            // 根据 PEP 8 的格式约定，其它语句都要排在 __all__ 后面
             return child;
         }
         return file.getFirstChild();
