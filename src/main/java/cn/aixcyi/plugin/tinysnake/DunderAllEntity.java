@@ -38,11 +38,14 @@ public class DunderAllEntity {
     private void collect(PyStatement statement) {
         // 类定义
         if (statement instanceof PyClass) {
-            symbols.add(statement.getName());
+            String className = statement.getName();
+            if (className == null || className.startsWith("_")) return;
+            symbols.add(className);
             icons.add(AllIcons.Nodes.Class);
         }
         // 函数定义
-        else if (statement instanceof PyFunction) {
+        else if (statement instanceof PyFunction function) {
+            if (function.getProtectionLevel() != PyFunction.ProtectionLevel.PUBLIC) return;
             symbols.add(statement.getName());
             icons.add(AllIcons.Nodes.Function);
         }
