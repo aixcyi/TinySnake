@@ -34,7 +34,7 @@
         <action id="GenerateGetterAction"
                 class="cn.aixcyi.plugin.tinysnake.GenerateDunderAllAction"
                 text="____all____">
-            <add-to-group group-id="GenerateGroup" anchor="last"/>
+            <add-to-group group-id="GenerateGroup" anchor="first"/>
         </action>
 
     </actions>

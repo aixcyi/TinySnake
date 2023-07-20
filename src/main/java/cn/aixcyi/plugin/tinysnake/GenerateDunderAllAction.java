@@ -64,7 +64,7 @@ public class GenerateDunderAllAction extends AnAction {
                     }
                 })
                 .setItemsChosenCallback(choices -> all.adds(choices, project))
-                .setAdText("Ctrl+单击 选择多个，Shift+单击 批量选择")
+                .setAdText("Ctrl+单击 多选，Shift+单击 批量选，Ctrl+A 全选")
                 .setTitle("选择导出到 __all__ 的符号")
                 .setMovable(true)
                 .createPopup();
