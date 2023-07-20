@@ -45,10 +45,7 @@ public class GenerateDunderAllAction extends AnAction {
         PyFile file = (PyFile) psi;
         DunderAllEntity all = new DunderAllEntity(file);  // 遍历所有顶层表达式获取所有符号
 
-        // TODO:
         JBList<String> options = new JBList<>(new CollectionListModel<>(all.symbols));
-        options.getEmptyText().setText("没有可公开的顶级符号");
-
         JBPopup popup = new PopupChooserBuilder<>(options)
                 .setSelectionMode(MULTIPLE_INTERVAL_SELECTION)
                 .setRenderer(new ColoredListCellRenderer<>() {
@@ -67,8 +64,11 @@ public class GenerateDunderAllAction extends AnAction {
                 .setAdText("Ctrl+单击 多选，Shift+单击 批量选，Ctrl+A 全选")
                 .setTitle("选择导出到 __all__ 的符号")
                 .setMovable(true)
+                // options 的 EmptyText 在下面这一步会被覆盖掉
                 .createPopup();
 
+        // 所以只能在这里设置 EmptyText
+        options.getEmptyText().setText("没有可公开的顶级符号");
         popup.showInBestPositionFor(event.getDataContext());
     }
 }
