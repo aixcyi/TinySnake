@@ -1,7 +1,9 @@
 package cn.aixcyi.plugin.tinysnake;
 
-import com.intellij.openapi.actionSystem.*;
-import com.intellij.openapi.project.Project;
+import com.intellij.openapi.actionSystem.ActionUpdateThread;
+import com.intellij.openapi.actionSystem.AnAction;
+import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.ui.popup.JBPopup;
 import com.intellij.openapi.ui.popup.PopupChooserBuilder;
 import com.intellij.psi.PsiFile;
@@ -12,7 +14,7 @@ import com.jetbrains.python.PythonLanguage;
 import com.jetbrains.python.psi.PyFile;
 import org.jetbrains.annotations.NotNull;
 
-import javax.swing.JList;
+import javax.swing.*;
 
 import static javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION;
 
@@ -33,16 +35,14 @@ public class GenerateDunderAllAction extends AnAction {
     @Override
     public void update(@NotNull AnActionEvent event) {
         PsiFile psi = event.getData(CommonDataKeys.PSI_FILE);
-        Presentation presentation = event.getPresentation();
-        presentation.setVisible(psi != null && psi.getLanguage() == PythonLanguage.INSTANCE);
+        event.getPresentation().setVisible(psi != null && psi.getLanguage() == PythonLanguage.INSTANCE);
     }
 
     @Override
     public void actionPerformed(@NotNull AnActionEvent event) {
-        Project project = event.getProject();
         PsiFile psi = event.getData(CommonDataKeys.PSI_FILE);
-        if (project == null || psi == null) return;
-        PyFile file = (PyFile) psi;
+        if (!(psi instanceof PyFile file)) return;
+
         DunderAllEntity all = new DunderAllEntity(file);  // 遍历所有顶层表达式获取所有符号
 
         JBList<String> options = new JBList<>(new CollectionListModel<>(all.symbols));
@@ -60,15 +60,13 @@ public class GenerateDunderAllAction extends AnAction {
                         this.setEnabled(!all.exports.contains(value));
                     }
                 })
-                .setItemsChosenCallback(choices -> all.adds(choices, project))
-                .setAdText("Ctrl+单击 多选，Shift+单击 批量选，Ctrl+A 全选")
+                .setItemsChosenCallback(all::patch)
+                .setAdText("Ctrl+A全选／Ctrl+单击多选／Shift+单击连选")
                 .setTitle("选择导出到 __all__ 的符号")
                 .setMovable(true)
-                // options 的 EmptyText 在下面这一步会被覆盖掉
-                .createPopup();
+                .createPopup();  // options 的 EmptyText 在这一步会被覆盖掉
 
-        // 所以只能在这里设置 EmptyText
-        options.getEmptyText().setText("没有可公开的顶级符号");
+        options.getEmptyText().setText("没有可公开的顶级符号");  // 所以只能在这里设置 EmptyText
         popup.showInBestPositionFor(event.getDataContext());
     }
 }

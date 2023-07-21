@@ -71,7 +71,10 @@ public class DunderAllEntity {
                 // 其它 dunder 变量
                 else if (varName.startsWith("__")) {
                     symbols.add(varName);
-                    icons.add(AllIcons.Nodes.Variable);  // TODO: 图标与【结构】中的对不上
+                    icons.add(AllIcons.Nodes.Variable);
+                    // TODO: 图标与【结构】中的对不上
+                    // 它的图标附加了 Visibility modifiers，见
+                    // https://www.jetbrains.com/help/pycharm/symbols.html#common-icons
                 }
                 // 公开变量
                 else if (!varName.startsWith("_")) {
@@ -91,14 +94,16 @@ public class DunderAllEntity {
     /**
      * 往 __all__ 变量的值添加“字符串”。如果没有这个变量，就找个合适的地方创建之。
      *
-     * @param project 项目。
      * @param items   所有需要添加的"字符串"。
      */
-    public void adds(@NotNull final Set<? extends String> items, @NotNull Project project) {
+    public void patch(@NotNull final Set<? extends String> items) {
+        Project project = file.getProject();
         Runnable runnable;
         PyElementGeneratorImpl generator = new PyElementGeneratorImpl(project);
         if (varValue == null) {
-            String soup = String.join(", ", items.stream().map(this::literalize).toList());
+            ArrayList<String> choices = new ArrayList<>(items);
+            choices.sort((c1, c2) -> Integer.compare(symbols.indexOf(c1), symbols.indexOf(c2)));
+            String soup = String.join(", ", choices.stream().map(this::literalize).toList());
             String text = "__all__ = [\n" + soup + "\n]";
             runnable = () -> file.addBefore(
                     generator.createFromText(file.getLanguageLevel(), PyAssignmentStatement.class, text),
@@ -106,9 +111,11 @@ public class DunderAllEntity {
             );
         } else {
             exports.forEach(items::remove);  // 去除已经在 __all__ 里的符号
+            ArrayList<String> choices = new ArrayList<>(items);
+            choices.sort((c1, c2) -> Integer.compare(symbols.indexOf(c1), symbols.indexOf(c2)));
             runnable = () -> {
-                for (String item : items) {
-                    varValue.add(generator.createStringLiteralFromString(item));
+                for (String choice : choices) {
+                    varValue.add(generator.createStringLiteralFromString(choice));
                 }
             };
         }
