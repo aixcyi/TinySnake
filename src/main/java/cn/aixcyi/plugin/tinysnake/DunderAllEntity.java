@@ -8,6 +8,7 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.QualifiedName;
 import com.jetbrains.python.psi.*;
 import com.jetbrains.python.psi.impl.PyElementGeneratorImpl;
+import com.jetbrains.python.psi.impl.PyExpressionStatementImpl;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -16,8 +17,8 @@ import java.util.List;
 import java.util.Set;
 
 public class DunderAllEntity {
-    public static String VAR_NAME = "__all__";  //  __all__ 变量的名称
-    public PyExpression varValue = null;  // __all__ 变量的值
+    public static String VARIABLE_NAME = "__all__";  //  __all__ 的名称
+    public PyTargetExpression variable;  // __all__ 自身
     public List<String> exports;  // __all__ 导出的所有符号
     public List<String> symbols = new ArrayList<>();  // 顶层所有符号
     public List<Icon> icons = new ArrayList<>();  // 顶层符号的类型所对应的符号
@@ -26,6 +27,7 @@ public class DunderAllEntity {
     public DunderAllEntity(@NotNull PyFile file) {
         this.file = file;
         this.file.getStatements().forEach(this::collect);
+        this.variable = file.findTopLevelAttribute(VARIABLE_NAME);
         this.exports = this.file.getDunderAll();
         this.exports = this.exports == null ? new ArrayList<>() : this.exports;
     }
@@ -64,12 +66,8 @@ public class DunderAllEntity {
                     }
                 }
 
-                // 变量 __all__
-                if (varName.equals(VAR_NAME)) {
-                    varValue = pair.second;
-                }
-                // 其它 dunder 变量
-                else if (varName.startsWith("__")) {
+                // 除了 __all__ 以外的 dunder 变量
+                if (varName.startsWith("__") && !varName.equals(VARIABLE_NAME)) {
                     symbols.add(varName);
                     icons.add(AllIcons.Nodes.Variable);
                     // TODO: 图标与【结构】中的对不上
@@ -92,15 +90,45 @@ public class DunderAllEntity {
     }
 
     /**
+     * 按照指定顺序对 __all__ 中的符号重新排序。
+     *
+     * @param ordering 排序方式（的标签标题，因为前端不接受直接提供枚举类或枚举数组）。
+     */
+    public void sort(String ordering) {
+        Project project = file.getProject();
+        SymbolsOrder order = SymbolsOrder.fromLabel(ordering);
+        if (order == null) return;
+        if (variable == null) return;
+        if (!(variable.findAssignedValue() instanceof PyListLiteralExpression list)) return;
+
+        ArrayList<String> exporting = new ArrayList<>(exports);
+        exporting.sort((c1, c2) -> Integer.compare(symbols.indexOf(c1), symbols.indexOf(c2)));
+        String soup = String.join(", ", exporting.stream().map(this::literalize).toList());
+        String text = "[\n" + soup + "\n]";
+
+        PyElementGeneratorImpl generator = new PyElementGeneratorImpl(project);
+        Runnable runnable = () -> list.replace(
+                generator.createFromText(file.getLanguageLevel(), PyExpressionStatementImpl.class, text)
+        );
+        WriteCommandAction.runWriteCommandAction(
+                project, "优化 __all__", "OptimizeDunderAll", runnable
+        );
+    }
+
+    /**
      * 往 __all__ 变量的值添加“字符串”。如果没有这个变量，就找个合适的地方创建之。
      *
-     * @param items   所有需要添加的"字符串"。
+     * @param items 所有需要添加的"字符串"。
      */
     public void patch(@NotNull final Set<? extends String> items) {
         Project project = file.getProject();
         Runnable runnable;
+        PyExpression list = variable == null ? null : variable.findAssignedValue();
         PyElementGeneratorImpl generator = new PyElementGeneratorImpl(project);
-        if (varValue == null) {
+
+        // 没有定义 __all__ ，或者赋的值不是列表的情况下，直接新建一个 __all__ 。
+        // 因为后者的情况太复杂了，无法简洁地一概而论。
+        if (variable == null || !(list instanceof PyListLiteralExpression)) {
             ArrayList<String> choices = new ArrayList<>(items);
             choices.sort((c1, c2) -> Integer.compare(symbols.indexOf(c1), symbols.indexOf(c2)));
             String soup = String.join(", ", choices.stream().map(this::literalize).toList());
@@ -115,7 +143,7 @@ public class DunderAllEntity {
             choices.sort((c1, c2) -> Integer.compare(symbols.indexOf(c1), symbols.indexOf(c2)));
             runnable = () -> {
                 for (String choice : choices) {
-                    varValue.add(generator.createStringLiteralFromString(choice));
+                    list.add(generator.createStringLiteralFromString(choice));
                 }
             };
         }
@@ -151,7 +179,13 @@ public class DunderAllEntity {
         return file.getFirstChild();
     }
 
-    private String literalize(@NotNull String text) {
+    /**
+     * 将字符串变为字面量字符串。
+     *
+     * @param text 任意字符串。
+     * @return 带双引号的字符串。
+     */
+    private @NotNull String literalize(@NotNull String text) {
         return "\"" + text + "\"";
     }
 }
