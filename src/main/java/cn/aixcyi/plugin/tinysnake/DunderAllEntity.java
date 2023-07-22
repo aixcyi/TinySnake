@@ -102,7 +102,11 @@ public class DunderAllEntity {
         if (!(variable.findAssignedValue() instanceof PyListLiteralExpression list)) return;
 
         ArrayList<String> exporting = new ArrayList<>(exports);
-        exporting.sort((c1, c2) -> Integer.compare(symbols.indexOf(c1), symbols.indexOf(c2)));
+        switch (order) {
+            case CHARSET -> exporting.sort(String::compareTo);
+            case ALPHABET -> exporting.sort(String::compareToIgnoreCase);
+            case APPEARANCE -> exporting.sort((s1, s2) -> Integer.compare(symbols.indexOf(s1), symbols.indexOf(s2)));
+        }
         String soup = String.join(", ", exporting.stream().map(this::literalize).toList());
         String text = "[\n" + soup + "\n]";
 
