@@ -22,13 +22,13 @@ public enum SymbolsOrder {
      */
     CHARSET("字符编码顺序");
 
-    public final String label;
+    public final @NotNull String label;
 
-    SymbolsOrder(String label) {
+    SymbolsOrder(@NotNull String label) {
         this.label = label;
     }
 
-    public static List<String> getLabels() {
+    public static @NotNull List<String> getLabels() {
         return Arrays.stream(SymbolsOrder.values())
                 .map((enumeration) -> enumeration.label).toList();
     }

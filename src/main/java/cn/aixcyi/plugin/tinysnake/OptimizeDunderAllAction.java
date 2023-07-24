@@ -33,7 +33,7 @@ public class OptimizeDunderAllAction extends AnAction {
     }
 
     @Override
-    public void actionPerformed(AnActionEvent event) {
+    public void actionPerformed(@NotNull AnActionEvent event) {
         Project project = event.getProject();
         PsiFile psi = event.getData(CommonDataKeys.PSI_FILE);
         if (project == null || !(psi instanceof PyFile file)) return;
