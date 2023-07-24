@@ -92,11 +92,10 @@ public class DunderAllEntity {
     /**
      * 按照指定顺序对 __all__ 中的符号重新排序。
      *
-     * @param ordering 排序方式（的标签标题，因为前端不接受直接提供枚举类或枚举数组）。
+     * @param order 排序方式。
      */
-    public void sort(String ordering) {
+    public void sort(SymbolsOrder order, boolean alone) {
         Project project = file.getProject();
-        SymbolsOrder order = SymbolsOrder.fromLabel(ordering);
         if (order == null) return;
         if (variable == null) return;
         if (!(variable.findAssignedValue() instanceof PyListLiteralExpression list)) return;
@@ -107,7 +106,7 @@ public class DunderAllEntity {
             case ALPHABET -> exporting.sort(String::compareToIgnoreCase);
             case APPEARANCE -> exporting.sort((s1, s2) -> Integer.compare(symbols.indexOf(s1), symbols.indexOf(s2)));
         }
-        String soup = String.join(", ", exporting.stream().map(this::literalize).toList());
+        String soup = String.join(alone ? ",\n" : ", ", exporting.stream().map(this::literalize).toList());
         String text = "[\n" + soup + "\n]";
 
         PyElementGeneratorImpl generator = new PyElementGeneratorImpl(project);
