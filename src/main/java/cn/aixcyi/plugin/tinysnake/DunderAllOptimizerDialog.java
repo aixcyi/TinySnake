@@ -1,20 +1,21 @@
 package cn.aixcyi.plugin.tinysnake;
 
-import javax.swing.*;
-import java.awt.event.ActionEvent;
+import com.intellij.openapi.ui.DialogWrapper;
+import org.jetbrains.annotations.Nullable;
 
-public class DunderAllOptimizerDialog extends JDialog {
+import javax.swing.*;
+import java.awt.*;
+
+public class DunderAllOptimizerDialog extends DialogWrapper {
     private JPanel contentPanel;
-    private JButton buttonCancel;
-    private JButton buttonOk;
     private JRadioButton radioNatureOrder;
     private JRadioButton radioAlphabetOrder;
     private JRadioButton radioCharOrder;
     private JRadioButton radioFullFill;
     private JRadioButton radioStayAlone;
-    private DunderAllEntity all;
 
     public DunderAllOptimizerDialog() {
+        super(true);
         ButtonGroup groupOrdering = new ButtonGroup();
         groupOrdering.add(radioAlphabetOrder);
         groupOrdering.add(radioNatureOrder);
@@ -24,18 +25,12 @@ public class DunderAllOptimizerDialog extends JDialog {
         groupNewLine.add(radioStayAlone);
         groupNewLine.add(radioFullFill);
 
-        buttonCancel.addActionListener((event) -> dispose());
-        buttonOk.addActionListener(this::onClickOk);
-        rootPane.setContentPane(contentPanel);
-        rootPane.setDefaultButton(buttonOk);
-
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setTitle("优化 __all__");
         setResizable(false);
-        setModal(true);
+        setTitle("优化 __all__");
+        init();
     }
 
-    private void onClickOk(ActionEvent e) {
+    public SymbolsOrder getOrdering() {
         JRadioButton selected;
         if (radioAlphabetOrder.isSelected()) {
             selected = radioAlphabetOrder;
@@ -44,22 +39,17 @@ public class DunderAllOptimizerDialog extends JDialog {
         } else {
             selected = radioNatureOrder;
         }
-        this.all.sort(
-                SymbolsOrder.fromLabel(selected.getText()),
-                radioStayAlone.isSelected()
-        );
-        dispose();
+        return SymbolsOrder.fromLabel(selected.getText());
     }
 
-    public void setEntity(DunderAllEntity entity) {
-        this.all = entity;
+    public boolean getSingleLine() {
+        return radioStayAlone.isSelected();
     }
 
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("DunderAllOptimizerDialog");
-        frame.setContentPane(new DunderAllOptimizerDialog().contentPanel);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
+    @Override
+    protected @Nullable JComponent createCenterPanel() {
+        JPanel dialogPanel = new JPanel(new BorderLayout());
+        dialogPanel.add(contentPanel, BorderLayout.CENTER);
+        return dialogPanel;
     }
 }

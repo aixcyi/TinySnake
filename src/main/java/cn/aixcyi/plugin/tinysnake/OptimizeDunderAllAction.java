@@ -34,9 +34,8 @@ public class OptimizeDunderAllAction extends AnAction {
         if (!(psi instanceof PyFile file)) return;
 
         DunderAllOptimizerDialog dialog = new DunderAllOptimizerDialog();
-        dialog.setLocationRelativeTo(null);
-        dialog.setEntity(new DunderAllEntity(file));
-        dialog.pack();
-        dialog.setVisible(true);
+        if (dialog.showAndGet()) {
+            new DunderAllEntity(file).sort(dialog.getOrdering(), dialog.getSingleLine());
+        }
     }
 }
