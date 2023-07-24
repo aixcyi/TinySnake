@@ -1,5 +1,7 @@
-package cn.aixcyi.plugin.tinysnake;
+package cn.aixcyi.plugin.tinysnake.action;
 
+import cn.aixcyi.plugin.tinysnake.DunderAllEntity;
+import cn.aixcyi.plugin.tinysnake.dialog.DunderAllOptimizerDialog;
 import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;

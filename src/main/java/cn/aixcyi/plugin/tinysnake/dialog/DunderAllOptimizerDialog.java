@@ -1,5 +1,6 @@
-package cn.aixcyi.plugin.tinysnake;
+package cn.aixcyi.plugin.tinysnake.dialog;
 
+import cn.aixcyi.plugin.tinysnake.SymbolsOrder;
 import com.intellij.openapi.ui.DialogWrapper;
 import org.jetbrains.annotations.Nullable;
 

@@ -32,13 +32,13 @@
     <actions>
         <!-- text 中的下划线被转义了，所以需要双双下划线来表示双下划线 -->
         <action id="GenerateGetterAction"
-                class="cn.aixcyi.plugin.tinysnake.GenerateDunderAllAction"
+                class="cn.aixcyi.plugin.tinysnake.action.GenerateDunderAllAction"
                 text="____all____">
             <add-to-group group-id="GenerateGroup" anchor="first"/>
         </action>
 
         <action id="OptimizeDunderAllAction"
-                class="cn.aixcyi.plugin.tinysnake.OptimizeDunderAllAction"
+                class="cn.aixcyi.plugin.tinysnake.action.OptimizeDunderAllAction"
                 text="优化 ____all____">
             <add-to-group group-id="CodeFormatGroup" anchor="after" relative-to-action="OptimizeImports"/>
         </action>
