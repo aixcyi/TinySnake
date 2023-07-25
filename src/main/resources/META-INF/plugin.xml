@@ -44,5 +44,11 @@
             <add-to-group group-id="GenerateGroup" anchor="first"/>
         </action>
 
+        <action id="GenerateShebangAction"
+                class="cn.aixcyi.plugin.tinysnake.action.GenerateShebangAction"
+                text="Shebang">
+            <add-to-group group-id="GenerateGroup" anchor="after" relative-to-action="GenerateGetterAction"/>
+        </action>
+
     </actions>
 </idea-plugin>
