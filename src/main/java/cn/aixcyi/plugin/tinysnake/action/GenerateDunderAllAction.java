@@ -1,17 +1,12 @@
 package cn.aixcyi.plugin.tinysnake.action;
 
 import cn.aixcyi.plugin.tinysnake.DunderAllEntity;
-import com.intellij.openapi.actionSystem.ActionUpdateThread;
-import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.ui.popup.JBPopup;
 import com.intellij.openapi.ui.popup.PopupChooserBuilder;
-import com.intellij.psi.PsiFile;
 import com.intellij.ui.CollectionListModel;
 import com.intellij.ui.ColoredListCellRenderer;
 import com.intellij.ui.components.JBList;
-import com.jetbrains.python.PythonLanguage;
 import com.jetbrains.python.psi.PyFile;
 import org.jetbrains.annotations.NotNull;
 
@@ -20,30 +15,14 @@ import javax.swing.*;
 import static javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION;
 
 /**
- * 在 "生成..." 菜单里添加的 "__all__"。
- * <p>
- * 该菜单用于生成或更新 Python 源码文件中的 __all__ 变量。
+ * 该菜单用于生成或更新 Python 源码中的 __all__ 变量。
  *
  * @author aixcyi
  */
-public class GenerateDunderAllAction extends AnAction {
+public class GenerateDunderAllAction extends PyAction {
 
     @Override
-    public @NotNull ActionUpdateThread getActionUpdateThread() {
-        return ActionUpdateThread.BGT;
-    }
-
-    @Override
-    public void update(@NotNull AnActionEvent event) {
-        PsiFile psi = event.getData(CommonDataKeys.PSI_FILE);
-        event.getPresentation().setVisible(psi != null && psi.getLanguage() == PythonLanguage.INSTANCE);
-    }
-
-    @Override
-    public void actionPerformed(@NotNull AnActionEvent event) {
-        PsiFile psi = event.getData(CommonDataKeys.PSI_FILE);
-        if (!(psi instanceof PyFile file)) return;
-
+    public void actionPerformed(@NotNull AnActionEvent event, @NotNull PyFile file) {
         DunderAllEntity all = new DunderAllEntity(file);  // 遍历所有顶层表达式获取所有符号
 
         JBList<String> options = new JBList<>(new CollectionListModel<>(all.symbols));
