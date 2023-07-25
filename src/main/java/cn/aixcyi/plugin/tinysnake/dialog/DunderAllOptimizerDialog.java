@@ -11,7 +11,7 @@ public class DunderAllOptimizerDialog extends DialogWrapper {
     private JPanel contentPanel;
     private JRadioButton radioAlphabetOrder;
     private JRadioButton radioCharOrder;
-    private JRadioButton radioStayAlone;
+    private JRadioButton radioFullingRow;
 
     public DunderAllOptimizerDialog() {
         super(true);
@@ -29,8 +29,8 @@ public class DunderAllOptimizerDialog extends DialogWrapper {
             return SymbolsOrder.APPEARANCE;
     }
 
-    public boolean getSingleLine() {
-        return radioStayAlone.isSelected();
+    public boolean isFillingRow() {
+        return radioFullingRow.isSelected();
     }
 
     @Override
