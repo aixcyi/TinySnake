@@ -15,9 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 该菜单用于格式化 Python 源码中 __all__ 变量的值。
+ * 优化 Python 源码中已经存在的 __all__ 变量的值。
  *
- * @author aixcyi
+ * @author <a href="https://github.com/aixcyi">砹小翼</a>
  */
 public class OptimizeDunderAllAction extends PyAction {
 

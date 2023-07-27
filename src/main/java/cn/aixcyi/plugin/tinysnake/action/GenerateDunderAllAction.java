@@ -23,9 +23,9 @@ import java.util.Set;
 import static javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION;
 
 /**
- * 该菜单用于生成或更新 Python 源码中的 __all__ 变量。
+ * 为 Python 源码生成 __all__ 变量，或向其值插入用户选中的 Python 符号。
  *
- * @author aixcyi
+ * @author <a href="https://github.com/aixcyi">砹小翼</a>
  */
 public class GenerateDunderAllAction extends PyAction {
 
@@ -101,7 +101,7 @@ public class GenerateDunderAllAction extends PyAction {
      * @return 变量应该放在哪个元素的前面。
      * @see <a href="https://peps.python.org/pep-0008/#module-level-dunder-names">PEP 8 - 模块级别 Dunder 的布局位置</a>
      */
-    private @NotNull PsiElement findProperlyPlace(PyFile file) {
+    private @NotNull PsiElement findProperlyPlace(@NotNull PyFile file) {
         for (PsiElement child : file.getChildren()) {
             if (!(child instanceof PyElement element)) continue;
 

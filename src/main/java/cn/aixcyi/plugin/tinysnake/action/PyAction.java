@@ -8,6 +8,11 @@ import com.intellij.psi.PsiFile;
 import com.jetbrains.python.psi.PyFile;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * 基于 Python 源码而定制的、后台更新的 AnAction。
+ *
+ * @author <a href="https://github.com/aixcyi">砹小翼</a>
+ */
 public abstract class PyAction extends AnAction {
 
     @Override

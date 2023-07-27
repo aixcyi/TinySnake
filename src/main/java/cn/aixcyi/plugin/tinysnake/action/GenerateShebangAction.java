@@ -24,7 +24,9 @@ import java.util.List;
 import static javax.swing.ListSelectionModel.SINGLE_SELECTION;
 
 /**
- * 该菜单用于为 Python 源码文件添加 shebang 行。
+ * 为 Python 源码添加 shebang 行。
+ *
+ * @author <a href="https://github.com/aixcyi">砹小翼</a>
  */
 public class GenerateShebangAction extends PyAction {
     private static final String TIP_ABS_PATH = "<选择基于项目的相对路径>";
