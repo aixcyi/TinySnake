@@ -4,8 +4,6 @@ import cn.aixcyi.plugin.tinysnake.DunderAllEntity;
 import cn.aixcyi.plugin.tinysnake.SymbolsOrder;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.command.WriteCommandAction;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.popup.JBPopup;
 import com.intellij.openapi.ui.popup.PopupChooserBuilder;
 import com.intellij.psi.PsiElement;
 import com.intellij.ui.CollectionListModel;
@@ -17,7 +15,6 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 import static javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION;
@@ -31,10 +28,10 @@ public class GenerateDunderAllAction extends PyAction {
 
     @Override
     public void actionPerformed(@NotNull AnActionEvent event, @NotNull PyFile file) {
-        DunderAllEntity all = new DunderAllEntity(file);  // 遍历所有顶层表达式获取所有符号
+        var all = new DunderAllEntity(file);  // 遍历所有顶层表达式获取所有符号
 
-        JBList<String> options = new JBList<>(new CollectionListModel<>(all.symbols));
-        JBPopup popup = new PopupChooserBuilder<>(options)
+        var options = new JBList<>(new CollectionListModel<>(all.symbols));
+        var popup = new PopupChooserBuilder<>(options)
                 .setSelectionMode(MULTIPLE_INTERVAL_SELECTION)
                 .setRenderer(new ColoredListCellRenderer<>() {
                     @Override
@@ -66,21 +63,21 @@ public class GenerateDunderAllAction extends PyAction {
     public void patchValue(@NotNull PyFile file,
                            @NotNull DunderAllEntity all,
                            @NotNull final Set<? extends String> items) {
-        Project project = file.getProject();
         Runnable runnable;
-        PyExpression list = all.getVariableValue();
-        PyElementGeneratorImpl generator = new PyElementGeneratorImpl(project);
+        var list = all.getVariableValue();
+        var project = file.getProject();
+        var generator = new PyElementGeneratorImpl(project);
 
         if (list == null) {
-            List<String> choices = all.sort(new ArrayList<>(items), SymbolsOrder.APPEARANCE);
-            String text = all.buildAssignment(choices, false);
+            var choices = all.sort(new ArrayList<>(items), SymbolsOrder.APPEARANCE);
+            var text = all.buildAssignment(choices, false);
             runnable = () -> file.addBefore(
                     generator.createFromText(file.getLanguageLevel(), PyAssignmentStatement.class, text),
                     findProperlyPlace(file)
             );
         } else {
             all.exports.forEach(items::remove);  // 去除已经在 __all__ 里的符号
-            ArrayList<String> choices = new ArrayList<>(items);
+            var choices = new ArrayList<String>(items);
             all.sort(choices, SymbolsOrder.APPEARANCE);
             runnable = () -> {
                 for (String choice : choices) {
@@ -105,7 +102,7 @@ public class GenerateDunderAllAction extends PyAction {
 
             // 跳过文件的 docstring
             if (element instanceof PyExpressionStatement statement) {
-                PyExpression expression = statement.getExpression();
+                var expression = statement.getExpression();
                 if (expression instanceof PyStringLiteralExpression) continue;
             }
             // 跳过 from __future__ import (xxx)

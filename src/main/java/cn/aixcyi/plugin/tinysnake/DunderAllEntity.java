@@ -37,7 +37,7 @@ public class DunderAllEntity {
     private void collect(PyStatement statement) {
         // 类定义
         if (statement instanceof PyClass) {
-            String className = statement.getName();
+            var className = statement.getName();
             if (className == null || className.startsWith("_")) return;
             symbols.add(className);
             icons.add(AllIcons.Nodes.Class);
@@ -53,7 +53,7 @@ public class DunderAllEntity {
             // 因为赋值表达式存在元组解包的情况，
             // 所以需要用循环来提取普通变量
             for (Pair<PyExpression, PyExpression> pair : assignment.getTargetsToValuesMapping()) {
-                String varName = pair.first.getName();
+                var varName = pair.first.getName();
                 if (varName == null) continue;
                 // 过滤掉附属的变量，比如 meow.age = 6
                 if (pair.first instanceof PyTargetExpression target) {
@@ -120,7 +120,7 @@ public class DunderAllEntity {
      * @return 字符串格式的 Python 字符串列表。
      */
     public String buildValue(@NotNull List<String> list, boolean fill) {
-        String soup = String.join(
+        var soup = String.join(
                 fill ? "," : ", \n",
                 list.stream().map(this::literalize).toList()
         );
@@ -145,7 +145,7 @@ public class DunderAllEntity {
      */
     public PyExpression getVariableValue() {
         if (variable != null) {
-            PyExpression exp = variable.findAssignedValue();
+            var exp = variable.findAssignedValue();
             if (exp instanceof PyListLiteralExpression || exp instanceof PyTupleExpression) {
                 return exp;
             }

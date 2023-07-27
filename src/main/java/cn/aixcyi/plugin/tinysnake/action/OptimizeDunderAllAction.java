@@ -6,16 +6,12 @@ import com.intellij.codeInsight.hint.HintManager;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.LangDataKeys;
 import com.intellij.openapi.command.WriteCommandAction;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.project.Project;
-import com.jetbrains.python.psi.PyExpression;
 import com.jetbrains.python.psi.PyFile;
 import com.jetbrains.python.psi.impl.PyElementGeneratorImpl;
 import com.jetbrains.python.psi.impl.PyExpressionStatementImpl;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 优化 Python 源码中已经存在的 __all__ 变量的值。
@@ -27,31 +23,31 @@ public class OptimizeDunderAllAction extends PyAction {
     @Override
     public void actionPerformed(@NotNull AnActionEvent event, @NotNull PyFile file) {
         // 准备基础设施
-        HintManager instance = HintManager.getInstance();
-        Editor editor = event.getData(LangDataKeys.EDITOR_EVEN_IF_INACTIVE);
+        var instance = HintManager.getInstance();
+        var editor = event.getData(LangDataKeys.EDITOR_EVEN_IF_INACTIVE);
         if (editor == null) return;
 
         // 查找 __all__ 相关
-        DunderAllEntity all = new DunderAllEntity(file);
+        var all = new DunderAllEntity(file);
         if (all.variable == null) {
             instance.showInformationHint(editor, "没有 __all__ 变量");
             return;
         }
 
         // 选择优化方式
-        DunderAllOptimizerDialog dialog = new DunderAllOptimizerDialog();
+        var dialog = new DunderAllOptimizerDialog();
         if (!dialog.showAndGet()) return;
 
         // 执行优化
-        Project project = file.getProject();
-        PyExpression list = all.getVariableValue();
+        var project = file.getProject();
+        var list = all.getVariableValue();
         if (list != null) {
             // 构造优化后的代码（字符串）
-            List<String> exporting = all.sort(new ArrayList<>(all.exports), dialog.getOrdering());
-            String text = all.buildValue(exporting, dialog.isFillingRow());
+            var exporting = all.sort(new ArrayList<>(all.exports), dialog.getOrdering());
+            var text = all.buildValue(exporting, dialog.isFillingRow());
 
             // 构造优化后的代码（对象）
-            PyElementGeneratorImpl generator = new PyElementGeneratorImpl(project);
+            var generator = new PyElementGeneratorImpl(project);
             Runnable runnable = () -> list.replace(
                     generator.createFromText(file.getLanguageLevel(), PyExpressionStatementImpl.class, text)
             );

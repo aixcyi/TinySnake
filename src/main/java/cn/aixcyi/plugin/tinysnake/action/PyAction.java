@@ -4,7 +4,6 @@ import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
-import com.intellij.psi.PsiFile;
 import com.jetbrains.python.psi.PyFile;
 import org.jetbrains.annotations.NotNull;
 
@@ -22,7 +21,7 @@ public abstract class PyAction extends AnAction {
 
     @Override
     public void update(@NotNull AnActionEvent event) {
-        PsiFile psi = event.getData(CommonDataKeys.PSI_FILE);
+        var psi = event.getData(CommonDataKeys.PSI_FILE);
         if (psi instanceof PyFile file) {
             this.update(event, file);
         } else {
@@ -35,12 +34,11 @@ public abstract class PyAction extends AnAction {
 
     @Override
     public void actionPerformed(@NotNull AnActionEvent event) {
-        PsiFile psi = event.getData(CommonDataKeys.PSI_FILE);
+        var psi = event.getData(CommonDataKeys.PSI_FILE);
         if (psi instanceof PyFile file) {
             this.actionPerformed(event, file);
         }
     }
 
-    public void actionPerformed(@NotNull AnActionEvent event, @NotNull PyFile file) {
-    }
+    public abstract void actionPerformed(@NotNull AnActionEvent event, @NotNull PyFile file);
 }
