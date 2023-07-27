@@ -68,12 +68,10 @@ public class GenerateDunderAllAction extends PyAction {
                            @NotNull final Set<? extends String> items) {
         Project project = file.getProject();
         Runnable runnable;
-        PyExpression list = all.variable == null ? null : all.variable.findAssignedValue();
+        PyExpression list = all.getVariableValue();
         PyElementGeneratorImpl generator = new PyElementGeneratorImpl(project);
 
-        // 没有定义 __all__ ，或者赋的值不是列表的情况下，直接新建一个 __all__ 。
-        // 因为后者的情况太复杂了，无法简洁地一概而论。
-        if (all.variable == null || !(list instanceof PyListLiteralExpression)) {
+        if (list == null) {
             List<String> choices = all.sort(new ArrayList<>(items), SymbolsOrder.APPEARANCE);
             String text = all.buildAssignment(choices, false);
             runnable = () -> file.addBefore(

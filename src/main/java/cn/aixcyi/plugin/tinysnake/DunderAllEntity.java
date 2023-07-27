@@ -5,23 +5,28 @@ import com.intellij.openapi.util.Pair;
 import com.intellij.psi.util.QualifiedName;
 import com.jetbrains.python.psi.*;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class DunderAllEntity {
     public static String VARIABLE_NAME = "__all__";  //  __all__ 的名称
-    public PyTargetExpression variable;  // __all__ 自身
-    public List<String> exports;  // __all__ 导出的所有符号
-    public List<String> symbols = new ArrayList<>();  // 顶层所有符号
-    public List<Icon> icons = new ArrayList<>();  // 顶层符号的类型所对应的符号
+    public @Nullable PyTargetExpression variable;  // __all__ 自身
+    public @NotNull List<String> exports;  // __all__ 导出的所有符号
+    public @NotNull List<String> symbols = new ArrayList<>();  // 顶层所有符号
+    public @NotNull List<Icon> icons = new ArrayList<>();  // 顶层符号的类型所对应的符号
 
     public DunderAllEntity(@NotNull PyFile file) {
         file.getStatements().forEach(this::collect);
         this.variable = file.findTopLevelAttribute(VARIABLE_NAME);
-        this.exports = file.getDunderAll();
-        this.exports = this.exports == null ? new ArrayList<>() : this.exports;
+        try {
+            this.exports = Objects.requireNonNull(file.getDunderAll());
+        } catch (NullPointerException e) {
+            this.exports = new ArrayList<>();
+        }
     }
 
     /**
@@ -131,5 +136,20 @@ public class DunderAllEntity {
      */
     public String buildAssignment(@NotNull List<String> list, boolean fill) {
         return VARIABLE_NAME + " = " + buildValue(list, fill);
+    }
+
+    /**
+     * 获取 __all__ 变量的值。如果变量不存在，或值的类型不是列表或元组，则返回 null 。
+     *
+     * @return 值表达式对象。
+     */
+    public PyExpression getVariableValue() {
+        if (variable != null) {
+            PyExpression exp = variable.findAssignedValue();
+            if (exp instanceof PyListLiteralExpression || exp instanceof PyTupleExpression) {
+                return exp;
+            }
+        }
+        return null;
     }
 }
