@@ -48,13 +48,14 @@ public class OptimizeDunderAllAction extends PyAction {
 
             // 构造优化后的代码（对象）
             var generator = new PyElementGeneratorImpl(project);
-            Runnable runnable = () -> list.replace(
-                    generator.createFromText(file.getLanguageLevel(), PyExpressionStatementImpl.class, text)
-            );
+            var statement = generator.createFromText(file.getLanguageLevel(), PyExpressionStatementImpl.class, text);
 
             // 写入编辑器并产生一个撤销选项
             WriteCommandAction.runWriteCommandAction(
-                    project, "优化 __all__", "OptimizeDunderAll", runnable
+                    project,
+                    "优化 __all__",
+                    "OptimizeDunderAll",
+                    () -> list.replace(statement)
             );
             instance.showInformationHint(editor, "__all__ 优化完毕");
         } else {

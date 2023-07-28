@@ -29,6 +29,7 @@ public abstract class PyAction extends AnAction {
         }
     }
 
+    // update() 不一定会被用到，所以设置为普通方法，不强制要求重写。
     public void update(@NotNull AnActionEvent event, @NotNull PyFile file) {
     }
 
@@ -40,5 +41,6 @@ public abstract class PyAction extends AnAction {
         }
     }
 
+    // actionPerformed() 是主业务逻辑所在，是必定要重写的，故设置为抽象。
     public abstract void actionPerformed(@NotNull AnActionEvent event, @NotNull PyFile file);
 }

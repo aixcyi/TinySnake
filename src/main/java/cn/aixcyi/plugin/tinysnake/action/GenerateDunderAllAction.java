@@ -71,10 +71,8 @@ public class GenerateDunderAllAction extends PyAction {
         if (list == null) {
             var choices = all.sort(new ArrayList<>(items), SymbolsOrder.APPEARANCE);
             var text = all.buildAssignment(choices, false);
-            runnable = () -> file.addBefore(
-                    generator.createFromText(file.getLanguageLevel(), PyAssignmentStatement.class, text),
-                    findProperlyPlace(file)
-            );
+            var statement = generator.createFromText(file.getLanguageLevel(), PyAssignmentStatement.class, text);
+            runnable = () -> file.addBefore(statement, findProperlyPlace(file));
         } else {
             all.exports.forEach(items::remove);  // 去除已经在 __all__ 里的符号
             var choices = new ArrayList<String>(items);

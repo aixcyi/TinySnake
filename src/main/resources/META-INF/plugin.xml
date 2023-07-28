@@ -46,7 +46,7 @@
 
         <action id="GenerateShebangAction"
                 class="cn.aixcyi.plugin.tinysnake.action.GenerateShebangAction"
-                text="Shebang">
+                text="Shebang 行">
             <add-to-group group-id="GenerateGroup" anchor="after" relative-to-action="GenerateGetterAction"/>
         </action>
 
