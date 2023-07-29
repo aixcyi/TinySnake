@@ -1,14 +1,13 @@
 package cn.aixcyi.plugin.tinysnake.action;
 
 import cn.aixcyi.plugin.tinysnake.DunderAllEntity;
+import cn.aixcyi.plugin.tinysnake.SnippetBuilder;
 import cn.aixcyi.plugin.tinysnake.dialog.DunderAllOptimizerDialog;
 import com.intellij.codeInsight.hint.HintManager;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.LangDataKeys;
 import com.intellij.openapi.command.WriteCommandAction;
 import com.jetbrains.python.psi.PyFile;
-import com.jetbrains.python.psi.impl.PyElementGeneratorImpl;
-import com.jetbrains.python.psi.impl.PyExpressionStatementImpl;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -42,13 +41,9 @@ public class OptimizeDunderAllAction extends PyAction {
         var project = file.getProject();
         var list = all.getVariableValue();
         if (list != null) {
-            // 构造优化后的代码（字符串）
+            // 构造优化后的代码
             var exporting = all.sort(new ArrayList<>(all.exports), dialog.getOrdering());
-            var text = all.buildValue(exporting, dialog.isFillingRow());
-
-            // 构造优化后的代码（对象）
-            var generator = new PyElementGeneratorImpl(project);
-            var statement = generator.createFromText(file.getLanguageLevel(), PyExpressionStatementImpl.class, text);
+            var statement = new SnippetBuilder(file).cakeList(exporting, dialog.isLineByLine(), true);
 
             // 写入编辑器并产生一个撤销选项
             WriteCommandAction.runWriteCommandAction(

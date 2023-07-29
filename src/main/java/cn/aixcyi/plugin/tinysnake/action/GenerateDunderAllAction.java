@@ -1,6 +1,8 @@
 package cn.aixcyi.plugin.tinysnake.action;
 
+import cn.aixcyi.plugin.tinysnake.BracketsStyle;
 import cn.aixcyi.plugin.tinysnake.DunderAllEntity;
+import cn.aixcyi.plugin.tinysnake.SnippetBuilder;
 import cn.aixcyi.plugin.tinysnake.SymbolsOrder;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.command.WriteCommandAction;
@@ -10,7 +12,6 @@ import com.intellij.ui.CollectionListModel;
 import com.intellij.ui.ColoredListCellRenderer;
 import com.intellij.ui.components.JBList;
 import com.jetbrains.python.psi.*;
-import com.jetbrains.python.psi.impl.PyElementGeneratorImpl;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -66,12 +67,12 @@ public class GenerateDunderAllAction extends PyAction {
         Runnable runnable;
         var list = all.getVariableValue();
         var project = file.getProject();
-        var generator = new PyElementGeneratorImpl(project);
+        var builder = new SnippetBuilder(file);
 
         if (list == null) {
             var choices = all.sort(new ArrayList<>(items), SymbolsOrder.APPEARANCE);
-            var text = all.buildAssignment(choices, false);
-            var statement = generator.createFromText(file.getLanguageLevel(), PyAssignmentStatement.class, text);
+            var varValue = builder.makeSequence(choices, BracketsStyle.BRANCH_LIST, true, true);
+            var statement = builder.cakeAssignment("__all__", varValue);
             runnable = () -> file.addBefore(statement, findProperlyPlace(file));
         } else {
             all.exports.forEach(items::remove);  // 去除已经在 __all__ 里的符号
@@ -79,7 +80,7 @@ public class GenerateDunderAllAction extends PyAction {
             all.sort(choices, SymbolsOrder.APPEARANCE);
             runnable = () -> {
                 for (String choice : choices) {
-                    list.add(generator.createStringLiteralFromString(choice));
+                    list.add(builder.cakeString(choice));
                 }
             };
         }

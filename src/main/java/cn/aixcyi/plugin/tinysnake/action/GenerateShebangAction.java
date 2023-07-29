@@ -1,5 +1,6 @@
 package cn.aixcyi.plugin.tinysnake.action;
 
+import cn.aixcyi.plugin.tinysnake.SnippetBuilder;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.fileChooser.FileChooser;
@@ -10,7 +11,6 @@ import com.intellij.openapi.ui.popup.JBPopupFactory;
 import com.intellij.openapi.wm.WindowManager;
 import com.intellij.psi.impl.source.tree.PsiCommentImpl;
 import com.jetbrains.python.psi.PyFile;
-import com.jetbrains.python.psi.impl.PyElementGeneratorImpl;
 import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
@@ -91,9 +91,7 @@ public class GenerateShebangAction extends PyAction {
         if (firstChild instanceof PsiCommentImpl comment) {
             runnable = () -> comment.updateText(item);
         } else {
-            var comment = new PyElementGeneratorImpl(project).createFromText(
-                    file.getLanguageLevel(), PsiCommentImpl.class, item
-            );
+            var comment = new SnippetBuilder(file).cakeComment(item);
             runnable = () -> file.addBefore(comment, firstChild);
         }
         WriteCommandAction.runWriteCommandAction(

@@ -12,6 +12,7 @@ public class DunderAllOptimizerDialog extends DialogWrapper {
     private JRadioButton radioAlphabetOrder;
     private JRadioButton radioCharOrder;
     private JRadioButton radioFullingRow;
+    private JRadioButton radioLineByLine;
 
     public DunderAllOptimizerDialog() {
         super(true);
@@ -31,6 +32,10 @@ public class DunderAllOptimizerDialog extends DialogWrapper {
 
     public boolean isFillingRow() {
         return radioFullingRow.isSelected();
+    }
+
+    public boolean isLineByLine() {
+        return radioLineByLine.isSelected();
     }
 
     @Override
