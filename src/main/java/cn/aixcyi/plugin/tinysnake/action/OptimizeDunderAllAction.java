@@ -22,14 +22,14 @@ public class OptimizeDunderAllAction extends PyAction {
     @Override
     public void actionPerformed(@NotNull AnActionEvent event, @NotNull PyFile file) {
         // 准备基础设施
-        var instance = HintManager.getInstance();
+        var hint = HintManager.getInstance();
         var editor = event.getData(LangDataKeys.EDITOR_EVEN_IF_INACTIVE);
         if (editor == null) return;
 
         // 查找 __all__ 相关
         var all = new DunderAllEntity(file);
         if (all.variable == null) {
-            instance.showInformationHint(editor, "没有 __all__ 变量");
+            hint.showInformationHint(editor, "没有 __all__ 变量");
             return;
         }
 
@@ -52,9 +52,9 @@ public class OptimizeDunderAllAction extends PyAction {
                     "OptimizeDunderAll",
                     () -> list.replace(statement)
             );
-            instance.showInformationHint(editor, "__all__ 优化完毕");
+            hint.showInformationHint(editor, "__all__ 优化完毕");
         } else {
-            instance.showErrorHint(editor, "变量 __all__ 缺少合法值");
+            hint.showErrorHint(editor, "变量 __all__ 缺少合法值");
         }
     }
 }
