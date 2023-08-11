@@ -13,6 +13,8 @@ public class DunderAllOptimizerDialog extends DialogWrapper {
     private JRadioButton radioCharOrder;
     private JRadioButton radioFullingRow;
     private JRadioButton radioLineByLine;
+    private JRadioButton radioDoubleQuotesStyle;
+    private JRadioButton radioSingleQuoteStyle;
 
     public DunderAllOptimizerDialog() {
         super(true);
@@ -36,6 +38,12 @@ public class DunderAllOptimizerDialog extends DialogWrapper {
 
     public boolean isLineByLine() {
         return radioLineByLine.isSelected();
+    }
+
+    public Boolean getQuotesStyle() {
+        return radioDoubleQuotesStyle.isSelected() ? Boolean.TRUE
+                : radioSingleQuoteStyle.isSelected() ? Boolean.FALSE
+                : null;
     }
 
     @Override

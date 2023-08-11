@@ -35,8 +35,10 @@ public class SnippetBuilder {
     public String makeSequence(@NotNull List<String> items,
                                @NotNull BracketsStyle style,
                                boolean lineByLine,
-                               boolean stringify) {
-        var soup = stringify ? items.stream().map((s -> "\"" + s + "\"")).toList() : items;
+                               Boolean stringify) {
+        var soup = stringify == null ? items : stringify
+                ? items.stream().map((s -> "\"" + s + "\"")).toList()
+                : items.stream().map((s -> "'" + s + "'")).toList();
         return style.wrap(String.join(lineByLine ? ",\n" : ", ", soup));
     }
 
@@ -68,7 +70,7 @@ public class SnippetBuilder {
      * @param stringify  将所有元素变为字符串字面值。
      * @return 列表对象（{@link PyExpressionStatement}）。
      */
-    public PyExpressionStatement cakeList(@NotNull List<String> items, boolean lineByLine, boolean stringify) {
+    public PyExpressionStatement cakeList(@NotNull List<String> items, boolean lineByLine, Boolean stringify) {
         return generator.createFromText(
                 this.version,
                 PyExpressionStatementImpl.class,

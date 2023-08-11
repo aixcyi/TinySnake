@@ -43,8 +43,11 @@ public class OptimizeDunderAllAction extends PyAction {
         if (list != null) {
             // 构造优化后的代码
             var exporting = all.sort(new ArrayList<>(all.exports), dialog.getOrdering());
-            var statement = new SnippetBuilder(file).cakeList(exporting, dialog.isLineByLine(), true);
-
+            var statement = new SnippetBuilder(file).cakeList(
+                    exporting,
+                    dialog.isLineByLine(),
+                    dialog.getQuotesStyle()
+            );
             // 写入编辑器并产生一个撤销选项
             WriteCommandAction.runWriteCommandAction(
                     project,

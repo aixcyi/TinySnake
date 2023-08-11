@@ -36,6 +36,7 @@
                 class="cn.aixcyi.plugin.tinysnake.action.OptimizeDunderAllAction"
                 text="优化 ____all____">
             <add-to-group group-id="CodeFormatGroup" anchor="after" relative-to-action="OptimizeImports"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt D"/>
         </action>
 
         <action id="GenerateGetterAction"
