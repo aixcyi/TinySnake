@@ -3,6 +3,7 @@ package cn.aixcyi.plugin.tinysnake;
 import com.intellij.icons.AllIcons;
 import com.intellij.openapi.util.Pair;
 import com.intellij.psi.util.QualifiedName;
+import com.jetbrains.python.PyNames;
 import com.jetbrains.python.psi.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -62,14 +63,10 @@ public class DunderAllEntity {
                         continue;
                     }
                 }
-
-                // 除了 __all__ 以外的 dunder 变量
-                if (varName.startsWith("__") && !varName.equals(VARIABLE_NAME)) {
+                // 除了 __all__ 以外的特殊变量
+                if (PyNames.UNDERSCORED_ATTRIBUTES.contains(varName) && !PyNames.ALL.equals(varName)) {
                     symbols.add(varName);
-                    icons.add(AllIcons.Nodes.Variable);
-                    // TODO: 图标与【结构】中的对不上
-                    // 它的图标附加了 Visibility modifiers，见
-                    // https://www.jetbrains.com/help/pycharm/symbols.html#common-icons
+                    icons.add(PythonIcons.Nodes.Variable);
                 }
                 // 公开变量
                 else if (!varName.startsWith("_")) {
