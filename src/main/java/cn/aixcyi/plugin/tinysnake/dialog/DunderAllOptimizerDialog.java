@@ -11,7 +11,6 @@ public class DunderAllOptimizerDialog extends DialogWrapper {
     private JPanel contentPanel;
     private JRadioButton radioAlphabetOrder;
     private JRadioButton radioCharOrder;
-    private JRadioButton radioFullingRow;
     private JRadioButton radioLineByLine;
     private JRadioButton radioDoubleQuotesStyle;
     private JRadioButton radioSingleQuoteStyle;
@@ -24,16 +23,9 @@ public class DunderAllOptimizerDialog extends DialogWrapper {
     }
 
     public SymbolsOrder getOrdering() {
-        if (radioCharOrder.isSelected())
-            return SymbolsOrder.CHARSET;
-        else if (radioAlphabetOrder.isSelected())
-            return SymbolsOrder.ALPHABET;
-        else
-            return SymbolsOrder.APPEARANCE;
-    }
-
-    public boolean isFillingRow() {
-        return radioFullingRow.isSelected();
+        return radioCharOrder.isSelected() ? SymbolsOrder.CHARSET
+                : radioAlphabetOrder.isSelected() ? SymbolsOrder.ALPHABET
+                : SymbolsOrder.APPEARANCE;
     }
 
     public boolean isLineByLine() {
