@@ -3,6 +3,7 @@ package cn.aixcyi.plugin.tinysnake;
 import com.intellij.psi.PsiComment;
 import com.jetbrains.python.psi.*;
 import com.jetbrains.python.psi.impl.PyElementGeneratorImpl;
+import com.jetbrains.python.psi.impl.PyExpressionStatementImpl;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -65,12 +66,12 @@ public class SnippetBuilder {
      * @param items      要添加到列表中的元素。
      * @param lineByLine 每个元素各占一行。
      * @param stringify  将所有元素变为字符串字面值。
-     * @return 列表对象（{@link PyListLiteralExpression}）。
+     * @return 列表对象（{@link PyExpressionStatement}）。
      */
-    public PyListLiteralExpression cakeList(@NotNull List<String> items, boolean lineByLine, boolean stringify) {
+    public PyExpressionStatement cakeList(@NotNull List<String> items, boolean lineByLine, boolean stringify) {
         return generator.createFromText(
                 this.version,
-                PyListLiteralExpression.class,
+                PyExpressionStatementImpl.class,
                 makeSequence(items, BracketsStyle.BRANCH_LIST, lineByLine, stringify)
         );
     }
