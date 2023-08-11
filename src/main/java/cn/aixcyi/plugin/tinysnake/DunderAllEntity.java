@@ -14,15 +14,18 @@ import java.util.List;
 import java.util.Objects;
 
 public class DunderAllEntity {
-    public static String VARIABLE_NAME = "__all__";  //  __all__ 的名称
-    public @Nullable PyTargetExpression variable;  // __all__ 自身
-    public @NotNull List<String> exports;  // __all__ 导出的所有符号
-    public @NotNull List<String> symbols = new ArrayList<>();  // 顶层所有符号
-    public @NotNull List<Icon> icons = new ArrayList<>();  // 顶层符号的类型所对应的符号
+    /** __all__ 变量自身。*/
+    public @Nullable PyTargetExpression variable;
+    /** __all__ 导出的所有符号。*/
+    public @NotNull List<String> exports;
+    /** 顶层所有符号。*/
+    public @NotNull List<String> symbols = new ArrayList<>();
+    /** 顶层符号的类型所对应的符号。*/
+    public @NotNull List<Icon> icons = new ArrayList<>();
 
     public DunderAllEntity(@NotNull PyFile file) {
         file.getStatements().forEach(this::collect);
-        this.variable = file.findTopLevelAttribute(VARIABLE_NAME);
+        this.variable = file.findTopLevelAttribute(PyNames.ALL);
         try {
             this.exports = Objects.requireNonNull(file.getDunderAll());
         } catch (NullPointerException e) {
@@ -63,15 +66,15 @@ public class DunderAllEntity {
                         continue;
                     }
                 }
-                // 除了 __all__ 以外的特殊变量
-                if (PyNames.UNDERSCORED_ATTRIBUTES.contains(varName) && !PyNames.ALL.equals(varName)) {
-                    symbols.add(varName);
-                    icons.add(PythonIcons.Nodes.Variable);
-                }
                 // 公开变量
-                else if (!varName.startsWith("_")) {
+                if (!varName.startsWith("_")) {
                     symbols.add(varName);
                     icons.add(AllIcons.Nodes.Variable);
+                }
+                // 除了 __all__ 以外的特殊变量
+                else if (PyNames.UNDERSCORED_ATTRIBUTES.contains(varName) && !PyNames.ALL.equals(varName)) {
+                    symbols.add(varName);
+                    icons.add(PythonIcons.Nodes.Variable);
                 }
             }
         }
@@ -97,42 +100,6 @@ public class DunderAllEntity {
             case APPEARANCE -> list.sort((s1, s2) -> Integer.compare(symbols.indexOf(s1), symbols.indexOf(s2)));
         }
         return list;
-    }
-
-    /**
-     * 将字符串变为字面量字符串。
-     *
-     * @param text 任意字符串。
-     * @return 带双引号的字符串。
-     */
-    private @NotNull String literalize(@NotNull String text) {
-        return "\"" + text + "\"";
-    }
-
-    /**
-     * 构造一个新的 __all__ 的字面值字符串。
-     *
-     * @param list 所有符号。
-     * @param fill 是否填满一行。
-     * @return 字符串格式的 Python 字符串列表。
-     */
-    public String buildValue(@NotNull List<String> list, boolean fill) {
-        var soup = String.join(
-                fill ? "," : ", \n",
-                list.stream().map(this::literalize).toList()
-        );
-        return "[\n" + soup + "\n]";
-    }
-
-    /**
-     * 构造一个新的 __all__ 的赋值表达式字符串。
-     *
-     * @param list 所有符号。
-     * @param fill 是否填满一行。
-     * @return 字符串格式的 Python 赋值语句。
-     */
-    public String buildAssignment(@NotNull List<String> list, boolean fill) {
-        return VARIABLE_NAME + " = " + buildValue(list, fill);
     }
 
     /**

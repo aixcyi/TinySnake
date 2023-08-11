@@ -11,6 +11,7 @@ import com.intellij.psi.PsiElement;
 import com.intellij.ui.CollectionListModel;
 import com.intellij.ui.ColoredListCellRenderer;
 import com.intellij.ui.components.JBList;
+import com.jetbrains.python.PyNames;
 import com.jetbrains.python.psi.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -72,7 +73,7 @@ public class GenerateDunderAllAction extends PyAction {
         if (list == null) {
             var choices = all.sort(new ArrayList<>(items), SymbolsOrder.APPEARANCE);
             var varValue = builder.makeSequence(choices, BracketsStyle.BRANCH_LIST, true, true);
-            var statement = builder.cakeAssignment("__all__", varValue);
+            var statement = builder.cakeAssignment(PyNames.ALL, varValue);
             runnable = () -> file.addBefore(statement, findProperlyPlace(file));
         } else {
             all.exports.forEach(items::remove);  // 去除已经在 __all__ 里的符号
