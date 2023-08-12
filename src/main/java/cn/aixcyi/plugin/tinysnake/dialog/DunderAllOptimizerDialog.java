@@ -1,6 +1,6 @@
 package cn.aixcyi.plugin.tinysnake.dialog;
 
-import cn.aixcyi.plugin.tinysnake.SymbolsOrder;
+import cn.aixcyi.plugin.tinysnake.SequenceOrder;
 import com.intellij.openapi.ui.DialogWrapper;
 import org.jetbrains.annotations.Nullable;
 
@@ -22,10 +22,10 @@ public class DunderAllOptimizerDialog extends DialogWrapper {
         init();
     }
 
-    public SymbolsOrder getOrdering() {
-        return radioCharOrder.isSelected() ? SymbolsOrder.CHARSET
-                : radioAlphabetOrder.isSelected() ? SymbolsOrder.ALPHABET
-                : SymbolsOrder.APPEARANCE;
+    public SequenceOrder getOrdering() {
+        return radioCharOrder.isSelected() ? SequenceOrder.CHARSET
+                : radioAlphabetOrder.isSelected() ? SequenceOrder.ALPHABET
+                : SequenceOrder.APPEARANCE;
     }
 
     public boolean isLineByLine() {

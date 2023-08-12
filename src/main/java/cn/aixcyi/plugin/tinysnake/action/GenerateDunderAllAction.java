@@ -1,9 +1,9 @@
 package cn.aixcyi.plugin.tinysnake.action;
 
-import cn.aixcyi.plugin.tinysnake.BracketsStyle;
+import cn.aixcyi.plugin.tinysnake.SequenceStyle;
 import cn.aixcyi.plugin.tinysnake.DunderAllEntity;
 import cn.aixcyi.plugin.tinysnake.SnippetBuilder;
-import cn.aixcyi.plugin.tinysnake.SymbolsOrder;
+import cn.aixcyi.plugin.tinysnake.SequenceOrder;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.ui.popup.PopupChooserBuilder;
@@ -71,14 +71,14 @@ public class GenerateDunderAllAction extends PyAction {
         var builder = new SnippetBuilder(file);
 
         if (list == null) {
-            var choices = all.sort(new ArrayList<>(items), SymbolsOrder.APPEARANCE);
-            var varValue = builder.makeSequence(choices, BracketsStyle.BRANCH_LIST, true, true);
+            var choices = all.sort(new ArrayList<>(items), SequenceOrder.APPEARANCE);
+            var varValue = builder.makeSequence(choices, SequenceStyle.WINGED_LIST, true, true);
             var statement = builder.cakeAssignment(PyNames.ALL, varValue);
             runnable = () -> file.addBefore(statement, findProperlyPlace(file));
         } else {
             all.exports.forEach(items::remove);  // 去除已经在 __all__ 里的符号
             var choices = new ArrayList<String>(items);
-            all.sort(choices, SymbolsOrder.APPEARANCE);
+            all.sort(choices, SequenceOrder.APPEARANCE);
             runnable = () -> {
                 for (String choice : choices) {
                     list.add(builder.cakeString(choice));

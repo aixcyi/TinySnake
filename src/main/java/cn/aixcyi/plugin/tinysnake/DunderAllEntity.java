@@ -93,7 +93,7 @@ public class DunderAllEntity {
      * @param ordering 排序顺序。
      * @return list 自身。
      */
-    public List<String> sort(@NotNull List<String> list, @NotNull SymbolsOrder ordering) {
+    public List<String> sort(@NotNull List<String> list, @NotNull SequenceOrder ordering) {
         switch (ordering) {
             case CHARSET -> list.sort(String::compareTo);
             case ALPHABET -> list.sort(String::compareToIgnoreCase);

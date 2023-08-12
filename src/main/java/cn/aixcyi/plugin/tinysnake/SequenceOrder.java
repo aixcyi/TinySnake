@@ -1,6 +1,6 @@
 package cn.aixcyi.plugin.tinysnake;
 
-public enum SymbolsOrder {
+public enum SequenceOrder {
     /**
      * 按符号出现顺序排序。
      */

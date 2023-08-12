@@ -33,7 +33,7 @@ public class SnippetBuilder {
      * @return 拼接后的结果字符串。
      */
     public String makeSequence(@NotNull List<String> items,
-                               @NotNull BracketsStyle style,
+                               @NotNull SequenceStyle style,
                                boolean lineByLine,
                                Boolean stringify) {
         var soup = stringify == null ? items : stringify
@@ -74,7 +74,7 @@ public class SnippetBuilder {
         return generator.createFromText(
                 this.version,
                 PyExpressionStatementImpl.class,
-                makeSequence(items, BracketsStyle.BRANCH_LIST, lineByLine, stringify)
+                makeSequence(items, SequenceStyle.WINGED_LIST, lineByLine, stringify)
         );
     }
 
@@ -106,7 +106,7 @@ public class SnippetBuilder {
                                    @Nullable List<String> arguments,
                                    @Nullable String body,
                                    @Nullable String docstring) {
-        var params = arguments == null ? "" : makeSequence(arguments, BracketsStyle.BARE, false, false);
+        var params = arguments == null ? "" : makeSequence(arguments, SequenceStyle.BARE, false, false);
         var text = "def " + name + "(" + params + "):\n"
                 + (docstring == null ? "" : docstring)
                 + (body == null ? "pass" : body);
