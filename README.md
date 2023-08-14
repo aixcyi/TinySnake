@@ -8,9 +8,16 @@
 
 1. 克隆这个项目并使用 IDEA 打开；
 2. 在右上方的运行配置或右侧的 Gradle 里找到 `Build Plugin` 并运行，得到编译后的插件；
-3. 在 PyCharm 的插件中选择 **从磁盘中导入** 。
+3. 在 PyCharm 的插件中选择 **从磁盘中导入** ，它默认放在 `./build/distributions` 里面。
 
 ![](./.img/installation.png)
+
+## 更新
+
+1. `git fetch` 、 `git pull` 这个项目，或者作出自己需要的修改；
+2. 通过 `Build Plugin` 重新编译；
+3. 在 PyCharm 的插件中 **卸载** Tiny Snake，然后关掉设置窗口；
+4. 重新打开 PyCharm 中的插件面板，选择 **从磁盘中导入** 。不必重启整个 PyCharm。
 
 ## 功能
 
