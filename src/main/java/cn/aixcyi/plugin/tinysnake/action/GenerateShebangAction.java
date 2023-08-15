@@ -3,6 +3,7 @@ package cn.aixcyi.plugin.tinysnake.action;
 import cn.aixcyi.plugin.tinysnake.SnippetBuilder;
 import com.intellij.icons.AllIcons;
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.LangDataKeys;
 import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.fileChooser.FileChooser;
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory;
@@ -10,7 +11,6 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.roots.ProjectFileIndex;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.ui.popup.JBPopupFactory;
-import com.intellij.openapi.wm.WindowManager;
 import com.intellij.psi.impl.source.tree.PsiCommentImpl;
 import com.intellij.ui.ColoredListCellRenderer;
 import com.jetbrains.python.psi.PyFile;
@@ -63,11 +63,11 @@ public class GenerateShebangAction extends PyAction {
                 .setMovable(true)
                 .createPopup();
 
-        var frame = WindowManager.getInstance().getFrame(event.getProject());
-        if (frame == null)
+        var editor = event.getData(LangDataKeys.EDITOR_EVEN_IF_INACTIVE);
+        if (editor == null)
             popup.showInBestPositionFor(event.getDataContext());
         else
-            popup.showInCenterOf(frame);
+            popup.showInCenterOf(editor.getComponent());
     }
 
     private void invoke(@NotNull String item, @NotNull PyFile file) {
