@@ -1,18 +1,24 @@
 package cn.aixcyi.plugin.tinysnake.action;
 
-import com.intellij.openapi.actionSystem.ActionUpdateThread;
-import com.intellij.openapi.actionSystem.AnAction;
-import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.CommonDataKeys;
+import cn.aixcyi.plugin.tinysnake.Translation;
+import com.intellij.openapi.actionSystem.*;
 import com.jetbrains.python.psi.PyFile;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * 基于 Python 源码而定制的、后台更新的 AnAction。
+ * 面向 Python 文件的 AnAction。
  *
  * @author <a href="https://github.com/aixcyi">砹小翼</a>
  */
 public abstract class PyAction extends AnAction {
+
+    public PyAction() {
+        // 自动翻译所需要的 bundle-key 应该是 "action.<ActionID>.text"
+        // 这里作出区别一是顺应整体格式，二是表明它不是自动翻译的。
+        // https://plugins.jetbrains.com/docs/intellij/basic-action-system.html#localizing-actions-and-groups
+        Presentation presentation = getTemplatePresentation();
+        presentation.setText(Translation.MENU.get(getClass().getSimpleName() + ".action.text"));
+    }
 
     @Override
     public @NotNull ActionUpdateThread getActionUpdateThread() {

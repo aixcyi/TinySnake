@@ -12,6 +12,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
+import static cn.aixcyi.plugin.tinysnake.Translation.MENU;
+
 /**
  * 优化 Python 源码中已经存在的 __all__ 变量的值。
  *
@@ -29,7 +31,7 @@ public class OptimizeDunderAllAction extends PyAction {
         // 查找 __all__ 相关
         var all = new DunderAllEntity(file);
         if (all.variable == null) {
-            hint.showInformationHint(editor, "没有 __all__ 变量");
+            hint.showInformationHint(editor, MENU.get("OptimizeDunderAllAction.hint.missing"));
             return;
         }
 
@@ -51,13 +53,13 @@ public class OptimizeDunderAllAction extends PyAction {
             // 写入编辑器并产生一个撤销选项
             WriteCommandAction.runWriteCommandAction(
                     project,
-                    "优化 __all__",
+                    MENU.get("OptimizeDunderAllAction.command.name"),
                     "OptimizeDunderAll",
                     () -> list.replace(statement)
             );
-            hint.showInformationHint(editor, "__all__ 优化完毕");
+            hint.showInformationHint(editor, MENU.get("OptimizeDunderAllAction.hint.done"));
         } else {
-            hint.showErrorHint(editor, "变量 __all__ 缺少合法值");
+            hint.showErrorHint(editor, MENU.get("OptimizeDunderAllAction.hint.invalid"));
         }
     }
 }

@@ -19,6 +19,8 @@
     主要功能包括：生成__all__变量值。
 ]]></description>
 
+    <resource-bundle>messages.Menu</resource-bundle>
+
     <!-- Product and plugin compatibility requirements.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
@@ -31,25 +33,18 @@
 
     <!-- text 中的下划线被转义了，所以需要双双下划线来表示双下划线 -->
     <actions>
-
         <action id="OptimizeDunderAllAction"
-                class="cn.aixcyi.plugin.tinysnake.action.OptimizeDunderAllAction"
-                text="优化 ____all____">
+                class="cn.aixcyi.plugin.tinysnake.action.OptimizeDunderAllAction">
             <add-to-group group-id="CodeFormatGroup" anchor="after" relative-to-action="OptimizeImports"/>
             <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt D"/>
         </action>
-
         <action id="GenerateGetterAction"
-                class="cn.aixcyi.plugin.tinysnake.action.GenerateDunderAllAction"
-                text="____all____">
+                class="cn.aixcyi.plugin.tinysnake.action.GenerateDunderAllAction">
             <add-to-group group-id="GenerateGroup" anchor="first"/>
         </action>
-
         <action id="GenerateShebangAction"
-                class="cn.aixcyi.plugin.tinysnake.action.GenerateShebangAction"
-                text="Shebang 行">
+                class="cn.aixcyi.plugin.tinysnake.action.GenerateShebangAction">
             <add-to-group group-id="GenerateGroup" anchor="after" relative-to-action="GenerateGetterAction"/>
         </action>
-
     </actions>
 </idea-plugin>

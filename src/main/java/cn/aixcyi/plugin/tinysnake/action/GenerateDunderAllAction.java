@@ -19,6 +19,7 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Set;
 
+import static cn.aixcyi.plugin.tinysnake.Translation.MENU;
 import static javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION;
 
 /**
@@ -48,12 +49,12 @@ public class GenerateDunderAllAction extends PyAction {
                     }
                 })
                 .setItemsChosenCallback(items -> this.patchValue(file, all, items))
-                .setAdText("Ctrl+A全选／Ctrl+单击多选／Shift+单击连选")
-                .setTitle("选择导出到 __all__ 的符号")
+                .setAdText(MENU.get("GenerateDunderAllAction.popup.ad_text"))
+                .setTitle(MENU.get("GenerateDunderAllAction.popup.title"))
                 .setMovable(true)
                 .createPopup();  // options 的 EmptyText 在这一步会被覆盖掉
 
-        options.getEmptyText().setText("没有可公开的顶级符号");  // 所以只能在这里设置 EmptyText
+        options.getEmptyText().setText(MENU.get("GenerateDunderAllAction.popup.empty_text"));  // 所以只能在这里设置 EmptyText
         popup.showInBestPositionFor(event.getDataContext());
     }
 
@@ -86,7 +87,10 @@ public class GenerateDunderAllAction extends PyAction {
             };
         }
         WriteCommandAction.runWriteCommandAction(
-                project, "生成 __all__", "GenerateDunderAll", runnable
+                project,
+                MENU.get("GenerateDunderAllAction.command.name"),
+                "GenerateDunderAll",
+                runnable
         );
     }
 
