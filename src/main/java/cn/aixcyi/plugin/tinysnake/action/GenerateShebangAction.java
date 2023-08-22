@@ -1,6 +1,7 @@
 package cn.aixcyi.plugin.tinysnake.action;
 
 import cn.aixcyi.plugin.tinysnake.SnippetBuilder;
+import cn.aixcyi.plugin.tinysnake.Translation;
 import com.intellij.icons.AllIcons;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.LangDataKeys;
@@ -58,8 +59,8 @@ public class GenerateShebangAction extends PyAction {
                     }
                 })
                 .setItemChosenCallback(s -> invoke(s, file))
-                .setAdText("原有的 Shebang 将被覆盖")
-                .setTitle("选择一个 Shebang")
+                .setAdText(Translation.Menu.get("popup.GenerateShebangAction.ad-text"))
+                .setTitle(Translation.Menu.get("popup.GenerateShebangAction.title"))
                 .setMovable(true)
                 .createPopup();
 
