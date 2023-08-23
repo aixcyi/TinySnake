@@ -1,5 +1,6 @@
 package cn.aixcyi.plugin.tinysnake;
 
+import com.intellij.DynamicBundle;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ResourceBundle;
@@ -39,7 +40,7 @@ public class Translation {
         }
 
         void reload() {
-            bundle = ResourceBundle.getBundle(name);
+            bundle = ResourceBundle.getBundle(name, DynamicBundle.getLocale());
         }
 
         public @NotNull String get(@NotNull String key) {

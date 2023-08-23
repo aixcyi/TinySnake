@@ -1,5 +1,6 @@
 package cn.aixcyi.plugin.tinysnake.action;
 
+import cn.aixcyi.plugin.tinysnake.Translation;
 import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
@@ -7,12 +8,22 @@ import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.jetbrains.python.psi.PyFile;
 import org.jetbrains.annotations.NotNull;
 
+import javax.swing.*;
+
 /**
  * 基于 Python 源码而定制的、后台更新的 AnAction。
  *
  * @author <a href="https://github.com/aixcyi">砹小翼</a>
  */
 public abstract class PyAction extends AnAction {
+
+    PyAction(String text, String description, Icon icon) {
+        super(
+                Translation.Menu.get("action." + PyAction.class.getName() + ".text"),
+                Translation.Menu.get("action." + PyAction.class.getName() + ".description"),
+                icon
+        );
+    }
 
     @Override
     public @NotNull ActionUpdateThread getActionUpdateThread() {

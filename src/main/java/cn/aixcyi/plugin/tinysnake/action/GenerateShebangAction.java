@@ -59,7 +59,7 @@ public class GenerateShebangAction extends PyAction {
                     }
                 })
                 .setItemChosenCallback(s -> invoke(s, file))
-                .setAdText(Translation.Menu.get("popup.GenerateShebangAction.ad-text"))
+                .setAdText(Translation.Menu.get("popup.GenerateShebangAction.ad_text"))
                 .setTitle(Translation.Menu.get("popup.GenerateShebangAction.title"))
                 .setMovable(true)
                 .createPopup();
