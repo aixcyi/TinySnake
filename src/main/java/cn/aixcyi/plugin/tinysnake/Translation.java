@@ -31,7 +31,10 @@ public class Translation {
             bundle = ResourceBundle.getBundle(baseName, new ResourceBundle.Control() {
                 @Override
                 public List<Locale> getCandidateLocales(String baseName, Locale locale) {
-                    return List.of(LangBundle.getLocale());
+                    return List.of(
+                            LangBundle.getLocale(),
+                            Locale.ENGLISH  // 因为没有安装语言包时IDE默认使用英语。
+                    );
                 }
             });
         }
