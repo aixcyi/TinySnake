@@ -19,7 +19,7 @@
     主要功能包括：生成__all__变量值。
 ]]></description>
 
-    <resource-bundle>messages.Menu</resource-bundle>
+    <resource-bundle>messages.TinySnakeBundle</resource-bundle>
 
     <!-- Product and plugin compatibility requirements.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->

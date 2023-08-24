@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-import static cn.aixcyi.plugin.tinysnake.Translation.MENU;
+import static cn.aixcyi.plugin.tinysnake.Translation.$message;
 
 /**
  * 优化 Python 源码中已经存在的 __all__ 变量的值。
@@ -31,7 +31,7 @@ public class OptimizeDunderAllAction extends PyAction {
         // 查找 __all__ 相关
         var all = new DunderAllEntity(file);
         if (all.variable == null) {
-            hint.showInformationHint(editor, MENU.get("OptimizeDunderAllAction.hint.missing"));
+            hint.showInformationHint(editor, $message("OptimizeDunderAllAction.hint.missing"));
             return;
         }
 
@@ -53,13 +53,13 @@ public class OptimizeDunderAllAction extends PyAction {
             // 写入编辑器并产生一个撤销选项
             WriteCommandAction.runWriteCommandAction(
                     project,
-                    MENU.get("OptimizeDunderAllAction.command.name"),
+                    $message("OptimizeDunderAllAction.command.name"),
                     "OptimizeDunderAll",
                     () -> list.replace(statement)
             );
-            hint.showInformationHint(editor, MENU.get("OptimizeDunderAllAction.hint.done"));
+            hint.showInformationHint(editor, $message("OptimizeDunderAllAction.hint.done"));
         } else {
-            hint.showErrorHint(editor, MENU.get("OptimizeDunderAllAction.hint.invalid"));
+            hint.showErrorHint(editor, $message("OptimizeDunderAllAction.hint.invalid"));
         }
     }
 }

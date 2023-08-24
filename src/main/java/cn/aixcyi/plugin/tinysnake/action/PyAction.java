@@ -1,9 +1,10 @@
 package cn.aixcyi.plugin.tinysnake.action;
 
-import cn.aixcyi.plugin.tinysnake.Translation;
 import com.intellij.openapi.actionSystem.*;
 import com.jetbrains.python.psi.PyFile;
 import org.jetbrains.annotations.NotNull;
+
+import static cn.aixcyi.plugin.tinysnake.Translation.$message;
 
 /**
  * 面向 Python 文件的 AnAction。
@@ -17,7 +18,7 @@ public abstract class PyAction extends AnAction {
         // 这里作出区别一是顺应整体格式，二是表明它不是自动翻译的。
         // https://plugins.jetbrains.com/docs/intellij/basic-action-system.html#localizing-actions-and-groups
         Presentation presentation = getTemplatePresentation();
-        presentation.setText(Translation.MENU.get(getClass().getSimpleName() + ".action.text"));
+        presentation.setText($message(getClass().getSimpleName() + ".action.text"));
     }
 
     @Override

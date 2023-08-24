@@ -1,6 +1,7 @@
 package cn.aixcyi.plugin.tinysnake;
 
 import com.intellij.lang.LangBundle;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Locale;
@@ -15,20 +16,9 @@ import java.util.ResourceBundle;
  */
 public class Translation {
 
-    /**
-     * 菜单部分的翻译文本。
-     */
-    public final static BundleProxy MENU = new BundleProxy("messages.Menu");
-    /**
-     * 设置部分的翻译文本。
-     */
-    public final static BundleProxy SETTING = new BundleProxy("messages.Setting");
-
-    public static class BundleProxy {
-        private final ResourceBundle bundle;
-
-        public BundleProxy(String baseName) {
-            bundle = ResourceBundle.getBundle(baseName, new ResourceBundle.Control() {
+    public final static ResourceBundle BUNDLE = ResourceBundle.getBundle(
+            "messages.TinySnakeBundle",
+            new ResourceBundle.Control() {
                 @Override
                 public List<Locale> getCandidateLocales(String baseName, Locale locale) {
                     return List.of(
@@ -36,11 +26,16 @@ public class Translation {
                             Locale.ENGLISH  // 因为没有安装语言包时IDE默认使用英语。
                     );
                 }
-            });
-        }
+            }
+    );
 
-        public String get(String key) {
-            return bundle.getString(key);
-        }
+    /**
+     * 获取本地化翻译。
+     *
+     * @param key properties文件中的键。
+     * @return properties文件中键对应的值。
+     */
+    public static @NotNull String $message(@NotNull String key) {
+        return BUNDLE.getString(key);
     }
 }

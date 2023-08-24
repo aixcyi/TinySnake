@@ -20,7 +20,7 @@ import org.jetbrains.annotations.NotNull;
 import javax.swing.*;
 import java.util.LinkedHashMap;
 
-import static cn.aixcyi.plugin.tinysnake.Translation.MENU;
+import static cn.aixcyi.plugin.tinysnake.Translation.$message;
 import static javax.swing.ListSelectionModel.SINGLE_SELECTION;
 
 /**
@@ -59,8 +59,8 @@ public class GenerateShebangAction extends PyAction {
                     }
                 })
                 .setItemChosenCallback(s -> invoke(s, file))
-                .setAdText(MENU.get("GenerateShebangAction.popup.ad_text"))
-                .setTitle(MENU.get("GenerateShebangAction.popup.title"))
+                .setAdText($message("GenerateShebangAction.popup.ad_text"))
+                .setTitle($message("GenerateShebangAction.popup.title"))
                 .setMovable(true)
                 .createPopup();
 
@@ -100,8 +100,8 @@ public class GenerateShebangAction extends PyAction {
             }
             case TIP_EDIT_PATH -> {
                 var string = Messages.showInputDialog(
-                        MENU.get("GenerateShebangAction.input.message"),
-                        MENU.get("GenerateShebangAction.input.title"),
+                        $message("GenerateShebangAction.input.message"),
+                        $message("GenerateShebangAction.input.title"),
                         null
                 );
                 if (string == null || string.isEmpty()) return;
@@ -123,7 +123,7 @@ public class GenerateShebangAction extends PyAction {
         }
         WriteCommandAction.runWriteCommandAction(
                 project,
-                MENU.get("GenerateShebangAction.command.name"),
+                $message("GenerateShebangAction.command.name"),
                 "GenerateShebangAction",
                 runnable
         );

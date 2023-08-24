@@ -1,9 +1,9 @@
 package cn.aixcyi.plugin.tinysnake.action;
 
-import cn.aixcyi.plugin.tinysnake.SequenceStyle;
 import cn.aixcyi.plugin.tinysnake.DunderAllEntity;
-import cn.aixcyi.plugin.tinysnake.SnippetBuilder;
 import cn.aixcyi.plugin.tinysnake.SequenceOrder;
+import cn.aixcyi.plugin.tinysnake.SequenceStyle;
+import cn.aixcyi.plugin.tinysnake.SnippetBuilder;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.ui.popup.PopupChooserBuilder;
@@ -19,7 +19,7 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Set;
 
-import static cn.aixcyi.plugin.tinysnake.Translation.MENU;
+import static cn.aixcyi.plugin.tinysnake.Translation.$message;
 import static javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION;
 
 /**
@@ -49,12 +49,12 @@ public class GenerateDunderAllAction extends PyAction {
                     }
                 })
                 .setItemsChosenCallback(items -> this.patchValue(file, all, items))
-                .setAdText(MENU.get("GenerateDunderAllAction.popup.ad_text"))
-                .setTitle(MENU.get("GenerateDunderAllAction.popup.title"))
+                .setAdText($message("GenerateDunderAllAction.popup.ad_text"))
+                .setTitle($message("GenerateDunderAllAction.popup.title"))
                 .setMovable(true)
                 .createPopup();  // options 的 EmptyText 在这一步会被覆盖掉
 
-        options.getEmptyText().setText(MENU.get("GenerateDunderAllAction.popup.empty_text"));  // 所以只能在这里设置 EmptyText
+        options.getEmptyText().setText($message("GenerateDunderAllAction.popup.empty_text"));  // 所以只能在这里设置 EmptyText
         popup.showInBestPositionFor(event.getDataContext());
     }
 
@@ -88,7 +88,7 @@ public class GenerateDunderAllAction extends PyAction {
         }
         WriteCommandAction.runWriteCommandAction(
                 project,
-                MENU.get("GenerateDunderAllAction.command.name"),
+                $message("GenerateDunderAllAction.command.name"),
                 "GenerateDunderAll",
                 runnable
         );
