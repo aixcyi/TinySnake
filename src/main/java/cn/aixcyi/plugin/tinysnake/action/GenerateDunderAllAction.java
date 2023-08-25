@@ -35,7 +35,11 @@ public class GenerateDunderAllAction extends PyAction {
 
         var options = new JBList<>(new CollectionListModel<>(all.symbols));
         var popup = new PopupChooserBuilder<>(options)
+                .setMovable(true)
                 .setSelectionMode(MULTIPLE_INTERVAL_SELECTION)
+                .setTitle($message("GenerateDunderAllAction.popup.title"))
+                .setAdText($message("GenerateDunderAllAction.popup.ad_text"))
+                .setItemsChosenCallback(items -> this.patchValue(file, all, items))
                 .setRenderer(new ColoredListCellRenderer<>() {
                     @Override
                     protected void customizeCellRenderer(@NotNull JList<? extends String> list,
@@ -48,10 +52,6 @@ public class GenerateDunderAllAction extends PyAction {
                         this.setEnabled(!all.exports.contains(value));
                     }
                 })
-                .setItemsChosenCallback(items -> this.patchValue(file, all, items))
-                .setAdText($message("GenerateDunderAllAction.popup.ad_text"))
-                .setTitle($message("GenerateDunderAllAction.popup.title"))
-                .setMovable(true)
                 .createPopup();  // options 的 EmptyText 在这一步会被覆盖掉
 
         options.getEmptyText().setText($message("GenerateDunderAllAction.popup.empty_text"));  // 所以只能在这里设置 EmptyText

@@ -36,8 +36,8 @@ public abstract class PyAction extends AnAction {
         }
     }
 
-    // update() 不一定会被用到，所以设置为普通方法，不强制要求重写。
     public void update(@NotNull AnActionEvent event, @NotNull PyFile file) {
+        // update() 不一定会被用到，所以设置为普通方法，不强制要求重写。
     }
 
     @Override

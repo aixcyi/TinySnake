@@ -46,7 +46,11 @@ public class GenerateShebangAction extends PyAction {
 
         var popup = JBPopupFactory.getInstance()
                 .createPopupChooserBuilder(shebangs.keySet().stream().toList())
+                .setMovable(true)
                 .setSelectionMode(SINGLE_SELECTION)
+                .setTitle($message("GenerateShebangAction.popup.title"))
+                .setAdText($message("GenerateShebangAction.popup.ad_text"))
+                .setItemChosenCallback(s -> invoke(s, file))
                 .setRenderer(new ColoredListCellRenderer<>() {
                     @Override
                     protected void customizeCellRenderer(@NotNull JList<? extends String> list,
@@ -58,10 +62,6 @@ public class GenerateShebangAction extends PyAction {
                         this.setIcon(shebangs.get(value));
                     }
                 })
-                .setItemChosenCallback(s -> invoke(s, file))
-                .setAdText($message("GenerateShebangAction.popup.ad_text"))
-                .setTitle($message("GenerateShebangAction.popup.title"))
-                .setMovable(true)
                 .createPopup();
 
         var editor = event.getData(LangDataKeys.EDITOR_EVEN_IF_INACTIVE);
