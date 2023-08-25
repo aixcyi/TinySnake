@@ -2,9 +2,8 @@ package cn.aixcyi.plugin.tinysnake;
 
 import com.intellij.lang.LangBundle;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.PropertyKey;
 
-import java.util.List;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
@@ -16,18 +15,8 @@ import java.util.ResourceBundle;
  */
 public class Translation {
 
-    public final static ResourceBundle BUNDLE = ResourceBundle.getBundle(
-            "messages.TinySnakeBundle",
-            new ResourceBundle.Control() {
-                @Override
-                public List<Locale> getCandidateLocales(String baseName, Locale locale) {
-                    return List.of(
-                            LangBundle.getLocale(),
-                            Locale.ENGLISH  // 因为没有安装语言包时IDE默认使用英语。
-                    );
-                }
-            }
-    );
+    public final static ResourceBundle BUNDLE =
+            ResourceBundle.getBundle("messages.TinySnakeBundle", LangBundle.getLocale());
 
     /**
      * 获取本地化翻译。
@@ -35,7 +24,9 @@ public class Translation {
      * @param key properties文件中的键。
      * @return properties文件中键对应的值。
      */
-    public static @NotNull String $message(@NotNull String key) {
+    public static @NotNull String $message(
+            @NotNull @PropertyKey(resourceBundle = "messages.TinySnakeBundle") String key
+    ) {
         return BUNDLE.getString(key);
     }
 }
