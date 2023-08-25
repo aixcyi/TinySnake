@@ -18,6 +18,7 @@ import com.jetbrains.python.psi.PyFile;
 import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
+import javax.swing.*;
 import java.util.List;
 
 import static cn.aixcyi.plugin.tinysnake.Translation.$message;
@@ -62,6 +63,7 @@ public class GenerateShebangAction extends PyAction {
         };
 
         var popup = JBPopupFactory.getInstance().createListPopup(step);
+        popup.setAdText($message("GenerateShebangAction.popup.ad_text"), SwingConstants.LEFT);
 
         var editor = event.getData(LangDataKeys.EDITOR_EVEN_IF_INACTIVE);
         if (editor == null)
