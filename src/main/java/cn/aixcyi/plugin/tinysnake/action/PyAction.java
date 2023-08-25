@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import static cn.aixcyi.plugin.tinysnake.Translation.$message;
 
 /**
- * 面向 Python 文件的 AnAction。
+ * 面向 Python 文件的 {@link AnAction}。
  *
  * @author <a href="https://github.com/aixcyi">砹小翼</a>
  */

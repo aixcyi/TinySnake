@@ -1,8 +1,8 @@
 package cn.aixcyi.plugin.tinysnake.action;
 
 import cn.aixcyi.plugin.tinysnake.DunderAllEntity;
-import cn.aixcyi.plugin.tinysnake.SequenceOrder;
-import cn.aixcyi.plugin.tinysnake.SequenceStyle;
+import cn.aixcyi.plugin.tinysnake.enumeration.SequenceOrder;
+import cn.aixcyi.plugin.tinysnake.enumeration.SequenceStyle;
 import cn.aixcyi.plugin.tinysnake.SnippetBuilder;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.command.WriteCommandAction;

@@ -1,5 +1,6 @@
 package cn.aixcyi.plugin.tinysnake;
 
+import cn.aixcyi.plugin.tinysnake.enumeration.SequenceOrder;
 import com.intellij.icons.AllIcons;
 import com.intellij.openapi.util.Pair;
 import com.intellij.psi.util.QualifiedName;

@@ -1,4 +1,4 @@
-package cn.aixcyi.plugin.tinysnake;
+package cn.aixcyi.plugin.tinysnake.enumeration;
 
 public enum SequenceOrder {
     /**

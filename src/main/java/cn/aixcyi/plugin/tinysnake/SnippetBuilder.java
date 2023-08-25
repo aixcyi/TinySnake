@@ -1,5 +1,6 @@
 package cn.aixcyi.plugin.tinysnake;
 
+import cn.aixcyi.plugin.tinysnake.enumeration.SequenceStyle;
 import com.intellij.psi.PsiComment;
 import com.jetbrains.python.psi.*;
 import com.jetbrains.python.psi.impl.PyElementGeneratorImpl;

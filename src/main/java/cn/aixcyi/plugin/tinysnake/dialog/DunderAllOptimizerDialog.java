@@ -1,6 +1,6 @@
 package cn.aixcyi.plugin.tinysnake.dialog;
 
-import cn.aixcyi.plugin.tinysnake.SequenceOrder;
+import cn.aixcyi.plugin.tinysnake.enumeration.SequenceOrder;
 import com.intellij.openapi.ui.DialogWrapper;
 import org.jetbrains.annotations.Nullable;
 
