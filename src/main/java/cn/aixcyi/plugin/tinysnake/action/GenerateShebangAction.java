@@ -11,17 +11,16 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.roots.ProjectFileIndex;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.ui.popup.JBPopupFactory;
+import com.intellij.openapi.ui.popup.PopupStep;
+import com.intellij.openapi.ui.popup.util.BaseListPopupStep;
 import com.intellij.psi.impl.source.tree.PsiCommentImpl;
-import com.intellij.ui.ColoredListCellRenderer;
 import com.jetbrains.python.psi.PyFile;
 import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
-import javax.swing.*;
-import java.util.LinkedHashMap;
+import java.util.List;
 
 import static cn.aixcyi.plugin.tinysnake.Translation.$message;
-import static javax.swing.ListSelectionModel.SINGLE_SELECTION;
 
 /**
  * 为 Python 源码添加 Shebang 。
@@ -29,40 +28,40 @@ import static javax.swing.ListSelectionModel.SINGLE_SELECTION;
  * @author <a href="https://github.com/aixcyi">砹小翼</a>
  */
 public class GenerateShebangAction extends PyAction {
-    private static final String TIP_ABS_PATH = "<选择基于项目的相对路径>";
-    private static final String TIP_ANY_PATH = "<选择绝对路径>";
-    private static final String TIP_EDIT_PATH = "<自定义文本>";
 
     @Override
     public void actionPerformed(@NotNull AnActionEvent event, @NotNull PyFile file) {
-        var shebangs = new LinkedHashMap<String, Icon>();
-        shebangs.put("/usr/bin/python3", AllIcons.Nodes.EmptyNode);
-        shebangs.put("/usr/bin/env python3", AllIcons.Nodes.EmptyNode);
-        shebangs.put("/usr/local/bin/python", AllIcons.Nodes.EmptyNode);
-        shebangs.put("./venv/Scripts/python.exe", AllIcons.Nodes.EmptyNode);
-        shebangs.put(TIP_ABS_PATH, AllIcons.Nodes.Project);
-        shebangs.put(TIP_ANY_PATH, AllIcons.Nodes.Folder);
-        shebangs.put(TIP_EDIT_PATH, AllIcons.Modules.EditFolder);
+        var lines = List.of(
+                "/usr/bin/python3",
+                "/usr/bin/env python3",
+                "/usr/local/bin/python",
+                "./venv/Scripts/python.exe",
+                $message("GenerateShebangAction.popup.path_relative"),  // reversedIndex: -3
+                $message("GenerateShebangAction.popup.path_absolute"),  // reversedIndex: -2
+                $message("GenerateShebangAction.popup.path_any")  // reversedIndex: -1
+        );
+        var icons = List.of(
+                AllIcons.Nodes.EmptyNode,
+                AllIcons.Nodes.EmptyNode,
+                AllIcons.Nodes.EmptyNode,
+                AllIcons.Nodes.EmptyNode,
+                AllIcons.Nodes.Project,
+                AllIcons.Nodes.Folder,
+                AllIcons.Modules.EditFolder
+        );
+        var title = $message("GenerateShebangAction.popup.title");
+        var step = new BaseListPopupStep<>(title, lines, icons) {
+            @Override
+            public PopupStep<?> onChosen(String selectedValue, boolean finalChoice) {
+                var items = getValues();
+                int index = items.indexOf(selectedValue);
+                int reversedIndex = index == -1 ? 0 : index - items.size();
+                doFinalStep(() -> invoke(reversedIndex, selectedValue, file));
+                return super.onChosen(selectedValue, finalChoice);
+            }
+        };
 
-        var popup = JBPopupFactory.getInstance()
-                .createPopupChooserBuilder(shebangs.keySet().stream().toList())
-                .setMovable(true)
-                .setSelectionMode(SINGLE_SELECTION)
-                .setTitle($message("GenerateShebangAction.popup.title"))
-                .setAdText($message("GenerateShebangAction.popup.ad_text"))
-                .setItemChosenCallback(s -> invoke(s, file))
-                .setRenderer(new ColoredListCellRenderer<>() {
-                    @Override
-                    protected void customizeCellRenderer(@NotNull JList<? extends String> list,
-                                                         String value,
-                                                         int index,
-                                                         boolean selected,
-                                                         boolean hasFocus) {
-                        this.append(value);
-                        this.setIcon(shebangs.get(value));
-                    }
-                })
-                .createPopup();
+        var popup = JBPopupFactory.getInstance().createListPopup(step);
 
         var editor = event.getData(LangDataKeys.EDITOR_EVEN_IF_INACTIVE);
         if (editor == null)
@@ -71,7 +70,9 @@ public class GenerateShebangAction extends PyAction {
             popup.showInCenterOf(editor.getComponent());
     }
 
-    private void invoke(@NotNull String item, @NotNull PyFile file) {
+    // 在备注中搜索 reversedIndex
+    private void invoke(int reversedIndex, String item, @NotNull PyFile file) {
+        if (reversedIndex >= 0) return;
         var project = file.getProject();
         var profile = project.getProjectFile();
         if (profile == null) return;
@@ -79,16 +80,19 @@ public class GenerateShebangAction extends PyAction {
         if (root == null) return;
         var descriptor = FileChooserDescriptorFactory.createSingleFileOrExecutableAppDescriptor();
 
-        switch (item) {
-            case TIP_ANY_PATH -> {
-                descriptor.setTitle(StringUtils.strip(TIP_ANY_PATH, "<>"));
+        // Ctrl + F -> reversedIndex
+        switch (reversedIndex) {
+            // 添加绝对路径
+            case -2 -> {
+                descriptor.setTitle(StringUtils.strip(item, "<>"));
                 descriptor.setRoots();
                 var chosen = FileChooser.chooseFile(descriptor, project, null);
                 if (chosen == null) return;
                 item = chosen.getPath();
             }
-            case TIP_ABS_PATH -> {
-                descriptor.setTitle(StringUtils.strip(TIP_ABS_PATH, "<>"));
+            // 添加相对路径
+            case -3 -> {
+                descriptor.setTitle(StringUtils.strip(item, "<>"));
                 descriptor.setRoots(root);
                 var chosen = FileChooser.chooseFile(descriptor, project, null);
                 if (chosen == null) return;
@@ -98,7 +102,8 @@ public class GenerateShebangAction extends PyAction {
                     item = chosen.getPath();
                 }
             }
-            case TIP_EDIT_PATH -> {
+            // 添加自定义文本
+            case -1 -> {
                 var string = Messages.showInputDialog(
                         $message("GenerateShebangAction.input.message"),
                         $message("GenerateShebangAction.input.title"),
