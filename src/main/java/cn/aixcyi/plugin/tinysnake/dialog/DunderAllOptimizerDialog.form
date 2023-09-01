@@ -26,7 +26,7 @@
               <text value="排序选项"/>
             </properties>
           </component>
-          <component id="39f76" class="javax.swing.JRadioButton">
+          <component id="39f76" class="javax.swing.JRadioButton" binding="radioAppearanceButton">
             <constraints>
               <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -77,7 +77,7 @@
               <text value="每个符号一行 (&amp;S)"/>
             </properties>
           </component>
-          <component id="88186" class="javax.swing.JRadioButton">
+          <component id="88186" class="javax.swing.JRadioButton" binding="radioInOneLine">
             <constraints>
               <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -151,7 +151,7 @@
     </children>
   </grid>
   <buttonGroups>
-    <group name="groupOrder">
+    <group name="groupOrder" bound="true">
       <member id="39f76"/>
       <member id="b5feb"/>
       <member id="a2f54"/>

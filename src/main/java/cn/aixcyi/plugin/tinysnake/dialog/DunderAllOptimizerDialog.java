@@ -1,6 +1,7 @@
 package cn.aixcyi.plugin.tinysnake.dialog;
 
 import cn.aixcyi.plugin.tinysnake.enumeration.SequenceOrder;
+import cn.aixcyi.plugin.tinysnake.service.DunderAllOptimizationService;
 import com.intellij.openapi.ui.DialogWrapper;
 import org.jetbrains.annotations.Nullable;
 
@@ -14,6 +15,9 @@ public class DunderAllOptimizerDialog extends DialogWrapper {
     private JRadioButton radioLineByLine;
     private JRadioButton radioDoubleQuotesStyle;
     private JRadioButton radioSingleQuoteStyle;
+    private JRadioButton radioAppearanceButton;
+    private JRadioButton radioInOneLine;
+    private ButtonGroup groupOrder;
 
     public DunderAllOptimizerDialog() {
         super(true);
@@ -32,10 +36,29 @@ public class DunderAllOptimizerDialog extends DialogWrapper {
         return radioLineByLine.isSelected();
     }
 
-    public Boolean getQuotesStyle() {
-        return radioDoubleQuotesStyle.isSelected() ? Boolean.TRUE
-                : radioSingleQuoteStyle.isSelected() ? Boolean.FALSE
-                : null;
+    public boolean isSingleQuote() {
+        return radioSingleQuoteStyle.isSelected();
+    }
+
+    @Override
+    public boolean showAndGet() {
+        var state = DunderAllOptimizationService.getInstance().getState();
+        switch (state.mySequenceOrder) {
+            case APPEARANCE -> groupOrder.setSelected(radioAppearanceButton.getModel(), true);
+            case ALPHABET -> groupOrder.setSelected(radioAlphabetOrder.getModel(), true);
+            case CHARSET -> groupOrder.setSelected(radioCharOrder.getModel(), true);
+        }
+        (state.isSingleQuote ? radioSingleQuoteStyle : radioDoubleQuotesStyle).setSelected(true);
+        (state.isLineByLine ? radioLineByLine : radioInOneLine).setSelected(true);
+
+        boolean result = super.showAndGet();
+
+        if (result) {
+            state.mySequenceOrder = getOrdering();
+            state.isSingleQuote = isSingleQuote();
+            state.isLineByLine = isLineByLine();
+        }
+        return result;
     }
 
     @Override

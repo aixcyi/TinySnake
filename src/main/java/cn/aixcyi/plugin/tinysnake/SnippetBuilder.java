@@ -27,20 +27,20 @@ public class SnippetBuilder {
     /**
      * 拼接序列。
      *
-     * @param items      序列元素。
-     * @param style      括号风格。
-     * @param lineByLine 每个元素一行，而不是全部挤在同一行。
-     * @param stringify  为每个元素配上双引号。
+     * @param items         序列元素。
+     * @param style         括号风格。
+     * @param isLineByLine  每个元素一行，而不是全部挤在同一行。
+     * @param isSingleQuote 为每个元素配上双引号。
      * @return 拼接后的结果字符串。
      */
     public String makeSequence(@NotNull List<String> items,
                                @NotNull SequenceStyle style,
-                               boolean lineByLine,
-                               Boolean stringify) {
-        var soup = stringify == null ? items : stringify
-                ? items.stream().map((s -> "\"" + s + "\"")).toList()
-                : items.stream().map((s -> "'" + s + "'")).toList();
-        return style.wrap(String.join(lineByLine ? ",\n" : ", ", soup));
+                               boolean isLineByLine,
+                               boolean isSingleQuote) {
+        var soup = isSingleQuote
+                ? items.stream().map((s -> "'" + s + "'")).toList()
+                : items.stream().map((s -> "\"" + s + "\"")).toList();
+        return style.wrap(String.join(isLineByLine ? ",\n" : ", ", soup));
     }
 
     /**
@@ -66,16 +66,16 @@ public class SnippetBuilder {
     /**
      * 创建列表。
      *
-     * @param items      要添加到列表中的元素。
-     * @param lineByLine 每个元素各占一行。
-     * @param stringify  将所有元素变为字符串字面值。
+     * @param items         要添加到列表中的元素。
+     * @param isLineByLine  每个元素各占一行。
+     * @param isSingleQuote 将所有元素变为字符串字面值。
      * @return 列表对象（{@link PyExpressionStatement}）。
      */
-    public PyExpressionStatement cakeList(@NotNull List<String> items, boolean lineByLine, Boolean stringify) {
+    public PyExpressionStatement cakeList(@NotNull List<String> items, boolean isLineByLine, boolean isSingleQuote) {
         return generator.createFromText(
                 this.version,
                 PyExpressionStatementImpl.class,
-                makeSequence(items, SequenceStyle.WINGED_LIST, lineByLine, stringify)
+                makeSequence(items, SequenceStyle.WINGED_LIST, isLineByLine, isSingleQuote)
         );
     }
 

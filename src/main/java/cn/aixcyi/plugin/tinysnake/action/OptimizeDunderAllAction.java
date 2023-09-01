@@ -48,7 +48,7 @@ public class OptimizeDunderAllAction extends PyAction {
             var statement = new SnippetBuilder(file).cakeList(
                     exporting,
                     dialog.isLineByLine(),
-                    dialog.getQuotesStyle()
+                    dialog.isSingleQuote()
             );
             // 写入编辑器并产生一个撤销选项
             WriteCommandAction.runWriteCommandAction(
