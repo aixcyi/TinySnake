@@ -4,6 +4,7 @@ import cn.aixcyi.plugin.tinysnake.DunderAllEntity;
 import cn.aixcyi.plugin.tinysnake.enumeration.SequenceOrder;
 import cn.aixcyi.plugin.tinysnake.enumeration.SequenceStyle;
 import cn.aixcyi.plugin.tinysnake.SnippetBuilder;
+import cn.aixcyi.plugin.tinysnake.service.DunderAllOptimizationService;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.ui.popup.PopupChooserBuilder;
@@ -68,12 +69,19 @@ public class GenerateDunderAllAction extends PyAction {
                            @NotNull final Set<? extends String> items) {
         Runnable runnable;
         var list = all.getVariableValue();
+        var state = DunderAllOptimizationService.getInstance().getState();
         var project = file.getProject();
         var builder = new SnippetBuilder(file);
 
         if (list == null) {
             var choices = all.sort(new ArrayList<>(items), SequenceOrder.APPEARANCE);
-            var varValue = builder.makeSequence(choices, SequenceStyle.WINGED_LIST, true, true);
+            var varValue = builder.makeSequence(
+                    choices,
+                    SequenceStyle.WINGED_LIST,
+                    state.isLineByLine,
+                    state.isEndsWithComma,
+                    state.isUseSingleQuote
+            );
             var statement = builder.cakeAssignment(PyNames.ALL, varValue);
             runnable = () -> file.addBefore(statement, findProperlyPlace(file));
         } else {

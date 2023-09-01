@@ -27,20 +27,25 @@ public class SnippetBuilder {
     /**
      * 拼接序列。
      *
-     * @param items         序列元素。
-     * @param style         括号风格。
-     * @param isLineByLine  每个元素一行，而不是全部挤在同一行。
-     * @param isSingleQuote 为每个元素配上双引号。
+     * @param items            序列元素。
+     * @param style            括号风格。
+     * @param isLineByLine     每个元素一行，而不是全部挤在同一行。
+     * @param isEndsWithComma  最后一个元素之后额外附带一个逗号。
+     * @param isUseSingleQuote 使用单引号而非双引号。
      * @return 拼接后的结果字符串。
      */
     public String makeSequence(@NotNull List<String> items,
                                @NotNull SequenceStyle style,
                                boolean isLineByLine,
-                               boolean isSingleQuote) {
-        var soup = isSingleQuote
+                               boolean isEndsWithComma,
+                               boolean isUseSingleQuote) {
+        var soup = isUseSingleQuote
                 ? items.stream().map((s -> "'" + s + "'")).toList()
                 : items.stream().map((s -> "\"" + s + "\"")).toList();
-        return style.wrap(String.join(isLineByLine ? ",\n" : ", ", soup));
+
+        var stuff = String.join(isLineByLine ? ",\n" : ", ", soup);
+
+        return style.wrap(stuff + (isEndsWithComma ? "," : ""));
     }
 
     /**
@@ -66,16 +71,20 @@ public class SnippetBuilder {
     /**
      * 创建列表。
      *
-     * @param items         要添加到列表中的元素。
-     * @param isLineByLine  每个元素各占一行。
-     * @param isSingleQuote 将所有元素变为字符串字面值。
+     * @param items            要添加到列表中的元素。
+     * @param isLineByLine     每个元素各占一行。
+     * @param isEndsWithComma  最后一个元素之后额外附带一个逗号。
+     * @param isUseSingleQuote 使用单引号而非双引号。
      * @return 列表对象（{@link PyExpressionStatement}）。
      */
-    public PyExpressionStatement cakeList(@NotNull List<String> items, boolean isLineByLine, boolean isSingleQuote) {
+    public PyExpressionStatement cakeList(@NotNull List<String> items,
+                                          boolean isLineByLine,
+                                          boolean isEndsWithComma,
+                                          boolean isUseSingleQuote) {
         return generator.createFromText(
                 this.version,
                 PyExpressionStatementImpl.class,
-                makeSequence(items, SequenceStyle.WINGED_LIST, isLineByLine, isSingleQuote)
+                makeSequence(items, SequenceStyle.WINGED_LIST, isLineByLine, isEndsWithComma, isUseSingleQuote)
         );
     }
 
@@ -107,7 +116,9 @@ public class SnippetBuilder {
                                    @Nullable List<String> arguments,
                                    @Nullable String body,
                                    @Nullable String docstring) {
-        var params = arguments == null ? "" : makeSequence(arguments, SequenceStyle.BARE, false, false);
+        var params = arguments == null ? "" : makeSequence(
+                arguments, SequenceStyle.BARE, false, false, false
+        );
         var text = "def " + name + "(" + params + "):\n"
                 + (docstring == null ? "" : docstring)
                 + (body == null ? "pass" : body);

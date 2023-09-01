@@ -32,12 +32,14 @@ public final class DunderAllOptimizationService implements PersistentStateCompon
 
     public static class State {
         public SequenceOrder mySequenceOrder;
-        public boolean isSingleQuote;
+        public boolean isUseSingleQuote;
+        public boolean isEndsWithComma;
         public boolean isLineByLine;
 
         public State() {
             mySequenceOrder = SequenceOrder.APPEARANCE;
-            isSingleQuote = false;
+            isUseSingleQuote = false;
+            isEndsWithComma = false;
             isLineByLine = false;
         }
     }

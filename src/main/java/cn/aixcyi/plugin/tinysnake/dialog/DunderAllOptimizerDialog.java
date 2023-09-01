@@ -11,56 +11,48 @@ import java.awt.*;
 import static cn.aixcyi.plugin.tinysnake.Translation.$message;
 
 public class DunderAllOptimizerDialog extends DialogWrapper {
+
+    public DunderAllOptimizationService.State state;
+
     private JPanel contentPanel;
+    private ButtonGroup groupOrder;
     private JRadioButton radioAlphabetOrder;
     private JRadioButton radioCharOrder;
-    private JRadioButton radioLineByLine;
-    private JRadioButton radioDoubleQuotesStyle;
-    private JRadioButton radioSingleQuoteStyle;
     private JRadioButton radioAppearanceButton;
-    private JRadioButton radioInOneLine;
-    private ButtonGroup groupOrder;
+    private JCheckBox checkboxUseSingleQuote;
+    private JCheckBox checkboxEndsWithComma;
+    private JCheckBox checkboxLineByLine;
 
     public DunderAllOptimizerDialog() {
         super(true);
         setResizable(false);
-        setTitle($message("OptimizeDunderAllAction.action.text"));
+        setTitle($message("OptimizeDunderAllAction.command.name"));
         init();
-    }
-
-    public SequenceOrder getOrdering() {
-        return radioCharOrder.isSelected() ? SequenceOrder.CHARSET
-                : radioAlphabetOrder.isSelected() ? SequenceOrder.ALPHABET
-                : SequenceOrder.APPEARANCE;
-    }
-
-    public boolean isLineByLine() {
-        return radioLineByLine.isSelected();
-    }
-
-    public boolean isSingleQuote() {
-        return radioSingleQuoteStyle.isSelected();
+        state = DunderAllOptimizationService.getInstance().getState();
     }
 
     @Override
     public boolean showAndGet() {
-        var state = DunderAllOptimizationService.getInstance().getState();
         switch (state.mySequenceOrder) {
             case APPEARANCE -> groupOrder.setSelected(radioAppearanceButton.getModel(), true);
             case ALPHABET -> groupOrder.setSelected(radioAlphabetOrder.getModel(), true);
             case CHARSET -> groupOrder.setSelected(radioCharOrder.getModel(), true);
         }
-        (state.isSingleQuote ? radioSingleQuoteStyle : radioDoubleQuotesStyle).setSelected(true);
-        (state.isLineByLine ? radioLineByLine : radioInOneLine).setSelected(true);
+        checkboxUseSingleQuote.setSelected(state.isUseSingleQuote);
+        checkboxEndsWithComma.setSelected(state.isEndsWithComma);
+        checkboxLineByLine.setSelected(state.isLineByLine);
 
-        boolean result = super.showAndGet();
-
-        if (result) {
-            state.mySequenceOrder = getOrdering();
-            state.isSingleQuote = isSingleQuote();
-            state.isLineByLine = isLineByLine();
+        if (!super.showAndGet()) {
+            return false;
         }
-        return result;
+
+        state.mySequenceOrder = radioCharOrder.isSelected() ? SequenceOrder.CHARSET
+                : radioAlphabetOrder.isSelected() ? SequenceOrder.ALPHABET
+                : SequenceOrder.APPEARANCE;
+        state.isUseSingleQuote = checkboxUseSingleQuote.isSelected();
+        state.isEndsWithComma = checkboxEndsWithComma.isSelected();
+        state.isLineByLine = checkboxLineByLine.isSelected();
+        return true;
     }
 
     @Override
