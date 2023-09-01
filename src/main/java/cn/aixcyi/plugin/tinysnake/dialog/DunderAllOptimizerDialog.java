@@ -8,6 +8,8 @@ import org.jetbrains.annotations.Nullable;
 import javax.swing.*;
 import java.awt.*;
 
+import static cn.aixcyi.plugin.tinysnake.Translation.$message;
+
 public class DunderAllOptimizerDialog extends DialogWrapper {
     private JPanel contentPanel;
     private JRadioButton radioAlphabetOrder;
@@ -22,7 +24,7 @@ public class DunderAllOptimizerDialog extends DialogWrapper {
     public DunderAllOptimizerDialog() {
         super(true);
         setResizable(false);
-        setTitle("优化 __all__");
+        setTitle($message("OptimizeDunderAllAction.action.text"));
         init();
     }
 

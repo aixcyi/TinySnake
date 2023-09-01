@@ -23,7 +23,7 @@
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="排序选项"/>
+              <text resource-bundle="messages/TinySnakeBundle" key="DunderAllOptimizerDialog.label.ordering"/>
             </properties>
           </component>
           <component id="39f76" class="javax.swing.JRadioButton" binding="radioAppearanceButton">
@@ -32,7 +32,7 @@
             </constraints>
             <properties>
               <selected value="true"/>
-              <text value="声明顺序 (&amp;D)"/>
+              <text resource-bundle="messages/TinySnakeBundle" key="DunderAllOptimizerDialog.radio.appearance"/>
             </properties>
           </component>
           <component id="b5feb" class="javax.swing.JRadioButton" binding="radioAlphabetOrder">
@@ -40,7 +40,7 @@
               <grid row="2" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="字母顺序，不区分大小写 (&amp;A)"/>
+              <text resource-bundle="messages/TinySnakeBundle" key="DunderAllOptimizerDialog.radio.alphabet"/>
             </properties>
           </component>
           <component id="a2f54" class="javax.swing.JRadioButton" binding="radioCharOrder">
@@ -48,7 +48,7 @@
               <grid row="3" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="字符编码顺序，区分大小写 (&amp;C)"/>
+              <text resource-bundle="messages/TinySnakeBundle" key="DunderAllOptimizerDialog.radio.character"/>
             </properties>
           </component>
           <component id="df1bb" class="javax.swing.JSeparator">
@@ -74,7 +74,7 @@
               <grid row="2" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="每个符号一行 (&amp;S)"/>
+              <text resource-bundle="messages/TinySnakeBundle" key="DunderAllOptimizerDialog.radio.line_by_line"/>
             </properties>
           </component>
           <component id="88186" class="javax.swing.JRadioButton" binding="radioInOneLine">
@@ -83,7 +83,7 @@
             </constraints>
             <properties>
               <selected value="true"/>
-              <text value="尽量排满一行 (&amp;F)"/>
+              <text resource-bundle="messages/TinySnakeBundle" key="DunderAllOptimizerDialog.radio.oneline"/>
             </properties>
           </component>
           <component id="62b75" class="javax.swing.JLabel">
@@ -92,7 +92,7 @@
             </constraints>
             <properties>
               <opaque value="false"/>
-              <text value="换行方式"/>
+              <text resource-bundle="messages/TinySnakeBundle" key="DunderAllOptimizerDialog.label.newline"/>
             </properties>
           </component>
           <component id="1f743" class="javax.swing.JSeparator">
@@ -118,7 +118,7 @@
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="字符串风格"/>
+              <text resource-bundle="messages/TinySnakeBundle" key="DunderAllOptimizerDialog.label.quote"/>
             </properties>
           </component>
           <component id="4d2a4" class="javax.swing.JRadioButton" binding="radioDoubleQuotesStyle">
@@ -126,7 +126,8 @@
               <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="双引号 (&amp;Q)"/>
+              <selected value="true"/>
+              <text resource-bundle="messages/TinySnakeBundle" key="DunderAllOptimizerDialog.radio.double_quote"/>
             </properties>
           </component>
           <component id="2622b" class="javax.swing.JRadioButton" binding="radioSingleQuoteStyle">
@@ -134,8 +135,8 @@
               <grid row="2" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <selected value="true"/>
-              <text value="单引号 (&amp;P)"/>
+              <selected value="false"/>
+              <text resource-bundle="messages/TinySnakeBundle" key="DunderAllOptimizerDialog.radio.single_quote"/>
             </properties>
           </component>
           <component id="c047c" class="javax.swing.JSeparator">
