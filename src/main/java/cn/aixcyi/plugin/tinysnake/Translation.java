@@ -1,6 +1,6 @@
 package cn.aixcyi.plugin.tinysnake;
 
-import com.intellij.lang.LangBundle;
+import com.intellij.DynamicBundle;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.PropertyKey;
 
@@ -16,7 +16,7 @@ import java.util.ResourceBundle;
 public class Translation {
 
     public final static ResourceBundle BUNDLE =
-            ResourceBundle.getBundle("messages.TinySnakeBundle", LangBundle.getLocale());
+            ResourceBundle.getBundle("messages.TinySnakeBundle", DynamicBundle.getLocale());
 
     /**
      * 获取本地化翻译。
