@@ -29,6 +29,7 @@
     <!-- Extension points defined by the plugin.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
+        <applicationService serviceImplementation="cn.aixcyi.plugin.tinysnake.service.DunderAllOptimizationService"/>
     </extensions>
 
     <!-- text 中的下划线被转义了，所以需要双双下划线来表示双下划线 -->
