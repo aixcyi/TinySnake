@@ -1,6 +1,7 @@
 package cn.aixcyi.plugin.tinysnake.action;
 
 import com.intellij.openapi.actionSystem.*;
+import com.intellij.openapi.util.NlsActions;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.jetbrains.python.psi.PyClass;
@@ -8,7 +9,8 @@ import com.jetbrains.python.psi.PyFile;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import static cn.aixcyi.plugin.tinysnake.Translation.$message;
+import javax.swing.*;
+import java.util.function.Supplier;
 
 /**
  * 面向 Python 文件的 {@link AnAction}。
@@ -17,12 +19,35 @@ import static cn.aixcyi.plugin.tinysnake.Translation.$message;
  */
 public abstract class PyAction extends AnAction {
 
-    public PyAction() {
-        // 自动翻译所需要的 bundle-key 应该是 "action.<ActionID>.text"
-        // 这里作出区别一是顺应整体格式，二是表明它不是自动翻译的。
-        // https://plugins.jetbrains.com/docs/intellij/basic-action-system.html#localizing-actions-and-groups
+    public void init(@Nullable Icon icon) {
+        init(Presentation.NULL_STRING, Presentation.NULL_STRING, icon);
+    }
+
+    public void init(@Nullable @NlsActions.ActionText String text) {
+        init(text, null, null);
+    }
+
+    public void init(@NotNull Supplier<@NlsActions.ActionText String> dynamicText) {
+        init(dynamicText, Presentation.NULL_STRING, null);
+    }
+
+    public void init(@Nullable @NlsActions.ActionText String text,
+                     @Nullable @NlsActions.ActionDescription String description,
+                     @Nullable Icon icon) {
+        init(() -> text, () -> description, icon);
+    }
+
+    public void init(@NotNull Supplier<@NlsActions.ActionText String> dynamicText, @Nullable Icon icon) {
+        init(dynamicText, Presentation.NULL_STRING, icon);
+    }
+
+    public void init(@NotNull Supplier<@NlsActions.ActionText String> dynamicText,
+                     @NotNull Supplier<@NlsActions.ActionDescription String> dynamicDescription,
+                     @Nullable Icon icon) {
         Presentation presentation = getTemplatePresentation();
-        presentation.setText($message(getClass().getSimpleName() + ".action.text"));
+        presentation.setText(dynamicText);
+        presentation.setDescription(dynamicDescription);
+        presentation.setIcon(icon);
     }
 
     @Override

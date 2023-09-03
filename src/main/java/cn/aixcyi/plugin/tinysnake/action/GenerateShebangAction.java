@@ -29,6 +29,10 @@ import static cn.aixcyi.plugin.tinysnake.Translation.$message;
  */
 public class GenerateShebangAction extends PyAction {
 
+    public GenerateShebangAction() {
+        init($message("GenerateShebangAction.action.text"));
+    }
+
     @Override
     public void actionPerformed(@NotNull AnActionEvent event, @NotNull PyFile file) {
         var lines = List.of(
