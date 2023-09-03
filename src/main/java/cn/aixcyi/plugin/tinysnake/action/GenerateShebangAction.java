@@ -7,7 +7,6 @@ import com.intellij.openapi.actionSystem.LangDataKeys;
 import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.fileChooser.FileChooser;
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory;
-import com.intellij.openapi.project.Project;
 import com.intellij.openapi.roots.ProjectFileIndex;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.ui.popup.JBPopupFactory;
@@ -57,7 +56,7 @@ public class GenerateShebangAction extends PyAction {
                 var items = getValues();
                 int index = items.indexOf(selectedValue);
                 int reversedIndex = index == -1 ? 0 : index - items.size();
-                doFinalStep(() -> invoke(reversedIndex, selectedValue, file));
+                doFinalStep(() -> onListPopupChosen(reversedIndex, selectedValue, file));
                 return super.onChosen(selectedValue, finalChoice);
             }
         };
@@ -73,7 +72,7 @@ public class GenerateShebangAction extends PyAction {
     }
 
     // 在备注中搜索 reversedIndex
-    private void invoke(int reversedIndex, String item, @NotNull PyFile file) {
+    private void onListPopupChosen(int reversedIndex, String item, @NotNull PyFile file) {
         if (reversedIndex >= 0) return;
         var project = file.getProject();
         var profile = project.getProjectFile();
@@ -115,17 +114,14 @@ public class GenerateShebangAction extends PyAction {
                 item = StringUtils.stripStart(string, "#!");  // 避免 #!#、#!!、#!#!
             }
         }
-        insertShebang("#!" + item, file, project);
-    }
-
-    private void insertShebang(@NotNull String item, @NotNull PyFile file, Project project) {
+        var finalItem = "#!" + item;
         var firstChild = file.getFirstChild();
         Runnable runnable;
 
-        if (firstChild instanceof PsiCommentImpl comment) {
-            runnable = () -> comment.updateText(item);
+        if (firstChild instanceof PsiCommentImpl comment && comment.getText().startsWith("#!")) {
+            runnable = () -> comment.updateText(finalItem);
         } else {
-            var comment = new SnippetBuilder(file).cakeComment(item);
+            var comment = new SnippetBuilder(file).cakeComment(finalItem);
             runnable = () -> file.addBefore(comment, firstChild);
         }
         WriteCommandAction.runWriteCommandAction(
