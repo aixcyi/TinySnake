@@ -37,7 +37,7 @@
         <action id="OptimizeDunderAllAction"
                 class="cn.aixcyi.plugin.tinysnake.action.OptimizeDunderAllAction">
             <add-to-group group-id="CodeFormatGroup" anchor="after" relative-to-action="OptimizeImports"/>
-            <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt D"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="ctrl shift D"/>
         </action>
         <action id="GenerateGetterAction"
                 class="cn.aixcyi.plugin.tinysnake.action.GenerateDunderAllAction">
@@ -46,6 +46,11 @@
         <action id="GenerateShebangAction"
                 class="cn.aixcyi.plugin.tinysnake.action.GenerateShebangAction">
             <add-to-group group-id="GenerateGroup" anchor="after" relative-to-action="GenerateGetterAction"/>
+        </action>
+        <action id="ConvertDictAction"
+                class="cn.aixcyi.plugin.tinysnake.action.DictCallToDataAction">
+            <add-to-group group-id="RefactoringMenu" anchor="first"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt D"/>
         </action>
     </actions>
 </idea-plugin>
