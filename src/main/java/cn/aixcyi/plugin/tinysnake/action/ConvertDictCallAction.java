@@ -77,7 +77,7 @@ public class ConvertDictCallAction extends PyAction {
             );
             WriteCommandAction.runWriteCommandAction(
                     file.getProject(),
-                    $message("command.ConvertDictCall"),
+                    $message("command.ConvertDictCallToData"),
                     null,
                     () -> calling.replace(statement)
             );
@@ -96,13 +96,12 @@ public class ConvertDictCallAction extends PyAction {
                 }
                 if (PyNames.isIdentifier(key))
                     snippet.append(key).append('=').append(val.getText()).append(",\n");
-                else {
+                else
                     kwargs
                             .append(generator.createStringLiteralFromString(key).getText())
                             .append(": ")
                             .append(val.getText())
                             .append(",\n");
-                }
             }
             if ("**{\n".contentEquals(kwargs)) {
                 snippet.append(")");
@@ -116,7 +115,7 @@ public class ConvertDictCallAction extends PyAction {
             );
             WriteCommandAction.runWriteCommandAction(
                     file.getProject(),
-                    $message("command.ConvertDictCall"),
+                    $message("command.ConvertDictDataToCall"),
                     null,
                     () -> literal.replace(statement)
             );
