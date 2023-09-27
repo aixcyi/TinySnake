@@ -8,7 +8,7 @@
     <name>Tiny Snake</name>
 
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
-    <vendor email="75880483+aixcyi@users.noreply.github.com" url="https://www.yourcompany.com">aixcyi</vendor>
+    <vendor email="75880483+aixcyi@users.noreply.github.com" url="https://github.com/aixcyi">aixcyi</vendor>
 
     <resource-bundle>messages.TinySnakeBundle</resource-bundle>
 
