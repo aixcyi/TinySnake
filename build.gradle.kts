@@ -32,6 +32,7 @@ tasks {
     patchPluginXml {
         sinceBuild.set("222")
         untilBuild.set("232.*")
+        pluginDescription = projectDir.resolve("DESCRIPTION.md").readText()
     }
 
     signPlugin {
