@@ -7,8 +7,8 @@ import cn.aixcyi.plugin.tinysnake.dialog.DunderAllOptimizerDialog;
 import cn.aixcyi.plugin.tinysnake.enumeration.SequenceStyle;
 import com.intellij.codeInsight.hint.HintManager;
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.LangDataKeys;
 import com.intellij.openapi.command.WriteCommandAction;
+import com.intellij.openapi.editor.Editor;
 import com.jetbrains.python.psi.PyFile;
 import org.jetbrains.annotations.NotNull;
 
@@ -24,11 +24,9 @@ import static cn.aixcyi.plugin.tinysnake.Translation.$message;
 public class OptimizeDunderAllAction extends PyAction {
 
     @Override
-    public void actionPerformed(@NotNull AnActionEvent event, @NotNull PyFile file) {
+    public void actionPerformed(@NotNull AnActionEvent event, @NotNull PyFile file, @NotNull Editor editor) {
         // 准备基础设施
         var hint = HintManager.getInstance();
-        var editor = event.getData(LangDataKeys.EDITOR_EVEN_IF_INACTIVE);
-        if (editor == null) return;
 
         // 查找 __all__ 相关
         var all = new DunderAllEntity(file);

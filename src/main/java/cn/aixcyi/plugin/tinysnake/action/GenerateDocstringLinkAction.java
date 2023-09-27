@@ -3,8 +3,8 @@ package cn.aixcyi.plugin.tinysnake.action;
 import cn.aixcyi.plugin.tinysnake.dialog.DocstringLinkCreator;
 import com.intellij.codeInsight.hint.HintManager;
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.command.WriteCommandAction;
+import com.intellij.openapi.editor.Editor;
 import com.intellij.psi.PsiElement;
 import com.jetbrains.python.PyTokenTypes;
 import com.jetbrains.python.psi.PyFile;
@@ -22,17 +22,15 @@ import static cn.aixcyi.plugin.tinysnake.Translation.$message;
 public class GenerateDocstringLinkAction extends PyAction {
 
     @Override
-    public void update(@NotNull AnActionEvent event, @NotNull PyFile file) {
+    public void update(@NotNull AnActionEvent event, @NotNull PyFile file, @NotNull Editor editor) {
         event.getPresentation().setVisible(
                 getCaretDocstring(event, file) != null
         );
     }
 
     @Override
-    public void actionPerformed(@NotNull AnActionEvent event, @NotNull PyFile file) {
+    public void actionPerformed(@NotNull AnActionEvent event, @NotNull PyFile file, @NotNull Editor editor) {
         var hint = HintManager.getInstance();
-        var editor = event.getData(CommonDataKeys.EDITOR);
-        if (editor == null) return;
         var offset = editor.getCaretModel().getOffset();
         var project = file.getProject();
         var document = editor.getDocument();

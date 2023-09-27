@@ -3,8 +3,8 @@ package cn.aixcyi.plugin.tinysnake.action;
 import cn.aixcyi.plugin.tinysnake.SnippetGenerator;
 import com.intellij.icons.AllIcons;
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.LangDataKeys;
 import com.intellij.openapi.command.WriteCommandAction;
+import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.fileChooser.FileChooser;
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory;
 import com.intellij.openapi.roots.ProjectFileIndex;
@@ -30,7 +30,7 @@ import static cn.aixcyi.plugin.tinysnake.Translation.$message;
 public class GenerateShebangAction extends PyAction {
 
     @Override
-    public void actionPerformed(@NotNull AnActionEvent event, @NotNull PyFile file) {
+    public void actionPerformed(@NotNull AnActionEvent event, @NotNull PyFile file, @NotNull Editor editor) {
         var lines = List.of(
                 "/usr/bin/python3",
                 "/usr/bin/env python3",
@@ -63,12 +63,7 @@ public class GenerateShebangAction extends PyAction {
 
         var popup = JBPopupFactory.getInstance().createListPopup(step);
         popup.setAdText($message("GenerateShebangAction.popup.ad_text"), SwingConstants.LEFT);
-
-        var editor = event.getData(LangDataKeys.EDITOR_EVEN_IF_INACTIVE);
-        if (editor == null)
-            popup.showInBestPositionFor(event.getDataContext());
-        else
-            popup.showInCenterOf(editor.getComponent());
+        popup.showInCenterOf(editor.getComponent());
     }
 
     // 在备注中搜索 reversedIndex

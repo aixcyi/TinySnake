@@ -3,8 +3,8 @@ package cn.aixcyi.plugin.tinysnake.action;
 import cn.aixcyi.plugin.tinysnake.SnippetGenerator;
 import com.intellij.codeInsight.hint.HintManager;
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.LangDataKeys;
 import com.intellij.openapi.command.WriteCommandAction;
+import com.intellij.openapi.editor.Editor;
 import com.jetbrains.python.PyNames;
 import com.jetbrains.python.psi.*;
 import com.jetbrains.python.psi.impl.PyExpressionStatementImpl;
@@ -20,11 +20,9 @@ import static cn.aixcyi.plugin.tinysnake.Translation.$message;
 public class ConvertDictCallAction extends PyAction {
 
     @Override
-    public void actionPerformed(@NotNull AnActionEvent event, @NotNull PyFile file) {
+    public void actionPerformed(@NotNull AnActionEvent event, @NotNull PyFile file, @NotNull Editor editor) {
         var hint = HintManager.getInstance();
         var generator = new SnippetGenerator(file);
-        var editor = event.getData(LangDataKeys.EDITOR_EVEN_IF_INACTIVE);
-        if (editor == null) return;
 
         // 查找光标附近的 dict() 或 dict
         var calling = getCaretElement(event, file, PyCallExpression.class);

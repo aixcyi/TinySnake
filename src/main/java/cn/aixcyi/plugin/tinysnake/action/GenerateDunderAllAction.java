@@ -8,6 +8,7 @@ import cn.aixcyi.plugin.tinysnake.enumeration.SequenceStyle;
 import cn.aixcyi.plugin.tinysnake.service.DunderAllOptimizationService;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.command.WriteCommandAction;
+import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.ui.popup.PopupChooserBuilder;
 import com.intellij.psi.PsiElement;
 import com.intellij.ui.CollectionListModel;
@@ -32,7 +33,7 @@ import static javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION;
 public class GenerateDunderAllAction extends PyAction {
 
     @Override
-    public void actionPerformed(@NotNull AnActionEvent event, @NotNull PyFile file) {
+    public void actionPerformed(@NotNull AnActionEvent event, @NotNull PyFile file, @NotNull Editor editor) {
         var all = new DunderAllEntity(file);  // 遍历所有顶层表达式获取所有符号
 
         var options = new JBList<>(new CollectionListModel<>(all.symbols));
