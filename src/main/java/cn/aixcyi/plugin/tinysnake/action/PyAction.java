@@ -2,15 +2,11 @@ package cn.aixcyi.plugin.tinysnake.action;
 
 import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.util.NlsActions;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.jetbrains.python.psi.PyFile;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import javax.swing.*;
-import java.util.function.Supplier;
 
 /**
  * 面向 Python 定制的 {@link AnAction}。
@@ -19,63 +15,20 @@ import java.util.function.Supplier;
  */
 public abstract class PyAction extends AnAction {
 
-    public void init(@Nullable Icon icon) {
-        init(Presentation.NULL_STRING, Presentation.NULL_STRING, icon);
-    }
-
-    public void init(@Nullable @NlsActions.ActionText String text) {
-        init(text, null, null);
-    }
-
-    public void init(@NotNull Supplier<@NlsActions.ActionText String> dynamicText) {
-        init(dynamicText, Presentation.NULL_STRING, null);
-    }
-
-    public void init(@Nullable @NlsActions.ActionText String text,
-                     @Nullable @NlsActions.ActionDescription String description,
-                     @Nullable Icon icon) {
-        init(() -> text, () -> description, icon);
-    }
-
-    public void init(@NotNull Supplier<@NlsActions.ActionText String> dynamicText, @Nullable Icon icon) {
-        init(dynamicText, Presentation.NULL_STRING, icon);
-    }
-
-    public void init(@NotNull Supplier<@NlsActions.ActionText String> dynamicText,
-                     @NotNull Supplier<@NlsActions.ActionDescription String> dynamicDescription,
-                     @Nullable Icon icon) {
-        Presentation presentation = getTemplatePresentation();
-        presentation.setText(dynamicText);
-        presentation.setDescription(dynamicDescription);
-        presentation.setIcon(icon);
-    }
-
     @Override
     public @NotNull ActionUpdateThread getActionUpdateThread() {
         return ActionUpdateThread.BGT;
     }
 
     @Override
-    public void update(@NotNull AnActionEvent event) {
-        var editor = event.getData(LangDataKeys.EDITOR_EVEN_IF_INACTIVE);
-        var psi = event.getData(CommonDataKeys.PSI_FILE);
-        if (psi instanceof PyFile file && editor != null) {
-            this.update(event, file, editor);
-        } else {
-            event.getPresentation().setVisible(false);
-        }
-    }
-
-    @SuppressWarnings("unused")
-    public void update(@NotNull AnActionEvent event, @NotNull PyFile file, @NotNull Editor editor) {
-        // update() 不一定会被用到，所以设置为普通方法，不强制要求重写。
-    }
-
-    @Override
     public void actionPerformed(@NotNull AnActionEvent event) {
         var editor = event.getData(LangDataKeys.EDITOR_EVEN_IF_INACTIVE);
+        if (editor == null) {
+            event.getPresentation().setVisible(false);
+            return;
+        }
         var psi = event.getData(CommonDataKeys.PSI_FILE);
-        if (psi instanceof PyFile file && editor != null) {
+        if (psi instanceof PyFile file) {
             this.actionPerformed(event, file, editor);
         }
     }

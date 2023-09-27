@@ -22,13 +22,6 @@ import static cn.aixcyi.plugin.tinysnake.Translation.$message;
 public class GenerateDocstringLinkAction extends PyAction {
 
     @Override
-    public void update(@NotNull AnActionEvent event, @NotNull PyFile file, @NotNull Editor editor) {
-        event.getPresentation().setVisible(
-                getCaretDocstring(event, file) != null
-        );
-    }
-
-    @Override
     public void actionPerformed(@NotNull AnActionEvent event, @NotNull PyFile file, @NotNull Editor editor) {
         var hint = HintManager.getInstance();
         var offset = editor.getCaretModel().getOffset();
