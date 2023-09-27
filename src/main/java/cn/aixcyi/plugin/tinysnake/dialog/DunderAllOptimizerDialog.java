@@ -32,7 +32,7 @@ public class DunderAllOptimizerDialog extends DialogWrapper {
     }
 
     @Override
-    public boolean showAndGet() {
+    public void show() {
         switch (state.mySequenceOrder) {
             case APPEARANCE -> groupOrder.setSelected(radioAppearanceButton.getModel(), true);
             case ALPHABET -> groupOrder.setSelected(radioAlphabetOrder.getModel(), true);
@@ -42,9 +42,8 @@ public class DunderAllOptimizerDialog extends DialogWrapper {
         checkboxEndsWithComma.setSelected(state.isEndsWithComma);
         checkboxLineByLine.setSelected(state.isLineByLine);
 
-        if (!super.showAndGet()) {
-            return false;
-        }
+        super.show();
+        if (!isOK()) return;
 
         state.mySequenceOrder = radioCharOrder.isSelected() ? SequenceOrder.CHARSET
                 : radioAlphabetOrder.isSelected() ? SequenceOrder.ALPHABET
@@ -52,7 +51,6 @@ public class DunderAllOptimizerDialog extends DialogWrapper {
         state.isUseSingleQuote = checkboxUseSingleQuote.isSelected();
         state.isEndsWithComma = checkboxEndsWithComma.isSelected();
         state.isLineByLine = checkboxLineByLine.isSelected();
-        return true;
     }
 
     @Override
