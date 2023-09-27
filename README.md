@@ -4,7 +4,7 @@
 
 | 功能                            | 键位                 | 菜单                           |
 |-------------------------------|--------------------|------------------------------|
-| 重构 dict                       | `Ctrl` `Alt` `D`   | (右键) -> 重构 -> dict 转换        |
+| [重构 dict](重构-dict)            | `Ctrl` `Alt` `D`   | (右键) -> 重构 -> dict 转换        |
 | [优化 \_\_all\_\_](#优化-__all__) | `Ctrl` `Shift` `D` | 代码 -> 优化 \_\_all\_\_         |
 | [生成 \_\_all\_\_](#生成-__all__) | -                  | (右键) -> 生成... -> \_\_all\_\_ |
 | [生成 Shebang 行](#生成-shebang-行) | -                  | (右键) -> 生成... -> Shebang 行   |
@@ -57,6 +57,34 @@
 没有考虑自定义预置项目，毕竟这插件就是面向 PyCharm 的，加上常用的 Shebang 也就那么几条。
 
 ![生成Shebang的示意图](./.img/generate-shebang.png)
+
+### 重构 dict
+
+互相转换 `dict` 字面值
+
+```python
+DATABASE = {
+    "ENGINE": 'django.db.backends.postgresql',
+    "NAME": '<数据库名称>',
+    "USER": 'postgres',
+    "PASSWORD": None,
+    "HOST": '127.0.0.1',
+    "PORT": '5432',
+}
+```
+
+与 `dict()` 调用
+
+```python
+DATABASE = dict(
+    ENGINE='django.db.backends.postgresql',
+    NAME='<数据库名称>',
+    USER='postgres',
+    PASSWORD='',
+    HOST='127.0.0.1',
+    PORT='5432',
+)
+```
 
 ## 反馈
 
