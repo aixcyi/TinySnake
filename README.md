@@ -9,6 +9,7 @@
 | [重构 dict](重构-dict)            | `Ctrl` `Alt` `D`   | (右键) -> 重构 -> dict 转换        |
 | [优化 \_\_all\_\_](#优化-__all__) | `Ctrl` `Shift` `D` | 代码 -> 优化 \_\_all\_\_         |
 | [生成 \_\_all\_\_](#生成-__all__) | -                  | (右键) -> 生成... -> \_\_all\_\_ |
+| [在文档字符串中插入超链接](#在文档字符串中插入超链接) | `Alt` `L`          | (右键) -> 生成... -> 超链接         |
 | [生成 Shebang 行](#生成-shebang-行) | -                  | (右键) -> 生成... -> Shebang 行   |
 
 ## 安装
@@ -45,6 +46,20 @@
 会记住优化选项，并影响下一次 [生成 \_\_all\_\_](#生成-__all__) 的结果。
 
 ![优化DunderAll的示意图](./.img/optimize-dunder-all.png)
+
+### 在文档字符串中插入超链接
+
+在文档字符串（docstring）中插入超链接。
+
+插入的超链接只在 reStructuredText 格式中有效。
+如果在 PyCharm 中不能正确显示，可以在 "设置 -> 工具 -> Python 集成工具 -> Docstring" 中更改渲染格式。
+VS Code 及其它 IDE 暂未测试过。
+
+![插入超链接](./.img/insert-docstring-hyperlink.png)
+
+当鼠标移动到带有文档字符串的符号或文件上时，展示效果如下：
+
+![带有超链接的文档字符串的效果展示](./.img/hyperlink-in-docstring.png)
 
 ### 生成 Shebang 行
 
