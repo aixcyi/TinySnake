@@ -124,7 +124,7 @@
                 class="cn.aixcyi.plugin.tinysnake.action.GenerateShebangAction">
             <add-to-group group-id="GenerateGroup" anchor="after" relative-to-action="GenerateDunderAllAction"/>
         </action>
-        <action id="GenerateDocstringLink"
+        <action id="GenerateDocstringLinkAction"
                 class="cn.aixcyi.plugin.tinysnake.action.GenerateDocstringLinkAction">
             <add-to-group group-id="GenerateGroup" anchor="after" relative-to-action="GenerateShebangAction"/>
             <keyboard-shortcut keymap="$default" first-keystroke="alt L"/>
