@@ -47,8 +47,8 @@
                 class="cn.aixcyi.plugin.tinysnake.action.GenerateShebangAction">
             <add-to-group group-id="GenerateGroup" anchor="after" relative-to-action="GenerateDunderAllAction"/>
         </action>
-        <action id="DictCallToDataAction"
-                class="cn.aixcyi.plugin.tinysnake.action.DictCallToDataAction">
+        <action id="ConvertDictCallAction"
+                class="cn.aixcyi.plugin.tinysnake.action.ConvertDictCallAction">
             <add-to-group group-id="RefactoringMenu" anchor="first"/>
             <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt D"/>
         </action>

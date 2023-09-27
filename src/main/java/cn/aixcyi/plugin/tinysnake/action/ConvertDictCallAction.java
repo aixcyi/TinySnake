@@ -18,7 +18,7 @@ import static cn.aixcyi.plugin.tinysnake.Translation.$message;
  *
  * @author <a href="https://github.com/aixcyi">砹小翼</a>
  */
-public class DictCallToDataAction extends PyAction {
+public class ConvertDictCallAction extends PyAction {
 
     @Override
     public void actionPerformed(@NotNull AnActionEvent event, @NotNull PyFile file) {
@@ -34,7 +34,7 @@ public class DictCallToDataAction extends PyAction {
 
         // 两者都不存在
         if (calling == null && literal == null) {
-            hint.showInformationHint(editor, $message("DictCallToDataAction.hint.notfound"));
+            hint.showInformationHint(editor, $message("ConvertDictCallAction.hint.notfound"));
             return;
         }
         // 两者都存在，那么谁的位置更靠后，谁就是被嵌套的
@@ -53,7 +53,7 @@ public class DictCallToDataAction extends PyAction {
                     var val = kwarg.getValueExpression();
                     if (key == null || val == null) {
                         editor.getCaretModel().moveToOffset(argument.getTextOffset());
-                        hint.showErrorHint(editor, $message("DictCallToDataAction.hint.syntax"));
+                        hint.showErrorHint(editor, $message("ConvertDictCallAction.hint.syntax"));
                         return;
                     }
                     var k = generator.createStringLiteralFromString(key).getText();
@@ -67,7 +67,7 @@ public class DictCallToDataAction extends PyAction {
                 // 位置参数
                 else {
                     editor.getCaretModel().moveToOffset(argument.getTextOffset());
-                    hint.showErrorHint(editor, $message("DictCallToDataAction.hint.unpack"));
+                    hint.showErrorHint(editor, $message("ConvertDictCallAction.hint.unpack"));
                     return;
                 }
             }
@@ -77,7 +77,7 @@ public class DictCallToDataAction extends PyAction {
             );
             WriteCommandAction.runWriteCommandAction(
                     file.getProject(),
-                    $message("DictCallToDataAction.command.name"),
+                    $message("ConvertDictCallAction.command.name"),
                     "DictCallToData",
                     () -> calling.replace(statement)
             );
@@ -91,7 +91,7 @@ public class DictCallToDataAction extends PyAction {
                 var val = e.getValue();
                 if (val == null) {
                     editor.getCaretModel().moveToOffset(e.getTextOffset());
-                    hint.showErrorHint(editor, $message("DictCallToDataAction.hint.syntax"));
+                    hint.showErrorHint(editor, $message("ConvertDictCallAction.hint.syntax"));
                     return;
                 }
                 if (PyNames.isIdentifier(key))
@@ -116,7 +116,7 @@ public class DictCallToDataAction extends PyAction {
             );
             WriteCommandAction.runWriteCommandAction(
                     file.getProject(),
-                    $message("DictCallToDataAction.command.name"),
+                    $message("ConvertDictCallAction.command.name"),
                     "DictCallToData",
                     () -> literal.replace(statement)
             );
