@@ -20,10 +20,6 @@ import static cn.aixcyi.plugin.tinysnake.Translation.$message;
  */
 public class DictCallToDataAction extends PyAction {
 
-    public DictCallToDataAction() {
-        init($message("DictCallToDataAction.action.text"));
-    }
-
     @Override
     public void actionPerformed(@NotNull AnActionEvent event, @NotNull PyFile file) {
         var hint = HintManager.getInstance();

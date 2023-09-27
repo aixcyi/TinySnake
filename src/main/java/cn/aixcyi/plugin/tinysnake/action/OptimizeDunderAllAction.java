@@ -21,10 +21,6 @@ import static cn.aixcyi.plugin.tinysnake.Translation.$message;
  */
 public class OptimizeDunderAllAction extends PyAction {
 
-    public OptimizeDunderAllAction() {
-        init($message("OptimizeDunderAllAction.action.text"));
-    }
-
     @Override
     public void actionPerformed(@NotNull AnActionEvent event, @NotNull PyFile file) {
         // 准备基础设施

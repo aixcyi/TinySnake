@@ -33,21 +33,21 @@
     </extensions>
 
     <!-- text 中的下划线被转义了，所以需要双双下划线来表示双下划线 -->
-    <actions>
+    <actions resource-bundle="messages.TinySnakeBundle">
         <action id="OptimizeDunderAllAction"
                 class="cn.aixcyi.plugin.tinysnake.action.OptimizeDunderAllAction">
             <add-to-group group-id="CodeFormatGroup" anchor="after" relative-to-action="OptimizeImports"/>
             <keyboard-shortcut keymap="$default" first-keystroke="ctrl shift D"/>
         </action>
-        <action id="GenerateGetterAction"
+        <action id="GenerateDunderAllAction"
                 class="cn.aixcyi.plugin.tinysnake.action.GenerateDunderAllAction">
             <add-to-group group-id="GenerateGroup" anchor="first"/>
         </action>
         <action id="GenerateShebangAction"
                 class="cn.aixcyi.plugin.tinysnake.action.GenerateShebangAction">
-            <add-to-group group-id="GenerateGroup" anchor="after" relative-to-action="GenerateGetterAction"/>
+            <add-to-group group-id="GenerateGroup" anchor="after" relative-to-action="GenerateDunderAllAction"/>
         </action>
-        <action id="ConvertDictAction"
+        <action id="DictCallToDataAction"
                 class="cn.aixcyi.plugin.tinysnake.action.DictCallToDataAction">
             <add-to-group group-id="RefactoringMenu" anchor="first"/>
             <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt D"/>

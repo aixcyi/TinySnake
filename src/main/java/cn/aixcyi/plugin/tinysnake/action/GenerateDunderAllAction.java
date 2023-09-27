@@ -30,10 +30,6 @@ import static javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION;
  */
 public class GenerateDunderAllAction extends PyAction {
 
-    public GenerateDunderAllAction() {
-        init($message("GenerateDunderAllAction.action.text"));
-    }
-
     @Override
     public void actionPerformed(@NotNull AnActionEvent event, @NotNull PyFile file) {
         var all = new DunderAllEntity(file);  // 遍历所有顶层表达式获取所有符号
