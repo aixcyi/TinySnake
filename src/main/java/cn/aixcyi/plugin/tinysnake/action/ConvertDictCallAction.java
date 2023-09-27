@@ -5,7 +5,6 @@ import com.intellij.codeInsight.hint.HintManager;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.LangDataKeys;
 import com.intellij.openapi.command.WriteCommandAction;
-import com.intellij.psi.util.PsiTreeUtil;
 import com.jetbrains.python.PyNames;
 import com.jetbrains.python.psi.*;
 import com.jetbrains.python.psi.impl.PyExpressionStatementImpl;
@@ -28,9 +27,8 @@ public class ConvertDictCallAction extends PyAction {
         if (editor == null) return;
 
         // 查找光标附近的 dict() 或 dict
-        var element = this.getCaretElement(event, file);
-        var calling = PsiTreeUtil.getParentOfType(element, PyCallExpression.class);
-        var literal = PsiTreeUtil.getParentOfType(element, PyDictLiteralExpression.class);
+        var calling = getCaretElement(event, file, PyCallExpression.class);
+        var literal = getCaretElement(event, file, PyDictLiteralExpression.class);
 
         // 两者都不存在
         if (calling == null && literal == null) {

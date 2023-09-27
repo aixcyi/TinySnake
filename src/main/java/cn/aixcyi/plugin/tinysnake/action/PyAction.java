@@ -4,7 +4,6 @@ import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.util.NlsActions;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
-import com.jetbrains.python.psi.PyClass;
 import com.jetbrains.python.psi.PyFile;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -13,7 +12,7 @@ import javax.swing.*;
 import java.util.function.Supplier;
 
 /**
- * 面向 Python 文件的 {@link AnAction}。
+ * 面向 Python 定制的 {@link AnAction}。
  *
  * @author <a href="https://github.com/aixcyi">砹小翼</a>
  */
@@ -65,6 +64,7 @@ public abstract class PyAction extends AnAction {
         }
     }
 
+    @SuppressWarnings("unused")
     public void update(@NotNull AnActionEvent event, @NotNull PyFile file) {
         // update() 不一定会被用到，所以设置为普通方法，不强制要求重写。
     }
@@ -81,11 +81,11 @@ public abstract class PyAction extends AnAction {
     public abstract void actionPerformed(@NotNull AnActionEvent event, @NotNull PyFile file);
 
     /**
-     * 获取编辑器中的光标落在哪一个元素上。
+     * 查找光标所在的元素。
      *
      * @param event 消息事件。
      * @param file  表示 Python 文件的 PSI 元素。
-     * @return PSI元素。若光标不在类内，则返回 null 。
+     * @return PSI元素。若光标不在任何元素内，则返回 null 。
      */
     public @Nullable PsiElement getCaretElement(@NotNull AnActionEvent event, @NotNull PyFile file) {
         var editor = event.getData(CommonDataKeys.EDITOR);
@@ -95,15 +95,20 @@ public abstract class PyAction extends AnAction {
     }
 
     /**
-     * 获取编辑器中的光标落在哪一个类上。
+     * 查找光标所在的元素。
      *
      * @param event 消息事件。
      * @param file  表示 Python 文件的 PSI 元素。
-     * @return PyClass 对象。若光标不在类内，则返回 null 。
+     * @param type  元素或父元素的类型。
+     * @return PSI元素。若光标不在特定类型的元素内，则返回 null 。
      */
-    public @Nullable PyClass getCaretClass(@NotNull AnActionEvent event, @NotNull PyFile file) {
+    public <T extends com.intellij.psi.PsiElement> @Nullable T getCaretElement(
+            @NotNull AnActionEvent event,
+            @NotNull PyFile file,
+            @NotNull Class<T> type
+    ) {
         var element = getCaretElement(event, file);
         if (element == null) return null;
-        return PsiTreeUtil.getParentOfType(element, PyClass.class);  // 自下而上查找 光标所在符号 所在的类。
+        return PsiTreeUtil.getParentOfType(element, type);  // 自内向外查找 光标所在处 外面的父元素。
     }
 }
