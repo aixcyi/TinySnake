@@ -30,7 +30,7 @@ public class ConvertDictCallAction extends PyAction {
 
         // 两者都不存在
         if (calling == null && literal == null) {
-            hint.showInformationHint(editor, $message("hint.ConvertDictCallAction.notfound"));
+            hint.showInformationHint(editor, $message("hint.ConvertDictCall.notfound"));
             return;
         }
         // 两者都存在，那么谁的位置更靠后，谁就是被嵌套的
@@ -49,7 +49,7 @@ public class ConvertDictCallAction extends PyAction {
                     var val = kwarg.getValueExpression();
                     if (key == null || val == null) {
                         editor.getCaretModel().moveToOffset(argument.getTextOffset());
-                        hint.showErrorHint(editor, $message("hint.ConvertDictCallAction.syntax"));
+                        hint.showErrorHint(editor, $message("hint.ConvertDictCall.syntax"));
                         return;
                     }
                     var k = generator.createStringLiteralFromString(key).getText();
@@ -63,7 +63,7 @@ public class ConvertDictCallAction extends PyAction {
                 // 位置参数
                 else {
                     editor.getCaretModel().moveToOffset(argument.getTextOffset());
-                    hint.showErrorHint(editor, $message("hint.ConvertDictCallAction.unpack"));
+                    hint.showErrorHint(editor, $message("hint.ConvertDictCall.unpack"));
                     return;
                 }
             }
@@ -87,7 +87,7 @@ public class ConvertDictCallAction extends PyAction {
                 var val = e.getValue();
                 if (val == null) {
                     editor.getCaretModel().moveToOffset(e.getTextOffset());
-                    hint.showErrorHint(editor, $message("hint.ConvertDictCallAction.syntax"));
+                    hint.showErrorHint(editor, $message("hint.ConvertDictCall.syntax"));
                     return;
                 }
                 if (PyNames.isIdentifier(key))

@@ -36,9 +36,9 @@ public class GenerateShebangAction extends PyAction {
                 "/usr/bin/env python3",
                 "/usr/local/bin/python",
                 "./venv/Scripts/python.exe",
-                $message("GenerateShebangAction.popup.path_relative"),  // reversedIndex: -3
-                $message("GenerateShebangAction.popup.path_absolute"),  // reversedIndex: -2
-                $message("GenerateShebangAction.popup.path_any")  // reversedIndex: -1
+                $message("GenerateShebang.popup.path_relative"),  // reversedIndex: -3
+                $message("GenerateShebang.popup.path_absolute"),  // reversedIndex: -2
+                $message("GenerateShebang.popup.path_any")  // reversedIndex: -1
         );
         var icons = List.of(
                 AllIcons.Nodes.EmptyNode,
@@ -49,7 +49,7 @@ public class GenerateShebangAction extends PyAction {
                 AllIcons.Nodes.Folder,
                 AllIcons.Modules.EditFolder
         );
-        var title = $message("GenerateShebangAction.popup.title");
+        var title = $message("GenerateShebang.popup.title");
         var step = new BaseListPopupStep<>(title, lines, icons) {
             @Override
             public PopupStep<?> onChosen(String selectedValue, boolean finalChoice) {
@@ -62,7 +62,7 @@ public class GenerateShebangAction extends PyAction {
         };
 
         var popup = JBPopupFactory.getInstance().createListPopup(step);
-        popup.setAdText($message("GenerateShebangAction.popup.ad_text"), SwingConstants.LEFT);
+        popup.setAdText($message("GenerateShebang.popup.ad_text"), SwingConstants.LEFT);
         popup.showInCenterOf(editor.getComponent());
     }
 
@@ -101,8 +101,8 @@ public class GenerateShebangAction extends PyAction {
             // 添加自定义文本
             case -1 -> {
                 var string = Messages.showInputDialog(
-                        $message("GenerateShebangAction.input.message"),
-                        $message("GenerateShebangAction.input.title"),
+                        $message("GenerateShebang.input.message"),
+                        $message("GenerateShebang.input.title"),
                         null
                 );
                 if (string == null || string.isEmpty()) return;

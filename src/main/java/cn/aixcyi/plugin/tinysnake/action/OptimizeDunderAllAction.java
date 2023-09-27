@@ -3,7 +3,7 @@ package cn.aixcyi.plugin.tinysnake.action;
 import cn.aixcyi.plugin.tinysnake.DunderAllEntity;
 import cn.aixcyi.plugin.tinysnake.SnippetBuilder;
 import cn.aixcyi.plugin.tinysnake.SnippetGenerator;
-import cn.aixcyi.plugin.tinysnake.dialog.DunderAllOptimizerDialog;
+import cn.aixcyi.plugin.tinysnake.dialog.DunderAllOptimizer;
 import cn.aixcyi.plugin.tinysnake.enumeration.SequenceStyle;
 import com.intellij.codeInsight.hint.HintManager;
 import com.intellij.openapi.actionSystem.AnActionEvent;
@@ -31,12 +31,12 @@ public class OptimizeDunderAllAction extends PyAction {
         // 查找 __all__ 相关
         var all = new DunderAllEntity(file);
         if (all.variable == null) {
-            hint.showInformationHint(editor, $message("hint.OptimizeDunderAllAction.missing"));
+            hint.showInformationHint(editor, $message("hint.OptimizeDunderAll.missing"));
             return;
         }
 
         // 选择优化方式
-        var dialog = new DunderAllOptimizerDialog();
+        var dialog = new DunderAllOptimizer();
         if (!dialog.showAndGet()) return;
 
         // 执行优化
@@ -60,9 +60,9 @@ public class OptimizeDunderAllAction extends PyAction {
                     null,
                     () -> list.replace(statement)
             );
-            hint.showInformationHint(editor, $message("hint.OptimizeDunderAllAction.done"));
+            hint.showInformationHint(editor, $message("hint.OptimizeDunderAll.done"));
         } else {
-            hint.showErrorHint(editor, $message("hint.OptimizeDunderAllAction.invalid"));
+            hint.showErrorHint(editor, $message("hint.OptimizeDunderAll.invalid"));
         }
     }
 }

@@ -35,10 +35,10 @@ public class GenerateDocstringLinkAction extends PyAction {
         var project = file.getProject();
         var document = editor.getDocument();
         if (getCaretDocstring(event, file) == null) {
-            hint.showInformationHint(editor, $message("hint.GenerateDocstringLinkAction.notfound"));
+            hint.showInformationHint(editor, $message("hint.DocstringLinkCreator.notfound"));
             return;
         }
-        var dialog = new DocstringLinkCreator($message("GenerateDocstringLinkAction.dialog.title"));
+        var dialog = new DocstringLinkCreator($message("DocstringLinkCreator.dialog.title"));
         if (!dialog.showAndGet()) return;
         var snippet = "`%s <%s>`_".formatted(dialog.getText(), dialog.getLink());
         WriteCommandAction.runWriteCommandAction(

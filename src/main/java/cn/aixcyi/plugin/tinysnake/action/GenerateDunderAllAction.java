@@ -40,8 +40,8 @@ public class GenerateDunderAllAction extends PyAction {
         var popup = new PopupChooserBuilder<>(options)
                 .setMovable(true)
                 .setSelectionMode(MULTIPLE_INTERVAL_SELECTION)
-                .setTitle($message("GenerateDunderAllAction.popup.title"))
-                .setAdText($message("GenerateDunderAllAction.popup.ad_text"))
+                .setTitle($message("GenerateDunderAll.popup.title"))
+                .setAdText($message("GenerateDunderAll.popup.ad_text"))
                 .setItemsChosenCallback(items -> this.patchValue(file, all, items))
                 .setRenderer(new ColoredListCellRenderer<>() {
                     @Override
@@ -57,7 +57,7 @@ public class GenerateDunderAllAction extends PyAction {
                 })
                 .createPopup();  // options 的 EmptyText 在这一步会被覆盖掉
 
-        options.getEmptyText().setText($message("GenerateDunderAllAction.popup.empty_text"));  // 所以只能在这里设置 EmptyText
+        options.getEmptyText().setText($message("GenerateDunderAll.popup.empty_text"));  // 所以只能在这里设置 EmptyText
         popup.showInBestPositionFor(event.getDataContext());
     }
 

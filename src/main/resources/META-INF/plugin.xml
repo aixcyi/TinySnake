@@ -109,29 +109,29 @@
     <actions resource-bundle="messages.TinySnakeBundle">
 
         <!-- CodeFormatGroup -->
-        <action id="OptimizeDunderAllAction"
+        <action id="OptimizeDunderAll"
                 class="cn.aixcyi.plugin.tinysnake.action.OptimizeDunderAllAction">
             <add-to-group group-id="CodeFormatGroup" anchor="after" relative-to-action="OptimizeImports"/>
             <keyboard-shortcut keymap="$default" first-keystroke="ctrl shift D"/>
         </action>
 
         <!-- GenerateGroup -->
-        <action id="GenerateDunderAllAction"
+        <action id="GenerateDunderAll"
                 class="cn.aixcyi.plugin.tinysnake.action.GenerateDunderAllAction">
             <add-to-group group-id="GenerateGroup" anchor="first"/>
         </action>
-        <action id="GenerateShebangAction"
+        <action id="GenerateShebang"
                 class="cn.aixcyi.plugin.tinysnake.action.GenerateShebangAction">
-            <add-to-group group-id="GenerateGroup" anchor="after" relative-to-action="GenerateDunderAllAction"/>
+            <add-to-group group-id="GenerateGroup" anchor="after" relative-to-action="GenerateDunderAll"/>
         </action>
-        <action id="GenerateDocstringLinkAction"
+        <action id="GenerateDocstringLink"
                 class="cn.aixcyi.plugin.tinysnake.action.GenerateDocstringLinkAction">
-            <add-to-group group-id="GenerateGroup" anchor="after" relative-to-action="GenerateShebangAction"/>
+            <add-to-group group-id="GenerateGroup" anchor="after" relative-to-action="GenerateShebang"/>
             <keyboard-shortcut keymap="$default" first-keystroke="alt L"/>
         </action>
 
         <!-- RefactoringMenu -->
-        <action id="ConvertDictCallAction"
+        <action id="ConvertDictCall"
                 class="cn.aixcyi.plugin.tinysnake.action.ConvertDictCallAction">
             <add-to-group group-id="RefactoringMenu" anchor="first"/>
             <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt D"/>

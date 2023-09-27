@@ -24,7 +24,7 @@
             </constraints>
             <properties>
               <labelFor value="5e20a"/>
-              <text resource-bundle="messages/TinySnakeBundle" key="GenerateDocstringLinkAction.dialog.key"/>
+              <text resource-bundle="messages/TinySnakeBundle" key="DocstringLinkCreator.dialog.key"/>
             </properties>
           </component>
           <component id="5e20a" class="javax.swing.JTextField" binding="textField">
@@ -41,7 +41,7 @@
             </constraints>
             <properties>
               <labelFor value="5012c"/>
-              <text resource-bundle="messages/TinySnakeBundle" key="GenerateDocstringLinkAction.dialog.value"/>
+              <text resource-bundle="messages/TinySnakeBundle" key="DocstringLinkCreator.dialog.value"/>
             </properties>
           </component>
           <component id="5012c" class="javax.swing.JTextField" binding="linkField">

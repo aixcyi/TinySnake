@@ -10,7 +10,7 @@ import java.awt.*;
 
 import static cn.aixcyi.plugin.tinysnake.Translation.$message;
 
-public class DunderAllOptimizerDialog extends DialogWrapper {
+public class DunderAllOptimizer extends DialogWrapper {
 
     public DunderAllOptimizationService.State state;
 
@@ -23,7 +23,7 @@ public class DunderAllOptimizerDialog extends DialogWrapper {
     private JCheckBox checkboxEndsWithComma;
     private JCheckBox checkboxLineByLine;
 
-    public DunderAllOptimizerDialog() {
+    public DunderAllOptimizer() {
         super(true);
         setResizable(false);
         setTitle($message("command.OptimizeDunderAll"));
