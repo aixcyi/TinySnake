@@ -42,6 +42,11 @@
             <td>(右键) -> 生成... -> __all__</td>
         </tr>
         <tr>
+            <td>在 docstring 中插入超链接</td>
+            <td><code>Alt</code> <code>L</code></td>
+            <td>(右键) -> 生成... -> 超链接</td>
+        </tr>
+        <tr>
             <td>生成 Shebang 行</td>
             <td>-</td>
             <td>(右键) -> 生成... -> Shebang 行</td>
@@ -74,6 +79,11 @@
             <td>(Right Click) -> Generate... -> __all__</td>
         </tr>
         <tr>
+            <td>Insert Link into Docstring</td>
+            <td><code>Alt</code> <code>L</code></td>
+            <td>(Right Click) -> Generate... -> Link</td>
+        </tr>
+        <tr>
             <td>Generate Shebang Line</td>
             <td>-</td>
             <td>(Right Click) -> Generate... -> Shebang Line</td>
@@ -97,11 +107,15 @@
 
     <!-- text 中的下划线被转义了，所以需要双双下划线来表示双下划线 -->
     <actions resource-bundle="messages.TinySnakeBundle">
+
+        <!-- CodeFormatGroup -->
         <action id="OptimizeDunderAllAction"
                 class="cn.aixcyi.plugin.tinysnake.action.OptimizeDunderAllAction">
             <add-to-group group-id="CodeFormatGroup" anchor="after" relative-to-action="OptimizeImports"/>
             <keyboard-shortcut keymap="$default" first-keystroke="ctrl shift D"/>
         </action>
+
+        <!-- GenerateGroup -->
         <action id="GenerateDunderAllAction"
                 class="cn.aixcyi.plugin.tinysnake.action.GenerateDunderAllAction">
             <add-to-group group-id="GenerateGroup" anchor="first"/>
@@ -110,10 +124,18 @@
                 class="cn.aixcyi.plugin.tinysnake.action.GenerateShebangAction">
             <add-to-group group-id="GenerateGroup" anchor="after" relative-to-action="GenerateDunderAllAction"/>
         </action>
+        <action id="GenerateDocstringLink"
+                class="cn.aixcyi.plugin.tinysnake.action.GenerateDocstringLinkAction">
+            <add-to-group group-id="GenerateGroup" anchor="after" relative-to-action="GenerateShebangAction"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="alt L"/>
+        </action>
+
+        <!-- RefactoringMenu -->
         <action id="ConvertDictCallAction"
                 class="cn.aixcyi.plugin.tinysnake.action.ConvertDictCallAction">
             <add-to-group group-id="RefactoringMenu" anchor="first"/>
             <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt D"/>
         </action>
+
     </actions>
 </idea-plugin>
