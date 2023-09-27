@@ -55,7 +55,7 @@ public class OptimizeDunderAllAction extends PyAction {
             WriteCommandAction.runWriteCommandAction(
                     project,
                     $message("command.OptimizeDunderAll"),
-                    "OptimizeDunderAll",
+                    null,
                     () -> list.replace(statement)
             );
             hint.showInformationHint(editor, $message("hint.OptimizeDunderAllAction.done"));

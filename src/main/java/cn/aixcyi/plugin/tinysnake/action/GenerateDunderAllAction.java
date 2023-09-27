@@ -97,7 +97,7 @@ public class GenerateDunderAllAction extends PyAction {
         WriteCommandAction.runWriteCommandAction(
                 project,
                 $message("command.GenerateDunderAll"),
-                "GenerateDunderAll",
+                null,
                 runnable
         );
     }

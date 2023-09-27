@@ -78,7 +78,7 @@ public class ConvertDictCallAction extends PyAction {
             WriteCommandAction.runWriteCommandAction(
                     file.getProject(),
                     $message("command.ConvertDictCall"),
-                    "DictCallToData",
+                    null,
                     () -> calling.replace(statement)
             );
         }
@@ -117,7 +117,7 @@ public class ConvertDictCallAction extends PyAction {
             WriteCommandAction.runWriteCommandAction(
                     file.getProject(),
                     $message("command.ConvertDictCall"),
-                    "DictCallToData",
+                    null,
                     () -> literal.replace(statement)
             );
         }
