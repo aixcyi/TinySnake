@@ -1,12 +1,7 @@
 package cn.aixcyi.plugin.tinysnake;
 
 import cn.aixcyi.plugin.tinysnake.enumeration.SequenceStyle;
-import com.intellij.psi.PsiComment;
-import com.jetbrains.python.psi.*;
-import com.jetbrains.python.psi.impl.PyElementGeneratorImpl;
-import com.jetbrains.python.psi.impl.PyExpressionStatementImpl;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -16,16 +11,9 @@ import java.util.List;
  * @author <a href="https://github.com/aixcyi">砹小翼</a>
  */
 public class SnippetBuilder {
-    private final LanguageLevel version;
-    private final PyElementGeneratorImpl generator;
-
-    public SnippetBuilder(@NotNull PyFile file) {
-        this.version = file.getLanguageLevel();
-        this.generator = new PyElementGeneratorImpl(file.getProject());
-    }
 
     /**
-     * 拼接序列。
+     * 构造序列。
      *
      * @param items            序列元素。
      * @param style            括号风格。
@@ -34,11 +22,12 @@ public class SnippetBuilder {
      * @param isUseSingleQuote 使用单引号而非双引号。
      * @return 拼接后的结果字符串。
      */
-    public String makeSequence(@NotNull List<String> items,
-                               @NotNull SequenceStyle style,
-                               boolean isLineByLine,
-                               boolean isEndsWithComma,
-                               boolean isUseSingleQuote) {
+    @NotNull
+    public static String createSequence(@NotNull List<String> items,
+                                        @NotNull SequenceStyle style,
+                                        boolean isLineByLine,
+                                        boolean isEndsWithComma,
+                                        boolean isUseSingleQuote) {
         var soup = isUseSingleQuote
                 ? items.stream().map((s -> "'" + s + "'")).toList()
                 : items.stream().map((s -> "\"" + s + "\"")).toList();
@@ -46,82 +35,5 @@ public class SnippetBuilder {
         var stuff = String.join(isLineByLine ? ",\n" : ", ", soup);
 
         return style.wrap(stuff + (isEndsWithComma ? "," : ""));
-    }
-
-    /**
-     * 创建字符串字面值。
-     *
-     * @param string 字符串内容。不必包含引号。
-     * @return 字符串字面值对象（{@link PyStringLiteralExpression}）。
-     */
-    public PyStringLiteralExpression cakeString(@NotNull String string) {
-        return generator.createStringLiteralFromString(string);
-    }
-
-    /**
-     * 创建备注。
-     *
-     * @param comment 注释内容。需要包含老头的 "#" 号。
-     * @return 注释对象（{@link PsiComment}）。
-     */
-    public PsiComment cakeComment(@NotNull String comment) {
-        return generator.createFromText(this.version, PsiComment.class, comment);
-    }
-
-    /**
-     * 创建列表。
-     *
-     * @param items            要添加到列表中的元素。
-     * @param isLineByLine     每个元素各占一行。
-     * @param isEndsWithComma  最后一个元素之后额外附带一个逗号。
-     * @param isUseSingleQuote 使用单引号而非双引号。
-     * @return 列表对象（{@link PyExpressionStatement}）。
-     */
-    public PyExpressionStatement cakeList(@NotNull List<String> items,
-                                          boolean isLineByLine,
-                                          boolean isEndsWithComma,
-                                          boolean isUseSingleQuote) {
-        return generator.createFromText(
-                this.version,
-                PyExpressionStatementImpl.class,
-                makeSequence(items, SequenceStyle.WINGED_LIST, isLineByLine, isEndsWithComma, isUseSingleQuote)
-        );
-    }
-
-    /**
-     * 创建赋值表达式。
-     *
-     * @param variable 变量名
-     * @param value    变量值
-     * @return 赋值语句对象（{@link PyAssignmentStatement}）。
-     */
-    public PyAssignmentStatement cakeAssignment(@NotNull String variable, @NotNull String value) {
-        return generator.createFromText(
-                this.version,
-                PyAssignmentStatement.class,
-                variable + " = " + value
-        );
-    }
-
-    /**
-     * 创建函数。
-     *
-     * @param name      函数名。
-     * @param arguments 参数列表。
-     * @param body      函数体。如果留空则默认为 "pass" 。
-     * @param docstring 文档字符串，需要手动添加三双引号和必须的换行。若留空则不会显示。
-     * @return 函数对象（{@link PyFunction}）。
-     */
-    public PyFunction cakeFunction(@NotNull String name,
-                                   @Nullable List<String> arguments,
-                                   @Nullable String body,
-                                   @Nullable String docstring) {
-        var params = arguments == null ? "" : makeSequence(
-                arguments, SequenceStyle.BARE, false, false, false
-        );
-        var text = "def " + name + "(" + params + "):\n"
-                + (docstring == null ? "" : docstring)
-                + (body == null ? "pass" : body);
-        return this.generator.createFromText(this.version, PyFunction.class, text);
     }
 }

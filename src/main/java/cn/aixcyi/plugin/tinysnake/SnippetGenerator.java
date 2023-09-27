@@ -1,7 +1,10 @@
 package cn.aixcyi.plugin.tinysnake;
 
+import com.intellij.psi.PsiComment;
 import com.jetbrains.python.psi.LanguageLevel;
+import com.jetbrains.python.psi.PyAssignmentStatement;
 import com.jetbrains.python.psi.PyFile;
+import com.jetbrains.python.psi.PyListLiteralExpression;
 import com.jetbrains.python.psi.impl.PyElementGeneratorImpl;
 import org.jetbrains.annotations.NotNull;
 
@@ -11,11 +14,11 @@ import org.jetbrains.annotations.NotNull;
  * @author <a href="https://github.com/aixcyi">砹小翼</a>
  */
 public class SnippetGenerator extends PyElementGeneratorImpl {
-    final LanguageLevel version;
+    private final LanguageLevel myLanguage;
 
     public SnippetGenerator(@NotNull PyFile file) {
         super(file.getProject());
-        this.version = file.getLanguageLevel();
+        myLanguage = file.getLanguageLevel();
     }
 
     /**
@@ -25,7 +28,49 @@ public class SnippetGenerator extends PyElementGeneratorImpl {
      * @param text 代码片段字符串。
      * @return 代码片段对象。
      */
-    public <T> @NotNull T createFromText(Class<T> type, String text) {
-        return createFromText(this.version, type, text);
+    @NotNull
+    public <T> T createFromText(Class<T> type, String text) {
+        return createFromText(myLanguage, type, text);
+    }
+
+    public PyListLiteralExpression createListLiteral(String expression) {
+        return createFromText(
+                myLanguage,
+                PyListLiteralExpression.class,
+                expression
+        );
+    }
+
+    /**
+     * 构造单行注释。
+     *
+     * @param comment 注释内容。
+     * @return 注释对象（{@link PsiComment}）。
+     */
+    public PsiComment createSingleLineComment(@NotNull String comment) {
+        return createFromText(
+                myLanguage,
+                PsiComment.class,
+                comment.startsWith("# ") || comment.startsWith("#!")
+                        ? comment
+                        : comment.startsWith("#")
+                        ? "# " + comment.substring(1)
+                        : "# " + comment
+        );
+    }
+
+    /**
+     * 构造赋值表达式。
+     *
+     * @param variable 等号左侧（的变量名）。
+     * @param value    等号右侧（的变量值）。
+     * @return 赋值语句对象（{@link PyAssignmentStatement}）。
+     */
+    public PyAssignmentStatement createAssignment(@NotNull String variable, @NotNull String value) {
+        return createFromText(
+                myLanguage,
+                PyAssignmentStatement.class,
+                variable + " = " + value
+        );
     }
 }

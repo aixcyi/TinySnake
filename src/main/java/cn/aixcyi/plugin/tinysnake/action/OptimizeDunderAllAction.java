@@ -2,7 +2,9 @@ package cn.aixcyi.plugin.tinysnake.action;
 
 import cn.aixcyi.plugin.tinysnake.DunderAllEntity;
 import cn.aixcyi.plugin.tinysnake.SnippetBuilder;
+import cn.aixcyi.plugin.tinysnake.SnippetGenerator;
 import cn.aixcyi.plugin.tinysnake.dialog.DunderAllOptimizerDialog;
+import cn.aixcyi.plugin.tinysnake.enumeration.SequenceStyle;
 import com.intellij.codeInsight.hint.HintManager;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.LangDataKeys;
@@ -45,12 +47,14 @@ public class OptimizeDunderAllAction extends PyAction {
         if (list != null) {
             // 构造优化后的代码
             var exporting = all.sort(new ArrayList<>(all.exports), dialog.state.mySequenceOrder);
-            var statement = new SnippetBuilder(file).cakeList(
+            var sequences = SnippetBuilder.createSequence(
                     exporting,
+                    SequenceStyle.WINGED_LIST,
                     dialog.state.isLineByLine,
                     dialog.state.isEndsWithComma,
                     dialog.state.isUseSingleQuote
             );
+            var statement = new SnippetGenerator(file).createListLiteral(sequences);
             // 写入编辑器并产生一个撤销选项
             WriteCommandAction.runWriteCommandAction(
                     project,

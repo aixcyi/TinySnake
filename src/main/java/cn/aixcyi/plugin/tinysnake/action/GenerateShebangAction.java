@@ -1,6 +1,6 @@
 package cn.aixcyi.plugin.tinysnake.action;
 
-import cn.aixcyi.plugin.tinysnake.SnippetBuilder;
+import cn.aixcyi.plugin.tinysnake.SnippetGenerator;
 import com.intellij.icons.AllIcons;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.LangDataKeys;
@@ -121,7 +121,7 @@ public class GenerateShebangAction extends PyAction {
         if (firstChild instanceof PsiCommentImpl comment && comment.getText().startsWith("#!")) {
             runnable = () -> comment.updateText(finalItem);
         } else {
-            var comment = new SnippetBuilder(file).cakeComment(finalItem);
+            var comment = new SnippetGenerator(file).createSingleLineComment(finalItem);
             runnable = () -> file.addBefore(comment, firstChild);
         }
         WriteCommandAction.runWriteCommandAction(

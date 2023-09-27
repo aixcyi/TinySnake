@@ -1,9 +1,10 @@
 package cn.aixcyi.plugin.tinysnake.action;
 
 import cn.aixcyi.plugin.tinysnake.DunderAllEntity;
+import cn.aixcyi.plugin.tinysnake.SnippetBuilder;
+import cn.aixcyi.plugin.tinysnake.SnippetGenerator;
 import cn.aixcyi.plugin.tinysnake.enumeration.SequenceOrder;
 import cn.aixcyi.plugin.tinysnake.enumeration.SequenceStyle;
-import cn.aixcyi.plugin.tinysnake.SnippetBuilder;
 import cn.aixcyi.plugin.tinysnake.service.DunderAllOptimizationService;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.command.WriteCommandAction;
@@ -71,18 +72,18 @@ public class GenerateDunderAllAction extends PyAction {
         var list = all.getVariableValue();
         var state = DunderAllOptimizationService.getInstance().getState();
         var project = file.getProject();
-        var builder = new SnippetBuilder(file);
+        var generator = new SnippetGenerator(file);
 
         if (list == null) {
             var choices = all.sort(new ArrayList<>(items), SequenceOrder.APPEARANCE);
-            var varValue = builder.makeSequence(
+            var varValue = SnippetBuilder.createSequence(
                     choices,
                     SequenceStyle.WINGED_LIST,
                     state.isLineByLine,
                     state.isEndsWithComma,
                     state.isUseSingleQuote
             );
-            var statement = builder.cakeAssignment(PyNames.ALL, varValue);
+            var statement = generator.createAssignment(PyNames.ALL, varValue);
             runnable = () -> file.addBefore(statement, findProperlyPlace(file));
         } else {
             all.exports.forEach(items::remove);  // 去除已经在 __all__ 里的符号
@@ -90,7 +91,7 @@ public class GenerateDunderAllAction extends PyAction {
             all.sort(choices, SequenceOrder.APPEARANCE);
             runnable = () -> {
                 for (String choice : choices) {
-                    list.add(builder.cakeString(choice));
+                    list.add(generator.createStringLiteralFromString(choice));
                 }
             };
         }
