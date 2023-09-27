@@ -31,7 +31,7 @@ public class OptimizeDunderAllAction extends PyAction {
         // 查找 __all__ 相关
         var all = new DunderAllEntity(file);
         if (all.variable == null) {
-            hint.showInformationHint(editor, $message("OptimizeDunderAllAction.hint.missing"));
+            hint.showInformationHint(editor, $message("hint.OptimizeDunderAllAction.missing"));
             return;
         }
 
@@ -54,13 +54,13 @@ public class OptimizeDunderAllAction extends PyAction {
             // 写入编辑器并产生一个撤销选项
             WriteCommandAction.runWriteCommandAction(
                     project,
-                    $message("OptimizeDunderAllAction.command.name"),
+                    $message("command.OptimizeDunderAll"),
                     "OptimizeDunderAll",
                     () -> list.replace(statement)
             );
-            hint.showInformationHint(editor, $message("OptimizeDunderAllAction.hint.done"));
+            hint.showInformationHint(editor, $message("hint.OptimizeDunderAllAction.done"));
         } else {
-            hint.showErrorHint(editor, $message("OptimizeDunderAllAction.hint.invalid"));
+            hint.showErrorHint(editor, $message("hint.OptimizeDunderAllAction.invalid"));
         }
     }
 }

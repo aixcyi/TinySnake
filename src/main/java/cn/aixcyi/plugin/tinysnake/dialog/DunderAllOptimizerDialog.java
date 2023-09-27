@@ -26,7 +26,7 @@ public class DunderAllOptimizerDialog extends DialogWrapper {
     public DunderAllOptimizerDialog() {
         super(true);
         setResizable(false);
-        setTitle($message("OptimizeDunderAllAction.command.name"));
+        setTitle($message("command.OptimizeDunderAll"));
         init();
         state = DunderAllOptimizationService.getInstance().getState();
     }

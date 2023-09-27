@@ -126,7 +126,7 @@ public class GenerateShebangAction extends PyAction {
         }
         WriteCommandAction.runWriteCommandAction(
                 project,
-                $message("GenerateShebangAction.command.name"),
+                $message("command.GenerateShebang"),
                 "GenerateShebangAction",
                 runnable
         );
