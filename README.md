@@ -1,5 +1,7 @@
 # Tiny Snake
 
+中文版 | [English](./README_EN.md)
+
 一个 PyCharm 小插件，用于提升自己的 Python 开发体验。
 
 | 功能                            | 键位                 | 菜单                           |
