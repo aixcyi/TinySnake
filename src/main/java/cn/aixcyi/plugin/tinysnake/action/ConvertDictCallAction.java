@@ -43,17 +43,18 @@ public class ConvertDictCallAction extends PyAction {
         // 查找光标附近的 dict() 或 dict
         var calling = getCaretElement(event, file, PyCallExpression.class);
         var literal = getCaretElement(event, file, PyDictLiteralExpression.class);
+        var isDictCall = calling != null && "dict".equals(calling.getName());
 
         // 两者都不存在
-        if (calling == null && literal == null) {
+        if (!isDictCall && literal == null) {
             hint.showInformationHint(editor, $message("hint.ConvertDictCall.notfound"));
             return;
         }
         // 两者都存在，那么谁的位置更靠后，谁就是被嵌套的
         boolean isCall2Dict =
-                calling != null && literal != null
+                isDictCall && literal != null
                         ? literal.getTextOffset() < calling.getTextOffset()
-                        : calling != null;
+                        : isDictCall;
 
         // 将 dict() 调用转换为 dict 字面值
         if (isCall2Dict) {
@@ -99,18 +100,21 @@ public class ConvertDictCallAction extends PyAction {
             var snippet = new StringBuilder("dict(\n");
             var kwargs = new StringBuilder("**{\n");
             for (PyKeyValueExpression e : literal.getElements()) {
-                var key = ((PyStringLiteralExpression) e.getKey()).getStringValue();
+                var key = e.getKey();
                 var val = e.getValue();
-                if (val == null) {
-                    editor.getCaretModel().moveToOffset(e.getTextOffset());
+                if (!(key instanceof PyStringLiteralExpression) || val == null) {
+                    int start = e.getTextOffset();
+                    int stop = start + key.getTextLength();
+                    editor.getSelectionModel().setSelection(start, stop);
                     hint.showErrorHint(editor, $message("hint.ConvertDictCall.syntax"));
                     return;
                 }
-                if (PyNames.isIdentifier(key))
+                var keyName = ((PyStringLiteralExpression) key).getStringValue();
+                if (PyNames.isIdentifier(keyName))
                     snippet.append(key).append('=').append(val.getText()).append(",\n");
                 else
                     kwargs
-                            .append(generator.createStringLiteralFromString(key).getText())
+                            .append(generator.createStringLiteralFromString(keyName).getText())
                             .append(": ")
                             .append(val.getText())
                             .append(",\n");
