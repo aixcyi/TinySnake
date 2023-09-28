@@ -3,6 +3,7 @@ package cn.aixcyi.plugin.tinysnake.action;
 import cn.aixcyi.plugin.tinysnake.SnippetGenerator;
 import com.intellij.codeInsight.hint.HintManager;
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.editor.Editor;
 import com.jetbrains.python.PyNames;
@@ -18,6 +19,21 @@ import static cn.aixcyi.plugin.tinysnake.Translation.$message;
  * @author <a href="https://github.com/aixcyi">砹小翼</a>
  */
 public class ConvertDictCallAction extends PyAction {
+
+    @Override
+    public void update(@NotNull AnActionEvent event) {
+        // 仅当光标在 dict 字典或 dict() 调用内时才显示
+        var psi = event.getData(CommonDataKeys.PSI_FILE);
+        if (psi instanceof PyFile file) {
+            var calling = getCaretElement(event, file, PyCallExpression.class);
+            var literal = getCaretElement(event, file, PyDictLiteralExpression.class);
+            if (calling != null || literal != null) {
+                event.getPresentation().setVisible(true);
+                return;
+            }
+        }
+        event.getPresentation().setVisible(false);
+    }
 
     @Override
     public void actionPerformed(@NotNull AnActionEvent event, @NotNull PyFile file, @NotNull Editor editor) {

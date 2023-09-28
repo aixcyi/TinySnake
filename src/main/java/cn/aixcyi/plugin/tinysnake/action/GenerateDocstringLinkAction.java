@@ -3,6 +3,7 @@ package cn.aixcyi.plugin.tinysnake.action;
 import cn.aixcyi.plugin.tinysnake.dialog.DocstringLinkCreator;
 import com.intellij.codeInsight.hint.HintManager;
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.psi.PsiElement;
@@ -20,6 +21,15 @@ import static cn.aixcyi.plugin.tinysnake.Translation.$message;
  * @see com.jetbrains.python.psi.impl.PyPlainStringElementImpl
  */
 public class GenerateDocstringLinkAction extends PyAction {
+
+    @Override
+    public void update(@NotNull AnActionEvent event) {
+        var psi = event.getData(CommonDataKeys.PSI_FILE);
+        if (psi instanceof PyFile file)
+            event.getPresentation().setVisible(getCaretDocstring(event, file) != null);
+        else
+            event.getPresentation().setVisible(false);
+    }
 
     @Override
     public void actionPerformed(@NotNull AnActionEvent event, @NotNull PyFile file, @NotNull Editor editor) {
