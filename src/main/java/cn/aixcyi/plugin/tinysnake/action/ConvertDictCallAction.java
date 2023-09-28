@@ -22,17 +22,17 @@ public class ConvertDictCallAction extends PyAction {
 
     @Override
     public void update(@NotNull AnActionEvent event) {
-        // 仅当光标在 dict 字典或 dict() 调用内时才显示
+        // 仅当光标在 dict 字典或 dict() 调用内时才启用
         var psi = event.getData(CommonDataKeys.PSI_FILE);
         if (psi instanceof PyFile file) {
             var calling = getCaretElement(event, file, PyCallExpression.class);
             var literal = getCaretElement(event, file, PyDictLiteralExpression.class);
             if (calling != null || literal != null) {
-                event.getPresentation().setVisible(true);
+                event.getPresentation().setEnabled(true);
                 return;
             }
         }
-        event.getPresentation().setVisible(false);
+        event.getPresentation().setEnabled(false);
     }
 
     @Override
