@@ -55,5 +55,10 @@
             <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt D"/>
         </action>
 
+        <!-- HelpMenu -->
+        <action id="GotoTinySnakeRelease"
+                class="cn.aixcyi.plugin.tinysnake.action.GotoTinySnakePageAction">
+            <add-to-group group-id="HelpMenu" anchor="after" relative-to-action="HelpTopics"/>
+        </action>
     </actions>
 </idea-plugin>
