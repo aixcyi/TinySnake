@@ -2,6 +2,7 @@ package cn.aixcyi.plugin.tinysnake.action;
 
 import cn.aixcyi.plugin.tinysnake.dialog.DocstringLinkCreator;
 import com.intellij.codeInsight.hint.HintManager;
+import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.command.WriteCommandAction;
@@ -21,6 +22,11 @@ import static cn.aixcyi.plugin.tinysnake.Translation.$message;
  * @see com.jetbrains.python.psi.impl.PyPlainStringElementImpl
  */
 public class GenerateDocstringLinkAction extends PyAction {
+
+    @Override
+    public @NotNull ActionUpdateThread getActionUpdateThread() {
+        return ActionUpdateThread.EDT;
+    }
 
     @Override
     public void update(@NotNull AnActionEvent event) {

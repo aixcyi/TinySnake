@@ -2,6 +2,7 @@ package cn.aixcyi.plugin.tinysnake.action;
 
 import cn.aixcyi.plugin.tinysnake.SnippetGenerator;
 import com.intellij.codeInsight.hint.HintManager;
+import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.command.WriteCommandAction;
@@ -19,6 +20,11 @@ import static cn.aixcyi.plugin.tinysnake.Translation.$message;
  * @author <a href="https://github.com/aixcyi">砹小翼</a>
  */
 public class ConvertDictCallAction extends PyAction {
+
+    @Override
+    public @NotNull ActionUpdateThread getActionUpdateThread() {
+        return ActionUpdateThread.BGT;
+    }
 
     @Override
     public void update(@NotNull AnActionEvent event) {

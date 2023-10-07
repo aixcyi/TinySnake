@@ -16,11 +16,6 @@ import org.jetbrains.annotations.Nullable;
 public abstract class PyAction extends AnAction {
 
     @Override
-    public @NotNull ActionUpdateThread getActionUpdateThread() {
-        return ActionUpdateThread.BGT;
-    }
-
-    @Override
     public void actionPerformed(@NotNull AnActionEvent event) {
         var editor = event.getData(LangDataKeys.EDITOR_EVEN_IF_INACTIVE);
         if (editor == null) {
