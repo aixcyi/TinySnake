@@ -23,17 +23,18 @@
         <applicationService serviceImplementation="cn.aixcyi.plugin.tinysnake.service.DunderAllOptimizationService"/>
     </extensions>
 
-    <!-- text 中的下划线被转义了，所以需要双双下划线来表示双下划线 -->
+    <!-- action 的 text 中的下划线被转义了，所以需要用双下划线来表示下划线，譬如 "__all__" 要写成 "____all____" -->
     <actions resource-bundle="messages.TinySnakeBundle">
 
-        <!-- CodeFormatGroup -->
+        <!-- 顶层菜单／代码 -->
         <action id="OptimizeDunderAll"
                 class="cn.aixcyi.plugin.tinysnake.action.OptimizeDunderAllAction">
             <add-to-group group-id="CodeFormatGroup" anchor="after" relative-to-action="OptimizeImports"/>
             <keyboard-shortcut keymap="$default" first-keystroke="ctrl shift D"/>
         </action>
 
-        <!-- GenerateGroup -->
+        <!-- 顶层菜单／代码／生成...
+             右键菜单／生成...  -->
         <action id="GenerateDunderAll"
                 class="cn.aixcyi.plugin.tinysnake.action.GenerateDunderAllAction">
             <add-to-group group-id="GenerateGroup" anchor="first"/>
@@ -48,14 +49,15 @@
             <keyboard-shortcut keymap="$default" first-keystroke="alt L"/>
         </action>
 
-        <!-- RefactoringMenu -->
+        <!-- 顶层菜单／重构
+             右键菜单／重构  -->
         <action id="ConvertDictCall"
                 class="cn.aixcyi.plugin.tinysnake.action.ConvertDictCallAction">
             <add-to-group group-id="RefactoringMenu" anchor="first"/>
             <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt D"/>
         </action>
 
-        <!-- HelpMenu -->
+        <!-- 顶层菜单／帮助 -->
         <action id="GotoTinySnakeRelease"
                 class="cn.aixcyi.plugin.tinysnake.action.GotoTinySnakePageAction">
             <add-to-group group-id="HelpMenu" anchor="after" relative-to-action="HelpTopics"/>
