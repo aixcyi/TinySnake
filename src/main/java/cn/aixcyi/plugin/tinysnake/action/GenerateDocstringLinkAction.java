@@ -1,6 +1,6 @@
 package cn.aixcyi.plugin.tinysnake.action;
 
-import cn.aixcyi.plugin.tinysnake.dialog.DocstringLinkCreator;
+import cn.aixcyi.plugin.tinysnake.ui.DocstringLinkCreator;
 import com.intellij.codeInsight.hint.HintManager;
 import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnActionEvent;

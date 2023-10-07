@@ -1,4 +1,4 @@
-package cn.aixcyi.plugin.tinysnake.dialog;
+package cn.aixcyi.plugin.tinysnake.ui;
 
 import com.intellij.openapi.ui.DialogWrapper;
 import org.jetbrains.annotations.Nullable;

@@ -3,7 +3,7 @@ package cn.aixcyi.plugin.tinysnake.action;
 import cn.aixcyi.plugin.tinysnake.DunderAllEntity;
 import cn.aixcyi.plugin.tinysnake.SnippetBuilder;
 import cn.aixcyi.plugin.tinysnake.SnippetGenerator;
-import cn.aixcyi.plugin.tinysnake.dialog.DunderAllOptimizer;
+import cn.aixcyi.plugin.tinysnake.ui.DunderAllOptimizer;
 import cn.aixcyi.plugin.tinysnake.enumeration.SequenceStyle;
 import com.intellij.codeInsight.hint.HintManager;
 import com.intellij.openapi.actionSystem.AnActionEvent;

@@ -16,11 +16,8 @@ public final class DunderAllOptimizationService implements PersistentStateCompon
 
     public static DunderAllOptimizationService getInstance() {
         return ApplicationManager.getApplication().getService(DunderAllOptimizationService.class);
+        // return project.getService(DunderAllOptimizationService.class);
     }
-
-//    public static DunderAllOptimizationService getInstance(Project project) {
-//        return project.getService(DunderAllOptimizationService.class);
-//    }
 
     public @NotNull State getState() {
         return myState;

@@ -1,4 +1,4 @@
-package cn.aixcyi.plugin.tinysnake.dialog;
+package cn.aixcyi.plugin.tinysnake.ui;
 
 import cn.aixcyi.plugin.tinysnake.enumeration.SequenceOrder;
 import cn.aixcyi.plugin.tinysnake.service.DunderAllOptimizationService;
