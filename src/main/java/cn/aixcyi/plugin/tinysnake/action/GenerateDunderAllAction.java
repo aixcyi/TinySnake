@@ -3,8 +3,6 @@ package cn.aixcyi.plugin.tinysnake.action;
 import cn.aixcyi.plugin.tinysnake.DunderAllEntity;
 import cn.aixcyi.plugin.tinysnake.SnippetBuilder;
 import cn.aixcyi.plugin.tinysnake.SnippetGenerator;
-import cn.aixcyi.plugin.tinysnake.enumeration.SequenceOrder;
-import cn.aixcyi.plugin.tinysnake.enumeration.SequenceStyle;
 import cn.aixcyi.plugin.tinysnake.state.DunderAllOptimizationState;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.command.WriteCommandAction;
@@ -76,10 +74,11 @@ public class GenerateDunderAllAction extends PyAction {
         var generator = new SnippetGenerator(file);
 
         if (list == null) {
-            var choices = all.sort(new ArrayList<>(items), SequenceOrder.APPEARANCE);
+            var choices = all.sort(new ArrayList<>(items), DunderAllOptimizationState.Order.APPEARANCE);
             var varValue = SnippetBuilder.createSequence(
                     choices,
-                    SequenceStyle.WINGED_LIST,
+                    "[\n",
+                    "\n]",
                     state.isLineByLine,
                     state.isEndsWithComma,
                     state.isUseSingleQuote
@@ -89,7 +88,7 @@ public class GenerateDunderAllAction extends PyAction {
         } else {
             all.exports.forEach(items::remove);  // 去除已经在 __all__ 里的符号
             var choices = new ArrayList<String>(items);
-            all.sort(choices, SequenceOrder.APPEARANCE);
+            all.sort(choices, DunderAllOptimizationState.Order.APPEARANCE);
             runnable = () -> {
                 for (String choice : choices) {
                     list.add(generator.createStringLiteralFromString(choice));

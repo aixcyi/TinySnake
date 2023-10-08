@@ -1,6 +1,6 @@
 package cn.aixcyi.plugin.tinysnake;
 
-import cn.aixcyi.plugin.tinysnake.enumeration.SequenceOrder;
+import cn.aixcyi.plugin.tinysnake.state.DunderAllOptimizationState;
 import com.intellij.icons.AllIcons;
 import com.intellij.openapi.util.Pair;
 import com.intellij.psi.util.QualifiedName;
@@ -94,7 +94,7 @@ public class DunderAllEntity {
      * @param ordering 排序顺序。
      * @return list 自身。
      */
-    public List<String> sort(@NotNull List<String> list, @NotNull SequenceOrder ordering) {
+    public List<String> sort(@NotNull List<String> list, @NotNull DunderAllOptimizationState.Order ordering) {
         switch (ordering) {
             case CHARSET -> list.sort(String::compareTo);
             case ALPHABET -> list.sort(String::compareToIgnoreCase);

@@ -1,6 +1,5 @@
 package cn.aixcyi.plugin.tinysnake.ui;
 
-import cn.aixcyi.plugin.tinysnake.enumeration.SequenceOrder;
 import cn.aixcyi.plugin.tinysnake.state.DunderAllOptimizationState;
 import com.intellij.openapi.ui.DialogWrapper;
 import org.jetbrains.annotations.Nullable;
@@ -45,9 +44,11 @@ public class DunderAllOptimizer extends DialogWrapper {
         super.show();
         if (!isOK()) return;
 
-        state.mySequenceOrder = radioCharOrder.isSelected() ? SequenceOrder.CHARSET
-                : radioAlphabetOrder.isSelected() ? SequenceOrder.ALPHABET
-                : SequenceOrder.APPEARANCE;
+        state.mySequenceOrder = radioCharOrder.isSelected()
+                ? DunderAllOptimizationState.Order.CHARSET
+                : radioAlphabetOrder.isSelected()
+                ? DunderAllOptimizationState.Order.ALPHABET
+                : DunderAllOptimizationState.Order.APPEARANCE;
         state.isUseSingleQuote = checkboxUseSingleQuote.isSelected();
         state.isEndsWithComma = checkboxEndsWithComma.isSelected();
         state.isLineByLine = checkboxLineByLine.isSelected();

@@ -4,7 +4,6 @@ import cn.aixcyi.plugin.tinysnake.DunderAllEntity;
 import cn.aixcyi.plugin.tinysnake.SnippetBuilder;
 import cn.aixcyi.plugin.tinysnake.SnippetGenerator;
 import cn.aixcyi.plugin.tinysnake.ui.DunderAllOptimizer;
-import cn.aixcyi.plugin.tinysnake.enumeration.SequenceStyle;
 import com.intellij.codeInsight.hint.HintManager;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.command.WriteCommandAction;
@@ -47,7 +46,8 @@ public class OptimizeDunderAllAction extends PyAction {
             var exporting = all.sort(new ArrayList<>(all.exports), dialog.state.mySequenceOrder);
             var sequences = SnippetBuilder.createSequence(
                     exporting,
-                    SequenceStyle.WINGED_LIST,
+                    "[\n",
+                    "\n]",
                     dialog.state.isLineByLine,
                     dialog.state.isEndsWithComma,
                     dialog.state.isUseSingleQuote
