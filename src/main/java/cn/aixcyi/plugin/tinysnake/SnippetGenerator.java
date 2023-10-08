@@ -4,8 +4,8 @@ import com.intellij.psi.PsiComment;
 import com.jetbrains.python.psi.LanguageLevel;
 import com.jetbrains.python.psi.PyAssignmentStatement;
 import com.jetbrains.python.psi.PyFile;
-import com.jetbrains.python.psi.PyListLiteralExpression;
 import com.jetbrains.python.psi.impl.PyElementGeneratorImpl;
+import com.jetbrains.python.psi.impl.PyExpressionStatementImpl;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -33,10 +33,10 @@ public class SnippetGenerator extends PyElementGeneratorImpl {
         return createFromText(myLanguage, type, text);
     }
 
-    public PyListLiteralExpression createListLiteral(String expression) {
+    public PyExpressionStatementImpl createListLiteral(String expression) {
         return createFromText(
                 myLanguage,
-                PyListLiteralExpression.class,
+                PyExpressionStatementImpl.class,
                 expression
         );
     }
