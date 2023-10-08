@@ -20,6 +20,12 @@
     <!-- Extension points defined by the plugin.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
+        <applicationConfigurable
+                parentId="tools"
+                id="cn.aixcyi.plugin.tinysnake.state"
+                instance="cn.aixcyi.plugin.tinysnake.ui.TinySnakeConfigurable"
+                displayName="Tiny Snake">
+        </applicationConfigurable>
         <applicationService serviceImplementation="cn.aixcyi.plugin.tinysnake.state.DunderAllOptimizationState"/>
     </extensions>
 
