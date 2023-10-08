@@ -25,6 +25,10 @@
                 id="cn.aixcyi.plugin.tinysnake.state"
                 instance="cn.aixcyi.plugin.tinysnake.ui.TinySnakeConfigurable"
                 displayName="Tiny Snake">
+            <configurable
+                    id="cn.aixcyi.plugin.tinysnake.state.shebangs"
+                    instance="cn.aixcyi.plugin.tinysnake.ui.ShebangListConfigurable"
+                    key="settings.shebangs.name"/>
         </applicationConfigurable>
         <applicationService serviceImplementation="cn.aixcyi.plugin.tinysnake.state.DunderAllOptimizationState"/>
     </extensions>

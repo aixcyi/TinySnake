@@ -1,6 +1,7 @@
 package cn.aixcyi.plugin.tinysnake.action;
 
 import cn.aixcyi.plugin.tinysnake.SnippetGenerator;
+import cn.aixcyi.plugin.tinysnake.state.TinySnakeSettingState;
 import com.intellij.codeInsight.hint.HintManager;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
@@ -18,8 +19,6 @@ import com.jetbrains.python.psi.PyFile;
 import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
-
 import static cn.aixcyi.plugin.tinysnake.Translation.$message;
 
 /**
@@ -34,14 +33,9 @@ public class GenerateShebangAction extends PyAction {
     @Override
     public void actionPerformed(@NotNull AnActionEvent event, @NotNull PyFile file, @NotNull Editor editor) {
         var project = file.getProject();
-        var shebangs = List.of(
-                "/usr/bin/python3",
-                "/usr/bin/env python3",
-                "/usr/local/bin/python",
-                "./venv/Scripts/python.exe"
-        );
+        var state = TinySnakeSettingState.getInstance().getState();
         var group = new DefaultActionGroup((String) null, true);
-        for (String shebang : shebangs) {
+        for (String shebang : state.myShebangs) {
             group.add(new AnAction(shebang) {
                 @Override
                 public void actionPerformed(@NotNull AnActionEvent e) {
