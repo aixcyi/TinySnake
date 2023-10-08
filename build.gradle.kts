@@ -29,6 +29,10 @@ tasks {
         kotlinOptions.jvmTarget = "17"
     }
 
+    initializeIntelliJPlugin{
+        selfUpdateCheck = false
+    }
+
     patchPluginXml {
         sinceBuild.set("222")
         untilBuild.set("232.*")
