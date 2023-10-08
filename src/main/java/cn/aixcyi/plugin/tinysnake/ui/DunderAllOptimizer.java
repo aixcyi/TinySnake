@@ -1,7 +1,7 @@
 package cn.aixcyi.plugin.tinysnake.ui;
 
 import cn.aixcyi.plugin.tinysnake.enumeration.SequenceOrder;
-import cn.aixcyi.plugin.tinysnake.service.DunderAllOptimizationService;
+import cn.aixcyi.plugin.tinysnake.state.DunderAllOptimizationState;
 import com.intellij.openapi.ui.DialogWrapper;
 import org.jetbrains.annotations.Nullable;
 
@@ -12,7 +12,7 @@ import static cn.aixcyi.plugin.tinysnake.Translation.$message;
 
 public class DunderAllOptimizer extends DialogWrapper {
 
-    public DunderAllOptimizationService.State state;
+    public DunderAllOptimizationState state;
 
     private JPanel contentPanel;
     private ButtonGroup groupOrder;
@@ -28,7 +28,7 @@ public class DunderAllOptimizer extends DialogWrapper {
         setResizable(false);
         setTitle($message("command.OptimizeDunderAll"));
         init();
-        state = DunderAllOptimizationService.getInstance().getState();
+        state = DunderAllOptimizationState.getInstance().getState();
     }
 
     @Override

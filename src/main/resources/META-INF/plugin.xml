@@ -20,7 +20,7 @@
     <!-- Extension points defined by the plugin.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
-        <applicationService serviceImplementation="cn.aixcyi.plugin.tinysnake.service.DunderAllOptimizationService"/>
+        <applicationService serviceImplementation="cn.aixcyi.plugin.tinysnake.state.DunderAllOptimizationState"/>
     </extensions>
 
     <!-- action 的 text 中的下划线被转义了，所以需要用双下划线来表示下划线，譬如 "__all__" 要写成 "____all____" -->

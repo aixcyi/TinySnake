@@ -5,7 +5,7 @@ import cn.aixcyi.plugin.tinysnake.SnippetBuilder;
 import cn.aixcyi.plugin.tinysnake.SnippetGenerator;
 import cn.aixcyi.plugin.tinysnake.enumeration.SequenceOrder;
 import cn.aixcyi.plugin.tinysnake.enumeration.SequenceStyle;
-import cn.aixcyi.plugin.tinysnake.service.DunderAllOptimizationService;
+import cn.aixcyi.plugin.tinysnake.state.DunderAllOptimizationState;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.editor.Editor;
@@ -71,7 +71,7 @@ public class GenerateDunderAllAction extends PyAction {
                            @NotNull final Set<? extends String> items) {
         Runnable runnable;
         var list = all.getVariableValue();
-        var state = DunderAllOptimizationService.getInstance().getState();
+        var state = DunderAllOptimizationState.getInstance().getState();
         var project = file.getProject();
         var generator = new SnippetGenerator(file);
 
