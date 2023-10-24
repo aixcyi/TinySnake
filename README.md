@@ -73,9 +73,7 @@ VS Code 及其它 IDE 暂未测试过。
 
 预置了几种常见于 Python 脚本的 Shebang，还可以选择基于项目的路径、绝对路径以及自定义文本（方便粘贴）等。
 
-写 Python 脚本的同时还记不住 Shebang 的时候挺重要的，其它情况下聊胜于无。
-
-没有考虑自定义预置项目，毕竟这插件就是面向 PyCharm 的，加上常用的 Shebang 也就那么几条。
+可以打开设置面板（`Ctrl` `Alt` `S`），找到 “工具 - Tiny Snake - Shebang 列表” 配置内容及调整顺序。
 
 ![生成Shebang的示意图](./.img/generate-shebang.png)
 

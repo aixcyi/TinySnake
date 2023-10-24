@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * 面向 Python 定制的 {@link AnAction}。
+ * 面向 Python 文件而定制的 {@link AnAction}。
  *
  * @author <a href="https://github.com/aixcyi">砹小翼</a>
  */
