@@ -1,10 +1,10 @@
 plugins {
     id("java")
-    id("org.jetbrains.kotlin.jvm") version "1.8.21"
+    id("org.jetbrains.kotlin.jvm") version "1.9.21"
     id("org.jetbrains.intellij") version "1.13.3"
 }
 
-group = "cn.aixcyi.plugin.tinysnake"
+group = "cn.aixcyi.plugin"
 version = "1.0.1-SNAPSHOT"
 
 repositories {
@@ -35,7 +35,7 @@ tasks {
 
     patchPluginXml {
         sinceBuild.set("222")
-        untilBuild.set("232.*")
+        untilBuild.set("233.*")
         pluginDescription = projectDir.resolve("DESCRIPTION.md").readText()
     }
 
