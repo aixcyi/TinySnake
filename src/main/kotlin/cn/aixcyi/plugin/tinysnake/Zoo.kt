@@ -11,7 +11,7 @@ object Zoo {
 
     // <component name="NAME"></component>
     const val PLUGIN_SETTINGS_NAME = "TinySnake.Settings"
-    const val DUNDER_ALL_OPTIMIZATION_NAME = "TinySnake.OptimizationDunderAll"
+    const val DUNDER_ALL_OPTIMIZATION_NAME = "TinySnake.DunderAllOptimization"
 
     /**
      * 国际化文本资源包。
