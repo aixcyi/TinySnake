@@ -54,7 +54,7 @@
 
 预置了几种常见于 Python 脚本的 Shebang，还可以选择基于项目的路径、绝对路径以及自定义文本（方便粘贴）等。
 
-可以打开设置面板（`Ctrl` `Alt` `S`），找到 “工具 → Tiny Snake → Shebang 列表” 配置内容及调整顺序。
+可以打开设置面板（`Control` `Alt` `S`），找到 “工具 → Tiny Snake → Shebang 列表” 配置内容及调整顺序。
 
 ![生成Shebang的示意图](./.img/generate-shebang.png)
 

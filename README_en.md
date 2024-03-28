@@ -51,6 +51,8 @@ When your mouse hover on symbol or file, or their docstring, PyCharm will pop up
 
 Provide some common Shebang. You can also generate Shebang from a path base on project root, an absolute path, or any string.
 
+To config preset Shebang list and it's order, open settings panel (by `Control` `Alt` `S`) and find _Tools_ → _Tiny Snake_ → _Shebang list_
+
 ![Generate Shebang Line](./.img/generate-shebang.png)
 
 ### Convert dict
