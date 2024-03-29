@@ -22,12 +22,9 @@ class DocstringLinkGenerateAction : PyAction() {
 
     override fun getActionUpdateThread() = ActionUpdateThread.EDT
 
-    override fun update(event: AnActionEvent) {
-        val psi = event.getData(CommonDataKeys.PSI_FILE)
-        if (psi is PyFile)
-            event.presentation.isVisible = getCaretDocstring(event, psi) != null
-        else
-            event.presentation.isVisible = false
+    override fun update(event: AnActionEvent, file: PyFile, editor: Editor) {
+        // 如果光标不在 docstring 中，则隐藏 Action
+        event.presentation.isVisible = getCaretDocstring(event, file) != null
     }
 
     override fun actionPerformed(event: AnActionEvent, file: PyFile, editor: Editor) {

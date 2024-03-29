@@ -5,7 +5,6 @@ import cn.aixcyi.plugin.tinysnake.Zoo.message
 import com.intellij.codeInsight.hint.HintManager
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnActionEvent
-import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.editor.Editor
 import com.jetbrains.python.PyNames
@@ -16,18 +15,14 @@ class DictAndCallConvertAction : PyAction() {
 
     override fun getActionUpdateThread() = ActionUpdateThread.BGT
 
-    override fun update(event: AnActionEvent) {
+    override fun update(event: AnActionEvent, file: PyFile, editor: Editor) {
         // 仅当光标在 dict 字典或 dict() 调用内时才启用
-        val psi = event.getData(CommonDataKeys.PSI_FILE)
-        if (psi is PyFile) {
-            val calling = getCaretElement(event, psi, PyCallExpression::class.java)
-            val literal = getCaretElement(event, psi, PyDictLiteralExpression::class.java)
-            if (calling != null || literal != null) {
-                event.presentation.isEnabled = true
-                return
-            }
+        val calling = getCaretElement(event, file, PyCallExpression::class.java)
+        val literal = getCaretElement(event, file, PyDictLiteralExpression::class.java)
+        if (calling != null || literal != null) {
+            event.presentation.isEnabled = true
+            return
         }
-        event.presentation.isEnabled = false
     }
 
     override fun actionPerformed(event: AnActionEvent, file: PyFile, editor: Editor) {

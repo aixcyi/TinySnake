@@ -15,19 +15,59 @@ import com.jetbrains.python.psi.PyFile
  * @author <a href="https://github.com/aixcyi">砹小翼</a>
  */
 abstract class PyAction : AnAction() {
-    abstract fun actionPerformed(event: AnActionEvent, file: PyFile, editor: Editor)
 
-    override fun actionPerformed(event: AnActionEvent) {
-        val editor = event.getData(LangDataKeys.EDITOR_EVEN_IF_INACTIVE)
-        if (editor == null) {
+    /**
+     * 更新 Action 的组件显示。
+     *
+     * @param event 触发当前 Action 的消息事件。
+     */
+    override fun update(event: AnActionEvent) {
+        // 如果不在编辑器中则隐藏菜单
+        val editor = event.getData(LangDataKeys.EDITOR_EVEN_IF_INACTIVE) ?: run {
             event.presentation.isVisible = false
             return
         }
-        val psi = event.getData(CommonDataKeys.PSI_FILE)
-        if (psi is PyFile) {
-            this.actionPerformed(event, psi, editor)
+        // 如果不在 Python 文件中则禁用菜单
+        val file = event.getData(CommonDataKeys.PSI_FILE)
+        if (file !is PyFile) {
+            event.presentation.isEnabled = false
+            return
         }
+        this.update(event, file, editor)
     }
+
+    /**
+     * 更新 Action 的组件显示。
+     *
+     * @param event 触发当前 Action 的消息事件。
+     * @param file 当前 Python 文件。
+     * @param editor 当前编辑器。
+     */
+    open fun update(event: AnActionEvent, file: PyFile, editor: Editor) {
+        event.presentation.isVisible = true
+        event.presentation.isEnabled = true
+    }
+
+    /**
+     * 触发当前 Action 后执行的业务代码。
+     *
+     * @param event 触发当前 Action 的消息事件。
+     */
+    override fun actionPerformed(event: AnActionEvent) {
+        val editor = event.getData(LangDataKeys.EDITOR_EVEN_IF_INACTIVE) ?: return
+        val psi = event.getData(CommonDataKeys.PSI_FILE)
+        if (psi !is PyFile) return
+        this.actionPerformed(event, psi, editor)
+    }
+
+    /**
+     * 触发当前 Action 后执行的业务代码。
+     *
+     * @param event 触发当前 Action 的消息事件。
+     * @param file 当前 Python 文件。
+     * @param editor 当前编辑器。
+     */
+    abstract fun actionPerformed(event: AnActionEvent, file: PyFile, editor: Editor)
 
     /**
      * 查找光标所在的元素。
