@@ -41,7 +41,7 @@ class DocstringLinkGenerateAction : PyAction() {
 
         // 编辑确认
         val snippet = DocstringLinkCreator(message("DocstringLinkCreator.dialog.title"))
-            .setText(if (isReplace) editor.selectionModel.selectedText else "")
+            .setText(if (isReplace) editor.selectionModel.selectedText ?: "" else "")
             .setLink(this.getHyperlinkFromClipboard())
             .showThenGet()
             ?: return
