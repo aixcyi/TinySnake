@@ -17,8 +17,8 @@ class DictAndCallConvertAction : PyAction() {
 
     override fun update(event: AnActionEvent, file: PyFile, editor: Editor) {
         // 仅当光标在 dict 字典或 dict() 调用内时才启用
-        val calling = getCaretElement(event, file, PyCallExpression::class.java)
-        val literal = getCaretElement(event, file, PyDictLiteralExpression::class.java)
+        val calling = getCaretElement(editor, file, PyCallExpression::class.java)
+        val literal = getCaretElement(editor, file, PyDictLiteralExpression::class.java)
         if (calling != null || literal != null) {
             event.presentation.isEnabled = true
             return
@@ -30,8 +30,8 @@ class DictAndCallConvertAction : PyAction() {
         val generator = SnippetGenerator(file)
 
         // 查找光标附近的 dict() 或 dict
-        val calling = getCaretElement(event, file, PyCallExpression::class.java)
-        val literal = getCaretElement(event, file, PyDictLiteralExpression::class.java)
+        val calling = getCaretElement(editor, file, PyCallExpression::class.java)
+        val literal = getCaretElement(editor, file, PyDictLiteralExpression::class.java)
         val isDictCall = calling != null && calling.name == "dict"
 
         // 两者都不存在

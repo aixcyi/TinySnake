@@ -7,7 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class DocstringLinkCreator extends DialogWrapper {
-    private JPanel contentPane;
+    private JPanel     contentPane;
     private JTextField textField;
     private JTextField linkField;
 
@@ -18,16 +18,28 @@ public class DocstringLinkCreator extends DialogWrapper {
         init();
     }
 
-    public String getText() {
-        return textField.getText();
+    public DocstringLinkCreator setText(String text) {
+        textField.setText(text);
+        return this;
     }
 
-    public String getLink() {
-        return linkField.getText();
+    public DocstringLinkCreator setLink(String link) {
+        linkField.setText(link);
+        return this;
+    }
+
+    @Nullable
+    public String showThenGet() {
+        if (showAndGet())
+            // 前后都额外加一个空格，是为了避免用户没有添加空格，导致渲染失败。
+            return " `" + textField.getText() + " <" + linkField.getText() + ">`_ ";
+        else
+            return null;
     }
 
     @Override
-    protected @Nullable JComponent createCenterPanel() {
+    @Nullable
+    protected JComponent createCenterPanel() {
         JPanel dialogPanel = new JPanel(new BorderLayout());
         dialogPanel.add(contentPane, BorderLayout.CENTER);
         return dialogPanel;
