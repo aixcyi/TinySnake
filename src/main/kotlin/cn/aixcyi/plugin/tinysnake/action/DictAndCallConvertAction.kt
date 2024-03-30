@@ -3,7 +3,6 @@ package cn.aixcyi.plugin.tinysnake.action
 import cn.aixcyi.plugin.tinysnake.SnippetGenerator
 import cn.aixcyi.plugin.tinysnake.Zoo.message
 import com.intellij.codeInsight.hint.HintManager
-import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.editor.Editor
@@ -12,8 +11,6 @@ import com.jetbrains.python.psi.*
 import com.jetbrains.python.psi.impl.PyExpressionStatementImpl
 
 class DictAndCallConvertAction : PyAction() {
-
-    override fun getActionUpdateThread() = ActionUpdateThread.BGT
 
     override fun update(event: AnActionEvent, file: PyFile, editor: Editor) {
         // 仅当光标在 dict 字典或 dict() 调用内时才启用

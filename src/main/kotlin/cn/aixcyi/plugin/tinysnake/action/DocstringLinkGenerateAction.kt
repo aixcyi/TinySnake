@@ -2,7 +2,6 @@ package cn.aixcyi.plugin.tinysnake.action
 
 import cn.aixcyi.plugin.tinysnake.Zoo.message
 import cn.aixcyi.plugin.tinysnake.ui.DocstringLinkCreator
-import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.editor.Editor
@@ -24,8 +23,6 @@ import java.awt.datatransfer.DataFlavor
  * @see [com.jetbrains.python.psi.impl.PyPlainStringElementImpl]
  */
 class DocstringLinkGenerateAction : PyAction() {
-
-    override fun getActionUpdateThread() = ActionUpdateThread.EDT
 
     override fun update(event: AnActionEvent, file: PyFile, editor: Editor) {
         // 如果光标不在 docstring 中，则禁用 Action

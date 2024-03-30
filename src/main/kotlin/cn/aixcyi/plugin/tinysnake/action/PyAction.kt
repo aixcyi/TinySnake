@@ -1,9 +1,6 @@
 package cn.aixcyi.plugin.tinysnake.action
 
-import com.intellij.openapi.actionSystem.AnAction
-import com.intellij.openapi.actionSystem.AnActionEvent
-import com.intellij.openapi.actionSystem.CommonDataKeys
-import com.intellij.openapi.actionSystem.LangDataKeys
+import com.intellij.openapi.actionSystem.*
 import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
@@ -15,6 +12,8 @@ import com.jetbrains.python.psi.PyFile
  * @author <a href="https://github.com/aixcyi">砹小翼</a>
  */
 abstract class PyAction : AnAction() {
+
+    override fun getActionUpdateThread() = ActionUpdateThread.BGT
 
     /**
      * 更新 Action 的组件显示。
