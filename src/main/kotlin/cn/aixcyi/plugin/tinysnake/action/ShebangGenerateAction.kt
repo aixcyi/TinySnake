@@ -16,7 +16,7 @@ import com.intellij.openapi.ui.Messages
 import com.intellij.openapi.ui.popup.JBPopupFactory
 import com.intellij.psi.impl.source.tree.PsiCommentImpl
 import com.jetbrains.python.psi.PyFile
-import org.apache.commons.lang.StringUtils
+import org.apache.commons.lang3.StringUtils
 
 /**
  * 为 Python 文件添加 Shebang 。
