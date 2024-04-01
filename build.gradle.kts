@@ -5,9 +5,10 @@ plugins {
 }
 
 group = "cn.aixcyi.plugin"
-version = "1.0.1-SNAPSHOT"
+version = "1.0.1-SNAPSHOT"  // 大版本序号.发布序号.编译序号
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
 
@@ -29,19 +30,15 @@ tasks {
         kotlinOptions.jvmTarget = "17"
     }
 
-    initializeIntelliJPlugin{
-        selfUpdateCheck = false
-    }
-
     patchPluginXml {
         sinceBuild.set("222")
         untilBuild.set("233.*")
-        pluginDescription = projectDir.resolve("DESCRIPTION.html").readText()
+        pluginDescription.set(file("DESCRIPTION.html").readText())
     }
 
     signPlugin {
-        certificateChain.set(System.getenv("CERTIFICATE_CHAIN"))
-        privateKey.set(System.getenv("PRIVATE_KEY"))
+        certificateChainFile.set(file("./.secret/chain.crt"))
+        privateKeyFile.set(file("./.secret/private.pem"))
         password.set(System.getenv("PRIVATE_KEY_PASSWORD"))
     }
 
