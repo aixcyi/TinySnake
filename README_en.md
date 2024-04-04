@@ -12,6 +12,10 @@ A tiny plugin to improve Python development experience.
 - Insert or overwrite shebang line on file head, and manage preset shebang list.
 - Supports multiple languages.
 
+## Compatibility
+
+PyCharm 2022.2+
+
 ## Usage
 
 ### Generate `__all__`
