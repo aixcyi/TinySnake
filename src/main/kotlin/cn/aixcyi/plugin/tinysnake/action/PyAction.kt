@@ -30,17 +30,17 @@ abstract class PyAction : AnAction() {
             event.presentation.isEnabled = false
             return
         }
-        this.update(event, file, editor)
+        this.update(editor, event, file)
     }
 
     /**
      * 更新 Action 的组件显示。
      *
+     * @param editor 当前编辑器。
      * @param event 触发当前 Action 的消息事件。
      * @param file 当前 Python 文件。
-     * @param editor 当前编辑器。
      */
-    open fun update(event: AnActionEvent, file: PyFile, editor: Editor) {
+    open fun update(editor: Editor, event: AnActionEvent, file: PyFile) {
         event.presentation.isVisible = true
         event.presentation.isEnabled = true
     }
@@ -54,15 +54,15 @@ abstract class PyAction : AnAction() {
         val editor = event.getData(LangDataKeys.EDITOR_EVEN_IF_INACTIVE) ?: return
         val psi = event.getData(CommonDataKeys.PSI_FILE)
         if (psi !is PyFile) return
-        this.actionPerformed(event, psi, editor)
+        this.actionPerformed(editor, event, psi)
     }
 
     /**
      * 触发当前 Action 后执行的业务代码。
      *
+     * @param editor 当前编辑器。
      * @param event 触发当前 Action 的消息事件。
      * @param file 当前 Python 文件。
-     * @param editor 当前编辑器。
      */
-    abstract fun actionPerformed(event: AnActionEvent, file: PyFile, editor: Editor)
+    abstract fun actionPerformed(editor: Editor, event: AnActionEvent, file: PyFile)
 }

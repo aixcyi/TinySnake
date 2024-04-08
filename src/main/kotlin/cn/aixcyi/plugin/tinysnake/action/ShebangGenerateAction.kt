@@ -27,7 +27,7 @@ import org.apache.commons.lang3.StringUtils
  */
 class ShebangGenerateAction : PyAction() {
 
-    override fun actionPerformed(event: AnActionEvent, file: PyFile, editor: Editor) {
+    override fun actionPerformed(editor: Editor, event: AnActionEvent, file: PyFile) {
         val project = file.project
         val state = Settings.getInstance().state
         val group = DefaultActionGroup(null as String?, true)
@@ -92,12 +92,12 @@ class ShebangGenerateAction : PyAction() {
     /**
      * 将 shebang 写入到文件第一行。
      *
-     * 如果第一行是注释，且与传入的 `newShebang` 完全一致，则只弹出泡泡提示，不进行改动，否则直接替换；
-     * 如果第一行不是注释，则将 `newShebang` 插入到第一行。
+     * 如果第一行是注释，且与传入的 [newShebang] 完全一致，则只弹出泡泡提示，不进行改动，否则直接替换；
+     * 如果第一行不是注释，则将 [newShebang] 插入到第一行。
      *
      * @param file       文件
      * @param editor     编辑器
-     * @param newShebang 新的 shebang。必须包含开头的 "#!" 。
+     * @param newShebang 新的 shebang。开头必须包含 `#!` 。
      */
     private fun writeShebang(
         file: PyFile,

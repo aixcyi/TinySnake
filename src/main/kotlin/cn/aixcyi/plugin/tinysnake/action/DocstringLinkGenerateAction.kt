@@ -24,12 +24,12 @@ import java.awt.datatransfer.DataFlavor
  */
 class DocstringLinkGenerateAction : PyAction() {
 
-    override fun update(event: AnActionEvent, file: PyFile, editor: Editor) {
+    override fun update(editor: Editor, event: AnActionEvent, file: PyFile) {
         // 如果光标不在 docstring 中，则禁用 Action
         event.presentation.isEnabled = getCaretDocstring(editor, file) != null
     }
 
-    override fun actionPerformed(event: AnActionEvent, file: PyFile, editor: Editor) {
+    override fun actionPerformed(editor: Editor, event: AnActionEvent, file: PyFile) {
         // 如果光标不在 docstring 中，则直接无视操作，没必要进行提示
         getCaretDocstring(editor, file) ?: return
 
@@ -38,7 +38,7 @@ class DocstringLinkGenerateAction : PyAction() {
 
         // 编辑确认
         val snippet = DocstringLinkCreator(message("DocstringLinkCreator.dialog.title"))
-            .setText(if (isReplace) editor.selectionModel.selectedText ?: "" else "")
+            .setText(if (isReplace) (editor.selectionModel.selectedText ?: "") else "")
             .setLink(this.getHyperlinkFromClipboard())
             .showThenGet()
             ?: return
@@ -62,7 +62,9 @@ class DocstringLinkGenerateAction : PyAction() {
     }
 
     /**
-     * 获取光标所在的 docstring 元素。如果光标多于一个，或找不到 docstring 都会返回 `null` 。
+     * 获取光标所在的 docstring 元素。
+     *
+     * 如果光标多于一个，或找不到 docstring 都会返回 `null` 。
      */
     private fun getCaretDocstring(editor: Editor, file: PyFile): PsiElement? {
         if (editor.caretModel.caretCount > 1) return null

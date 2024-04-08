@@ -19,13 +19,13 @@ import javax.swing.JList
 import javax.swing.ListSelectionModel
 
 /**
- * 为 Python 源码生成 ``__all__`` 变量，或向其值插入用户选中的 Python 符号。
+ * 为 Python 源码生成 `__all__` 变量，或向其值插入用户选中的 Python 符号。
  *
  * @author <a href="https://github.com/aixcyi">砹小翼</a>
  */
 class DunderAllGenerateAction : PyAction() {
 
-    override fun actionPerformed(event: AnActionEvent, file: PyFile, editor: Editor) {
+    override fun actionPerformed(editor: Editor, event: AnActionEvent, file: PyFile) {
         val all = DunderAll(file)
 
         val options = JBList(CollectionListModel(all.symbols))
@@ -55,7 +55,7 @@ class DunderAllGenerateAction : PyAction() {
     }
 
     /**
-     * 往 ``__all__`` 添加“字符串”。如果没有这个变量，就找个合适的地方创建之。
+     * 往 `__all__` 添加“字符串”。如果没有这个变量，就找个合适的地方创建之。
      *
      * @param items 所有需要添加的"字符串"。
      */
@@ -92,7 +92,7 @@ class DunderAllGenerateAction : PyAction() {
     }
 
     /**
-     * 确定 ``__all__`` 变量的位置。
+     * 确定 `__all__` 变量的位置。
      *
      * @return 变量应该放在哪个元素的前面。
      * @see <a href="https://peps.python.org/pep-0008/#module-level-dunder-names">PEP 8 - 模块级别 Dunder 的布局位置</a>

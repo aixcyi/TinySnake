@@ -8,10 +8,11 @@ import com.jetbrains.python.psi.*
 import javax.swing.Icon
 
 class DunderAll(file: PyFile) {
-    /** __all__ 变量自身。 */
+
+    /** `__all__` 变量自身。 */
     var variable: PyTargetExpression? = null
 
-    /** __all__ 导出的所有符号。 */
+    /** `__all__` 导出的所有符号。 */
     var exports = listOf<String>()
 
     /** 顶层所有符号。 */
@@ -97,7 +98,7 @@ class DunderAll(file: PyFile) {
     }
 
     /**
-     * 获取 ``__all__`` 变量的值。如果变量不存在，或值的类型不是列表或元组，则返回 null 。
+     * 获取 `__all__` 变量的值。如果变量不存在，或值的类型不是列表或元组，则返回 `null` 。
      *
      * @return 值表达式对象。
      */

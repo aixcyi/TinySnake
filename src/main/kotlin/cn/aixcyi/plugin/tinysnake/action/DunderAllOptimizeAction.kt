@@ -12,12 +12,13 @@ import com.intellij.openapi.editor.Editor
 import com.jetbrains.python.psi.PyFile
 
 /**
- * 优化 Python 源码中已经存在的 __all__ 变量的值。
+ * 优化 Python 源码中已经存在的 `__all__` 变量的值。
  *
  * @author <a href="https://github.com/aixcyi">砹小翼</a>
  */
 class DunderAllOptimizeAction : PyAction() {
-    override fun actionPerformed(event: AnActionEvent, file: PyFile, editor: Editor) {
+
+    override fun actionPerformed(editor: Editor, event: AnActionEvent, file: PyFile) {
         // 准备基础设施
         val hint = HintManager.getInstance()
 
