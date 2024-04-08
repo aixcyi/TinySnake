@@ -41,13 +41,14 @@ class DocstringLinkCreator(windowTitle: String) : DialogWrapper(true) {
     /**
      * 弹出窗口让用户编辑，并在确认后返回可以放在 docstring 中展示的超链接代码。
      *
+     * 注意，如果链接不在 docstring 的开头或结尾（也就是紧邻 `"""`）的话，那么需要与空格相邻，否则 PyCharm 无法正确渲染。
+     *
      * @return 如果用户取消编辑，将返回 `null` 。
      */
-    fun showThenGet(): String? {
-        // 前后都额外加一个空格，是为了避免用户没有添加空格，导致渲染失败。
-        return if (!showAndGet()) return null
-        else " `${textField!!.text} <${linkField!!.text}>`_ "
-    }
+    fun showThenGet(): String? = if (showAndGet())
+        "`${textField!!.text} <${linkField!!.text}>`_"
+    else
+        null
 
     override fun createCenterPanel(): JComponent {
         val dialogPanel = JPanel(BorderLayout())
