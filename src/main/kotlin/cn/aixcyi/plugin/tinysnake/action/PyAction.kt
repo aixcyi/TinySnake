@@ -2,8 +2,6 @@ package cn.aixcyi.plugin.tinysnake.action
 
 import com.intellij.openapi.actionSystem.*
 import com.intellij.openapi.editor.Editor
-import com.intellij.psi.PsiElement
-import com.intellij.psi.util.PsiTreeUtil
 import com.jetbrains.python.psi.PyFile
 
 /**
@@ -67,21 +65,4 @@ abstract class PyAction : AnAction() {
      * @param editor 当前编辑器。
      */
     abstract fun actionPerformed(event: AnActionEvent, file: PyFile, editor: Editor)
-
-    /**
-     * 查找光标所在的特定类型的元素。
-     *
-     * - 若光标不在任何元素内，则返回 `null` 。
-     * - 当光标多于一个时（比如处于列选择模式下）会直接返回 `null` 。
-     *
-     * @param editor 当前编辑器。
-     * @param file  表示 Python 文件的 PSI 元素。
-     * @param type  元素或父元素的类型。
-     * @return PSI元素。若光标不在特定类型的元素内，则返回 null 。
-     */
-    fun <T : PsiElement> getCaretElement(editor: Editor, file: PyFile, type: Class<T>): T? {
-        if (editor.caretModel.caretCount > 1) return null
-        val element = file.findElementAt(editor.caretModel.offset)
-        return element?.let { PsiTreeUtil.getParentOfType(element, type) }  // 自内向外查找 光标所在处元素 外面的父元素。
-    }
 }

@@ -62,34 +62,6 @@ PyCharm 2022.2 及更新的版本。
 
 ![生成Shebang的示意图](./.img/generate-shebang.png)
 
-### 重构 dict
-
-互相转换 `dict` 字面值
-
-```python
-DATABASE = {
-    "ENGINE": 'django.db.backends.postgresql',
-    "NAME": '<数据库名称>',
-    "USER": 'postgres',
-    "PASSWORD": None,
-    "HOST": '127.0.0.1',
-    "PORT": '5432',
-}
-```
-
-与 `dict()` 调用
-
-```python
-DATABASE = dict(
-    ENGINE='django.db.backends.postgresql',
-    NAME='<数据库名称>',
-    USER='postgres',
-    PASSWORD='',
-    HOST='127.0.0.1',
-    PORT='5432',
-)
-```
-
 ## 翻译
 
 在 `./src/main/resources/messages/` 中新建一个名为 `TinySnakeBundle_<LNG>.properties` 的文件，或者选择任意一个 `properties` 文件。而 `<LNG>` 表示语言代码，参见 [ISO_639-1](https://zh.wikipedia.org/wiki/ISO_639-1)。

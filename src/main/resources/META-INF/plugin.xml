@@ -55,16 +55,6 @@
             <keyboard-shortcut keymap="Mac OS X 10.5+" first-keystroke="alt L"/>
         </action>
 
-        <!-- 顶层菜单／重构
-             右键菜单／重构  -->
-        <action id="ConvertDictCall"
-                class="cn.aixcyi.plugin.tinysnake.action.DictAndCallConvertAction">
-            <add-to-group group-id="RefactoringMenu" anchor="first"/>
-            <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt D"/>
-            <keyboard-shortcut keymap="Mac OS X" first-keystroke="control alt D"/>
-            <keyboard-shortcut keymap="Mac OS X 10.5+" first-keystroke="control alt D"/>
-        </action>
-
         <!-- 顶层菜单／帮助 -->
         <action id="GotoTinySnakeRelease"
                 class="cn.aixcyi.plugin.tinysnake.action.TinySnakeHomepageAction">

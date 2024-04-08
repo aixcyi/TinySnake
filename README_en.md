@@ -59,34 +59,6 @@ To config preset Shebang list and it's order, open settings panel (by `Control` 
 
 ![Generate Shebang Line](./.img/generate-shebang.png)
 
-### Convert dict
-
-Convert between literal `dict`
-
-```python
-DATABASE = {
-    "ENGINE": 'django.db.backends.postgresql',
-    "NAME": '<DATABASE-NAME>',
-    "USER": 'postgres',
-    "PASSWORD": None,
-    "HOST": '127.0.0.1',
-    "PORT": '5432',
-}
-```
-
-and `dict()`
-
-```python
-DATABASE = dict(
-    ENGINE='django.db.backends.postgresql',
-    NAME='<DATABASE-NAME>',
-    USER='postgres',
-    PASSWORD='',
-    HOST='127.0.0.1',
-    PORT='5432',
-)
-```
-
 ## Translation
 
 Create a file name `TinySnakeBundle_<LNG>.properties` or choose any `properties` file on `./src/main/resources/messages/` .  
