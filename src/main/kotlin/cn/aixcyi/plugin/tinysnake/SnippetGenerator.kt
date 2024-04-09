@@ -16,8 +16,9 @@ import com.jetbrains.python.psi.impl.PyExpressionStatementImpl
  * @param file Python 文件。
  * @author <a href="https://github.com/aixcyi">砹小翼</a>
  */
-class SnippetGenerator(file: PyFile) : PyElementGeneratorImpl(file.project) {
+class SnippetGenerator(file: PyFile) {
     private val myLanguage = file.languageLevel
+    private val proxy = PyElementGeneratorImpl(file.project)
 
     companion object {
         /**
@@ -54,7 +55,7 @@ class SnippetGenerator(file: PyFile) : PyElementGeneratorImpl(file.project) {
      * @param code 代码片段字符串。
      * @return 代码片段对象。
      */
-    fun <T> createFromText(type: Class<T>, code: String): T = createFromText(myLanguage, type, code)
+    fun <T> createFromText(type: Class<T>, code: String): T = proxy.createFromText(myLanguage, type, code)
 
     /**
      * 构造仅包含 `string` 的带格式的 `list` 的字面值。
@@ -99,4 +100,6 @@ class SnippetGenerator(file: PyFile) : PyElementGeneratorImpl(file.project) {
         PyAssignmentStatement::class.java,
         "$variable = $value"
     )
+
+    fun createStringLiteralFromString(unescaped: String) = proxy.createStringLiteralFromString(unescaped)!!
 }

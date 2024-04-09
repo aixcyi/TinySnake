@@ -31,7 +31,7 @@ class DunderAllGenerateAction : PyAction() {
 
     override fun actionPerformed(editor: Editor, event: AnActionEvent, file: PyFile) {
         // <action id="GenerateDunderAllWithImports">
-        val isWithImports = event.actionManager.getId(this).lowercase().contains("import")
+        val isWithImports = event.actionManager.getId(this)!!.lowercase().contains("import")
         val dunderAll = DunderAll(file)
         val symbols = TopSymbols(file, withImports = isWithImports)
         val options = JBList(CollectionListModel(symbols.names))
