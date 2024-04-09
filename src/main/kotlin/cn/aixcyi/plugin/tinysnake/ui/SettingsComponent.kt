@@ -10,24 +10,30 @@ import com.intellij.ui.AnActionButton
 import com.intellij.ui.CollectionListModel
 import com.intellij.ui.ToolbarDecorator
 import com.intellij.ui.components.JBList
-import javax.swing.BoxLayout
+import com.intellij.util.ui.FormBuilder
 import javax.swing.JPanel
 import javax.swing.ListSelectionModel
 
 /**
- * [Settings.State.myShebangs] 的页面组件，对应的设置控制器是 [ShebangsConfigurable] 。
+ * 插件设置的页面组件。
+ *
+ * 对应的控制器是 [SettingsConfigurable] 。
  *
  * @author <a href="https://github.com/aixcyi">砹小翼</a>
  */
-class ShebangsComponent(private val state: Settings.State) {
-    val panel: JPanel = JPanel()
-    private val model: CollectionListModel<String> = CollectionListModel<String>(ArrayList(state.myShebangs))
+class SettingsComponent(private val state: Settings.State) {
 
-    init {
+    private val model: CollectionListModel<String> = CollectionListModel<String>(ArrayList(state.myShebangs))
+    val mainPanel: JPanel = FormBuilder.createFormBuilder()
+        .addComponent(createShebangsPart(), 1)
+        .addComponentFillVertically(JPanel(), 0)
+        .panel
+
+    private fun createShebangsPart(): JPanel {
         val list = JBList(model)
         list.selectionMode = ListSelectionModel.SINGLE_SELECTION
-        panel.setLayout(BoxLayout(panel, BoxLayout.Y_AXIS))
-        panel.add(
+        val innerPanel = MeowUiUtil.createTitledPanel(message("settings.ShebangsPart.title"))
+        innerPanel.add(
             ToolbarDecorator.createDecorator(list)
                 .setAddAction {
                     val string = Messages.showInputDialog(
@@ -63,6 +69,7 @@ class ShebangsComponent(private val state: Settings.State) {
                 })
                 .createPanel()
         )
+        return innerPanel
     }
 
     fun isModified() = model.toList() != state.myShebangs
@@ -83,6 +90,6 @@ class ShebangsComponent(private val state: Settings.State) {
         model.addAll(0, Settings.getInstance().state.myShebangs)
     }
 
-    fun disposeUIResources() {
+    fun dispose() {
     }
 }
