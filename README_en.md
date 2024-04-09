@@ -59,7 +59,9 @@ To config preset Shebang list and it's order, open settings panel (by `Control` 
 
 ![Generate Shebang Line](./.img/generate-shebang.png)
 
-## Translation
+## Contributing
+
+### Translating
 
 Create a file name `TinySnakeBundle_<LNG>.properties` or choose any `properties` file on `./src/main/resources/messages/` .  
 The `<LNG>` means language tag, see [List of Common Primary Language Subtags](https://en.wikipedia.org/wiki/IETF_language_tag#List_of_common_primary_language_subtags).
@@ -68,3 +70,7 @@ There are two ways to quick start:
 
 1. Open this project on IntelliJ IDEA, install plugin [Resource Bundle Editor](https://plugins.jetbrains.com/plugin/17035-resource-bundle-editor), open the file you just created or opened, toggle mode from _Text_ to _Bundle_ .
 2. Copy contents of any properties file, and fill the value with translated text into the file you just created or opened. (Format of content is `key=value`)
+
+### Bug Track
+
+Go to [issue](https://github.com/aixcyi/TinySnake/issues) panel to search error info or report bugs.

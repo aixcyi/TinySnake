@@ -62,7 +62,9 @@ PyCharm 2022.2.* 至 2024.1.* 。
 
 ![生成Shebang的示意图](./.img/generate-shebang.png)
 
-## 翻译
+## 参与贡献
+
+### 翻译
 
 在 `./src/main/resources/messages/` 中新建一个名为 `TinySnakeBundle_<LNG>.properties` 的文件，或者选择任意一个 `properties` 文件。而 `<LNG>` 表示语言代码，参见 [ISO_639-1](https://zh.wikipedia.org/wiki/ISO_639-1)。
 
@@ -70,3 +72,7 @@ PyCharm 2022.2.* 至 2024.1.* 。
 
 1. 在 IntelliJ IDEA 中打开此项目，安装插件 [Resource Bundle Editor](https://plugins.jetbrains.com/plugin/17035-resource-bundle-editor)，打开新建或现有的文件，然后在底部从「文本」模式切换为「资源包」模式。
 2. 将任意一个 `properties` 文件的内容复制过来，然后按照 `key=value` 的格式去掉所有 value，并填入你需要翻译的文本。
+
+### 错误反馈
+
+前往 [issue](https://github.com/aixcyi/TinySnake/issues) 搜索错误信息或反馈错误，或者加入QQ群 418751161 。
