@@ -14,7 +14,7 @@ A tiny plugin to improve Python development experience.
 
 ## Compatibility
 
-PyCharm 2022.2+
+PyCharm 2022.2.* ~ 2024.1.*
 
 ## Usage
 

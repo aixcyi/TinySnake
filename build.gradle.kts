@@ -4,8 +4,8 @@ plugins {
     id("org.jetbrains.intellij") version "1.13.3"
 }
 
-group = "cn.aixcyi.plugin"
-version = "0.1.4"  // 大版本序号.发布序号.编译序号
+group = "cn.aixcyi.plugin.tinysnake"
+version = "1.0.5-RC"  // 主要版本号.次要版本号.修订号-状态标签
 
 repositories {
     mavenLocal()
