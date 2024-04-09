@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "cn.aixcyi.plugin"
-version = "1.0.1-SNAPSHOT"  // 大版本序号.发布序号.编译序号
+version = "0.1.4"  // 大版本序号.发布序号.编译序号
 
 repositories {
     mavenLocal()
@@ -15,8 +15,7 @@ repositories {
 // Configure Gradle IntelliJ Plugin
 // Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
 intellij {
-    type.set("PC") // Target IDE Platform
-    version.set("2022.2.5")
+    version.set("PC-2022.2.5")
     plugins.set(listOf("PythonCore"))
 }
 
