@@ -39,9 +39,13 @@
                 class="cn.aixcyi.plugin.tinysnake.action.DunderAllGenerateAction">
             <add-to-group group-id="GenerateGroup" anchor="first"/>
         </action>
+        <action id="GenerateDunderAllWithImports"
+                class="cn.aixcyi.plugin.tinysnake.action.DunderAllGenerateAction">
+            <add-to-group group-id="GenerateGroup" anchor="after" relative-to-action="GenerateDunderAll"/>
+        </action>
         <action id="GenerateShebang"
                 class="cn.aixcyi.plugin.tinysnake.action.ShebangGenerateAction">
-            <add-to-group group-id="GenerateGroup" anchor="after" relative-to-action="GenerateDunderAll"/>
+            <add-to-group group-id="GenerateGroup" anchor="after" relative-to-action="GenerateDunderAllWithImports"/>
         </action>
         <action id="GenerateDocstringLink"
                 class="cn.aixcyi.plugin.tinysnake.action.DocstringLinkGenerateAction">

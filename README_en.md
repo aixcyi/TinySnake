@@ -25,7 +25,7 @@ List all exportable symbols, in order of symbol declaration, by alphabet order, 
 - dunder variables (double under line variables), `__author__` e.g.
 - private symbols, such as `_var`, `_func()`, `_InnerClass`.
 - variables unpacked on `for` loop, such as the `i` in `for i in range(10)` .
-- imported symbols.
+- imported symbols (unless you include them manually).
 
 Gray item indicate the symbol is already in `__all__`, it will not be included even if you choose it.
 

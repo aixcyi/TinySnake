@@ -9,10 +9,23 @@ import javax.swing.Icon
 
 /**
  * 文件内的所有顶层符号。
+ *
+ * @param file 要查找的文件。
+ * @param withImports 是否包括导入。因为存在 `from xxx import *` 这样的语句，所以搜索导入的话会消耗更多时间和内存。
+ * @param specifiedIcon 固定所有符号对应的图标。仅供 [TopSymbols] 自身递归使用。
  */
-class TopSymbols(file: PyFile) {
+class TopSymbols(
+    file: PyFile,
+    private val withImports: Boolean = false,
+    private val specifiedIcon: Icon? = null,  // 在递归查找导入的符号时，用于改变找到的项目的图标
+) {
+
+    companion object {
+        private const val LIMIT_FILE_VISITS_QTY = 10
+    }
 
     private val symbols = mutableMapOf<String, Icon>()
+    private val visitedFile = mutableSetOf<PyFile>()
 
     /**
      * 文件内所有顶层符号的名称。
@@ -55,13 +68,13 @@ class TopSymbols(file: PyFile) {
         if (statement is PyClass) {
             val className = statement.getName() ?: return
             if (className.startsWith("_")) return
-            symbols[className] = AllIcons.Nodes.Class
+            symbols[className] = specifiedIcon ?: AllIcons.Nodes.Class
         }
         // 函数定义
         else if (statement is PyFunction) {
             val funcName = statement.getName() ?: return
             if (statement.protectionLevel != PyFunction.ProtectionLevel.PUBLIC) return
-            symbols[funcName] = AllIcons.Nodes.Function
+            symbols[funcName] = specifiedIcon ?: AllIcons.Nodes.Function
         }
         // 赋值表达式
         else if (statement is PyAssignmentStatement) {
@@ -79,11 +92,11 @@ class TopSymbols(file: PyFile) {
                 }
                 // 公开变量
                 if (!variableName.startsWith("_")) {
-                    symbols[variableName] = AllIcons.Nodes.Variable
+                    symbols[variableName] = specifiedIcon ?: AllIcons.Nodes.Variable
                 }
                 // 除了 __all__ 以外的特殊变量
                 else if (PyNames.UNDERSCORED_ATTRIBUTES.contains(variableName) && PyNames.ALL != variableName) {
-                    symbols[variableName] = AppIcons.Nodes.Variable
+                    symbols[variableName] = specifiedIcon ?: AppIcons.Nodes.Variable
                 }
             }
         }
@@ -92,6 +105,46 @@ class TopSymbols(file: PyFile) {
             for (ps in statement.getIfPart().statementList.statements) {
                 collect(ps)
             }
+        }
+        // import 符号 as 别名
+        // import 符号
+        // import xxx.yyy.zzz.符号  实际上就是导入  xxx
+        else if (withImports && statement is PyImportStatement) {
+            for (element in statement.importElements) {
+                symbols[element.asName ?: element.visibleName ?: continue] = specifiedIcon ?: AllIcons.Nodes.Include
+            }
+        }
+        // from xxx import 符号 as 别名
+        // from xxx import 符号
+        // from xxx import *
+        else if (withImports && statement is PyFromImportStatement) {
+            if (statement.isFromFuture) return
+            if (statement.isStarImport) {
+                this.collect(statement)
+                return
+            }
+            for (element in statement.importElements) {
+                symbols[element.asName ?: element.visibleName ?: continue] = specifiedIcon ?: AllIcons.Nodes.Include
+            }
+        }
+    }
+
+    /**
+     * 解析 `from xxx import *` 所导入的符号。
+     *
+     * - 如果包提供了 `__all__` 的话会直接合入这个列表。
+     * - 如果包没有提供 `__all__` 则使用 [TopSymbols] 递归搜索顶级符号，递归层数见 [TopSymbols.LIMIT_FILE_VISITS_QTY]。
+     */
+    private fun collect(statement: PyFromImportStatement) {
+        if (visitedFile.size >= LIMIT_FILE_VISITS_QTY) return
+        val file = PyUtil.turnDirIntoInit(statement.resolveImportSource())
+        if (file !is PyFile) return
+        if (file in visitedFile) return else visitedFile.add(file)
+        if (file.dunderAll != null) {
+            file.dunderAll!!.forEach { symbols[it] = specifiedIcon ?: AllIcons.Nodes.Include }
+        } else {
+            val entity = TopSymbols(file, withImports, AllIcons.Nodes.Include)
+            symbols.putAll(entity.symbols)
         }
     }
 }
