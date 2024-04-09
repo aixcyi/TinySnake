@@ -1,20 +1,24 @@
 package cn.aixcyi.plugin.tinysnake.action
 
-import cn.aixcyi.plugin.tinysnake.Snippet
 import cn.aixcyi.plugin.tinysnake.SnippetGenerator
 import cn.aixcyi.plugin.tinysnake.Zoo.message
 import cn.aixcyi.plugin.tinysnake.entity.DunderAll
-import cn.aixcyi.plugin.tinysnake.storage.DunderAllOptimization
+import cn.aixcyi.plugin.tinysnake.entity.TopSymbols
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.ui.popup.PopupChooserBuilder
+import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiWhiteSpace
 import com.intellij.ui.CollectionListModel
 import com.intellij.ui.ColoredListCellRenderer
 import com.intellij.ui.components.JBList
 import com.jetbrains.python.PyNames
-import com.jetbrains.python.psi.*
+import com.jetbrains.python.psi.PyExpressionStatement
+import com.jetbrains.python.psi.PyFile
+import com.jetbrains.python.psi.PyFromImportStatement
+import com.jetbrains.python.psi.PyStringLiteralExpression
 import javax.swing.JList
 import javax.swing.ListSelectionModel
 
@@ -26,15 +30,15 @@ import javax.swing.ListSelectionModel
 class DunderAllGenerateAction : PyAction() {
 
     override fun actionPerformed(editor: Editor, event: AnActionEvent, file: PyFile) {
-        val all = DunderAll(file)
-
-        val options = JBList(CollectionListModel(all.symbols))
+        val dunderAll = DunderAll(file)
+        val symbols = TopSymbols(file)
+        val options = JBList(CollectionListModel(symbols.names))
         val popup = PopupChooserBuilder(options)
             .setMovable(true)
             .setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION)
             .setTitle(message("GenerateDunderAll.popup.title"))
             .setAdText(message("GenerateDunderAll.popup.ad_text"))
-            .setItemsChosenCallback { items: Set<String> -> this.patchValue(file, all, items) }
+            .setItemsChosenCallback { this.onChosen(file, it, symbols, dunderAll) }
             .setRenderer(object : ColoredListCellRenderer<String>() {
                 override fun customizeCellRenderer(
                     list: JList<out String>,
@@ -44,8 +48,8 @@ class DunderAllGenerateAction : PyAction() {
                     hasFocus: Boolean,
                 ) {
                     this.append(value)
-                    this.icon = all.icons[index]
-                    this.isEnabled = !all.exports.contains(value)
+                    this.icon = symbols.icons[index]
+                    this.isEnabled = !dunderAll.exports.contains(value)
                 }
             })
             .createPopup() // options 的 EmptyText 在这一步会被覆盖掉
@@ -55,36 +59,40 @@ class DunderAllGenerateAction : PyAction() {
     }
 
     /**
-     * 往 `__all__` 添加“字符串”。如果没有这个变量，就找个合适的地方创建之。
+     * `JBPopup` 列表项被选中。
      *
-     * @param items 所有需要添加的"字符串"。
+     * @param file Python 文件。
+     * @param items 所有选中项。
+     * @param symbols 文件内的顶层符号。
+     * @param dunderAll `__all__` 实体。
      */
-    private fun patchValue(
+    private fun onChosen(
         file: PyFile,
-        all: DunderAll,
-        items: Set<String>
+        items: Set<String>,
+        symbols: TopSymbols,
+        dunderAll: DunderAll,
     ) {
+        val choices = (items - dunderAll.exports.toSet()).toMutableList()  // 去除已经在 __all__ 里的符号
         val runnable: Runnable
-        val list = all.getVariableValue()
-        val project = file.project
         val generator = SnippetGenerator(file)
+        symbols.sort(choices)
 
-        if (list == null) {
-            val choices = all.sort(ArrayList(items), DunderAllOptimization.Order.APPEARANCE)
-            val varValue = Snippet.makeStringList(choices)
-            val statement = generator.createAssignment(PyNames.ALL, varValue)
-            runnable = Runnable { file.addBefore(statement, findProperlyPlace(file)) }
-        } else {
-            val choices = ArrayList(items.minus(all.exports.toSet()))// 去除已经在 __all__ 里的符号
-            all.sort(choices, DunderAllOptimization.Order.APPEARANCE)
+        if (dunderAll.isValidAssignment) {
             runnable = Runnable {
                 for (choice in choices) {
-                    list.add(generator.createStringLiteralFromString(choice!!))
+                    dunderAll.assignment!!.add(generator.createStringLiteralFromString(choice))
                 }
             }
+        } else {
+            val anchor = properlyPlaceTo(file)
+            val statement = generator.createAssignment(
+                PyNames.ALL,
+                SnippetGenerator.stringList(choices),
+            )
+            runnable = Runnable { file.addBefore(statement, anchor) }
         }
         WriteCommandAction.runWriteCommandAction(
-            project,
+            file.project,
             message("command.GenerateDunderAll"),
             null,
             runnable
@@ -97,23 +105,36 @@ class DunderAllGenerateAction : PyAction() {
      * @return 变量应该放在哪个元素的前面。
      * @see <a href="https://peps.python.org/pep-0008/#module-level-dunder-names">PEP 8 - 模块级别 Dunder 的布局位置</a>
      */
-    private fun findProperlyPlace(file: PyFile): PsiElement {
+    private fun properlyPlaceTo(file: PyFile): PsiElement {
+        // 这里只考虑完全遵守 PEP 规范的情况，
+        // 因为不遵守规范时无法确定确切的位置。
         for (child in file.children) {
-            if (child !is PyElement) continue
-
-            // 跳过文件的 docstring
-            if (child is PyExpressionStatement) {
-                val expression: PyExpression = child.expression
-                if (expression is PyStringLiteralExpression) continue
-            } else if (child is PyFromImportStatement) {
-                if (child.isFromFuture) continue
+            // 跳过文件自身的 docstring
+            if (child is PyExpressionStatement && child.expression is PyStringLiteralExpression) {
+                continue
             }
-
-            // 拿不到注释，所以不作判断
-
-            // 根据 PEP 8 的格式约定，其它语句都要排在 __all__ 后面
+            // 跳过 __future__ 导入
+            else if (child is PyFromImportStatement && child.isFromFuture) {
+                continue
+            }
+            // 跳过 shebang 和文件编码定义
+            else if (child is PsiComment && (child.isShebang() || child.isEncodingDefine())) {
+                continue
+            }
+            // 跳过空格（虽然我也不知道是哪里来的）
+            else if (child is PsiWhiteSpace) {
+                continue
+            }
+            // 其它语句都要排在 __all__ 后面
             return child
         }
         return file.firstChild
     }
 }
+
+// 见 https://peps.python.org/pep-0263/#defining-the-encoding
+private val REGEX_ENCODING_DEFINE: Regex
+    get() = "^[ \\t\\f]*#.*?coding[:=][ \\t]*([-_.a-zA-Z0-9]+)".toRegex()
+
+private fun PsiComment.isShebang() = this.text.startsWith("#!")
+private fun PsiComment.isEncodingDefine() = REGEX_ENCODING_DEFINE.containsMatchIn(this.text)

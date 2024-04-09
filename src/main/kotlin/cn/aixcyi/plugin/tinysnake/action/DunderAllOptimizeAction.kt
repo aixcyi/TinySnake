@@ -1,9 +1,9 @@
 package cn.aixcyi.plugin.tinysnake.action
 
-import cn.aixcyi.plugin.tinysnake.Snippet
 import cn.aixcyi.plugin.tinysnake.SnippetGenerator
 import cn.aixcyi.plugin.tinysnake.Zoo.message
 import cn.aixcyi.plugin.tinysnake.entity.DunderAll
+import cn.aixcyi.plugin.tinysnake.entity.TopSymbols
 import cn.aixcyi.plugin.tinysnake.ui.DunderAllOptimizer
 import com.intellij.codeInsight.hint.HintManager
 import com.intellij.openapi.actionSystem.AnActionEvent
@@ -19,13 +19,14 @@ import com.jetbrains.python.psi.PyFile
 class DunderAllOptimizeAction : PyAction() {
 
     override fun actionPerformed(editor: Editor, event: AnActionEvent, file: PyFile) {
-        // 准备基础设施
         val hint = HintManager.getInstance()
-
-        // 查找 __all__ 相关
-        val all = DunderAll(file)
-        if (all.variable == null) {
+        val dunderAll = DunderAll(file)
+        if (dunderAll.expression == null) {
             hint.showInformationHint(editor, message("hint.OptimizeDunderAll.missing"))
+            return
+        }
+        if (!dunderAll.isValidAssignment) {
+            hint.showInformationHint(editor, message("hint.OptimizeDunderAll.invalid"))
             return
         }
 
@@ -33,24 +34,18 @@ class DunderAllOptimizeAction : PyAction() {
         val dialog = DunderAllOptimizer()
         if (!dialog.showAndGet()) return
 
-        // 执行优化
-        val project = file.project
-        val list = all.getVariableValue()
-        if (list != null) {
-            // 构造优化后的代码
-            val exporting = all.sort(ArrayList(all.exports), dialog.state.mySequenceOrder)
-            val sequences = Snippet.makeStringList(exporting, dialog.state)
-            val statement = SnippetGenerator(file).createListLiteral(sequences)
-            // 写入编辑器并产生一个撤销选项
-            WriteCommandAction.runWriteCommandAction(
-                project,
-                message("command.OptimizeDunderAll"),
-                null,
-                { list.replace(statement) }
-            )
-            hint.showInformationHint(editor, message("hint.OptimizeDunderAll.done"))
-        } else {
-            hint.showErrorHint(editor, message("hint.OptimizeDunderAll.invalid"))
-        }
+        // 构造优化后的代码
+        val exports = dunderAll.exports.toMutableList()
+        TopSymbols(file).sort(exports, dialog.state.mySequenceOrder)
+        val statement = SnippetGenerator(file).createStringListLiteral(exports, dialog.state)
+
+        // 写入编辑器并产生一个撤销选项
+        WriteCommandAction.runWriteCommandAction(
+            file.project,
+            message("command.OptimizeDunderAll"),
+            null,
+            { dunderAll.assignment!!.replace(statement) }
+        )
+        hint.showInformationHint(editor, message("hint.OptimizeDunderAll.done"))
     }
 }

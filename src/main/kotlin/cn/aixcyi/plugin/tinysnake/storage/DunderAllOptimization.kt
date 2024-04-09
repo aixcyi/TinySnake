@@ -28,22 +28,18 @@ class DunderAllOptimization : SimplePersistentStateComponent<DunderAllOptimizati
         /**
          * 按符号出现顺序排序。
          */
-        APPEARANCE {
-            override fun toString() = "1"
-        },
+        APPEARANCE,
 
         /**
          * 按字母先后顺序排序（不区分大小写）。
          */
-        ALPHABET {
-            override fun toString() = "2"
-        },
+        ALPHABET,
 
         /**
          * 按字母先后顺序排序（区分大小写）。
          */
-        CHARSET {
-            override fun toString() = "3"
-        }
+        CHARSET;
+
+        override fun toString() = this.ordinal.toString()  // 从0开始
     }
 }
