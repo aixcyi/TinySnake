@@ -73,7 +73,7 @@ class TopSymbols(
         // 函数定义
         else if (statement is PyFunction) {
             val funcName = statement.getName() ?: return
-            if (statement.protectionLevel.underscoreLevel != 0) return  // 跳过非公开函数
+            if (!statement.isPublicLevel()) return  // 跳过非公开函数
             symbols[funcName] = specifiedIcon ?: AllIcons.Nodes.Function
         }
         // 赋值表达式
@@ -148,3 +148,5 @@ class TopSymbols(
         }
     }
 }
+
+private fun PyFunction.isPublicLevel(): Boolean = this.protectionLevel.underscoreLevel == 0

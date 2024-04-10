@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "cn.aixcyi.plugin.tinysnake"
-version = "1.0.5-RC"  // 主要版本号.次要版本号.修订号-状态标签
+version = "1.0.10"  // 主要版本号.次要版本号.修订号-状态标签
 
 repositories {
     mavenLocal()
