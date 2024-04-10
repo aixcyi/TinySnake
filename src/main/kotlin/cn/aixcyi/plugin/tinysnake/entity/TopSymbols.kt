@@ -66,14 +66,14 @@ class TopSymbols(
     private fun collect(statement: PyStatement) {
         // 类定义
         if (statement is PyClass) {
-            val className = statement.getName() ?: return
+            val className = statement.name ?: return
             if (className.startsWith("_")) return
             symbols[className] = specifiedIcon ?: AllIcons.Nodes.Class
         }
         // 函数定义
         else if (statement is PyFunction) {
-            val funcName = statement.getName() ?: return
-            if (!statement.isPublicLevel()) return  // 跳过非公开函数
+            val funcName = statement.name ?: return
+            if (funcName.startsWith("_")) return
             symbols[funcName] = specifiedIcon ?: AllIcons.Nodes.Function
         }
         // 赋值表达式
@@ -148,5 +148,3 @@ class TopSymbols(
         }
     }
 }
-
-private fun PyFunction.isPublicLevel(): Boolean = this.protectionLevel.underscoreLevel == 0
