@@ -1,7 +1,7 @@
 package cn.aixcyi.plugin.tinysnake
 
 import com.intellij.icons.AllIcons
-import com.intellij.ui.IconManager
+import com.intellij.openapi.util.IconLoader
 import com.intellij.ui.LayeredIcon
 import javax.swing.Icon
 
@@ -14,13 +14,16 @@ import javax.swing.Icon
  */
 object AppIcons {
 
-    private fun load(path: String, cacheKey: Int, flags: Int): Icon {
-        return IconManager.getInstance().loadRasterizedIcon(
-            path,
-            AppIcons::class.java.classLoader, cacheKey, flags
-        )
+    /**
+     * 载入包内的图标。
+     */
+    private fun load(path: String): Icon {
+        return IconLoader.getIcon(path, AppIcons::class.java.classLoader)
     }
 
+    /**
+     * 将多个图标层叠成一个图标。
+     */
     private fun loads(vararg icons: Icon): Icon {
         val icon = LayeredIcon(icons.size)
         for (i in icons.indices) {
@@ -30,16 +33,14 @@ object AppIcons {
     }
 
     // 不是所有以双下划线开头的变量都是特殊变量，属性、函数同理。
-    object Nodes {
 
-        /**
-         * 16x16
-         */
-        val CyanDot: Icon = load("icons/com/jetbrains/python/psi/nodes/cyan-dot.svg", 77524255, 0)
+    /**
+     * 16x16
+     */
+    val CyanDot: Icon = load("/icons/cyan-dot.svg")
 
-        /**
-         * 16x16。特殊变量（它们都以双下划线开头）。
-         */
-        val Variable: Icon = loads(AllIcons.Nodes.Variable, CyanDot)
-    }
+    /**
+     * 16x16。特殊变量（它们都以双下划线开头）。
+     */
+    val Variable: Icon = loads(AllIcons.Nodes.Variable, CyanDot)
 }

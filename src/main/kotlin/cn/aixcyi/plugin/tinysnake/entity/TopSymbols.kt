@@ -96,7 +96,7 @@ class TopSymbols(
                 }
                 // 除了 __all__ 以外的特殊变量
                 else if (PyNames.UNDERSCORED_ATTRIBUTES.contains(variableName) && PyNames.ALL != variableName) {
-                    symbols[variableName] = specifiedIcon ?: AppIcons.Nodes.Variable
+                    symbols[variableName] = specifiedIcon ?: AppIcons.Variable
                 }
             }
         }
