@@ -27,11 +27,11 @@ public class DunderAllOptimizer extends DialogWrapper {
         setResizable(false);
         setTitle(message("command.OptimizeDunderAll"));
         init();
-        state = DunderAllOptimization.getInstance().getState();
+        load();
     }
 
-    @Override
-    public void show() {
+    private void load() {
+        state = DunderAllOptimization.getInstance().getState();
         switch (state.getMySequenceOrder()) {
             case APPEARANCE -> groupOrder.setSelected(radioAppearanceButton.getModel(), true);
             case ALPHABET -> groupOrder.setSelected(radioAlphabetOrder.getModel(), true);
@@ -40,10 +40,9 @@ public class DunderAllOptimizer extends DialogWrapper {
         checkboxUseSingleQuote.setSelected(state.isUseSingleQuote());
         checkboxEndsWithComma.setSelected(state.isEndsWithComma());
         checkboxLineByLine.setSelected(state.isLineByLine());
+    }
 
-        super.show();
-        if (!isOK()) return;
-
+    private void save() {
         state.setMySequenceOrder(radioCharOrder.isSelected()
                 ? DunderAllOptimization.Order.CHARSET
                 : radioAlphabetOrder.isSelected()
@@ -53,6 +52,15 @@ public class DunderAllOptimizer extends DialogWrapper {
         state.setUseSingleQuote(checkboxUseSingleQuote.isSelected());
         state.setEndsWithComma(checkboxEndsWithComma.isSelected());
         state.setLineByLine(checkboxLineByLine.isSelected());
+    }
+
+    @Override
+    public boolean showAndGet() {
+        if (super.showAndGet()) {
+            this.save();
+            return true;
+        }
+        return false;
     }
 
     @Override
