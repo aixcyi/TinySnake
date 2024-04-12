@@ -1,5 +1,6 @@
 # Tiny Snake
 
+[![Compatibility Badge](https://img.shields.io/badge/PyCharm-2022.2.*%20~%202024.1.*-darkgreen?style=flat-square&logo=pycharm)](https://plugins.jetbrains.com/plugin/24140-tiny-snake/versions)
 [![开始使用](https://img.shields.io/badge/开始使用-中文-blue.svg?style=flat-square)](./README.md)
 [![Getting Started](https://img.shields.io/badge/Getting%20Started-English-green.svg?style=flat-square)](./README_en.md)
 
@@ -12,9 +13,10 @@ A tiny plugin to improve Python development experience.
 - Insert or overwrite shebang line on file head, and manage preset shebang list.
 - Supports multiple languages.
 
-## Compatibility
+## Installation
 
-PyCharm 2022.2.* ~ 2024.1.*
+Menu → File → Settings... → Plugins → Marketplace  
+And then search "Tiny Snake".
 
 ## Usage
 

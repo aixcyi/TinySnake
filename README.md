@@ -1,5 +1,6 @@
 # Tiny Snake
 
+[![兼容性徽章](https://img.shields.io/badge/PyCharm-2022.2.*%20~%202024.1.*-darkgreen?style=flat-square&logo=pycharm)](https://plugins.jetbrains.com/plugin/24140-tiny-snake/versions)
 [![开始使用](https://img.shields.io/badge/开始使用-中文-blue.svg?style=flat-square)](./README.md)
 [![Getting Started](https://img.shields.io/badge/Getting%20Started-English-green.svg?style=flat-square)](./README_en.md) 
 
@@ -12,9 +13,10 @@
 - 插入或覆盖文件头部的 shebang，管理预置的 shebang 列表。
 - 支持多种语言。
 
-## 兼容性
+## 安装
 
-PyCharm 2022.2.* 至 2024.1.* 。
+前往插件应用市场搜索“Tiny Snake”：  
+菜单 → 文件 → 设置... → 插件 → Marketplace
 
 ## 用法
 
