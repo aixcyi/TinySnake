@@ -4,7 +4,7 @@ plugins {
     id("org.jetbrains.intellij") version "1.13.3"
 }
 
-group = "cn.aixcyi.plugin.tinysnake"
+group = "cn.aixcyi.plugin"
 version = "1.0.12"  // 主要版本号.次要版本号.修订号-状态标签
 
 repositories {
