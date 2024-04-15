@@ -60,11 +60,16 @@ class SettingsComponent(private val state: Settings.State) {
                     model.remove(list.selectedIndex)
                     list.selectionModel.leadSelectionIndex = list.leadSelectionIndex
                 }
-                .addExtraAction(object : AnActionButton(message("settings.normal.reset"), AllIcons.Actions.GC) {
-                    override fun getActionUpdateThread() = ActionUpdateThread.EDT
+                .addExtraAction(object : AnActionButton(message("settings.normal.reset"), AllIcons.General.Reset) {
+                    override fun getActionUpdateThread() = ActionUpdateThread.BGT
 
                     override fun actionPerformed(e: AnActionEvent) {
                         revert()
+                    }
+
+                    override fun updateButton(e: AnActionEvent) {
+                        val cc = contextComponent
+                        e.presentation.isEnabled = cc != null && cc.isShowing && cc.isEnabled && !isOriginal()
                     }
                 })
                 .createPanel()
@@ -72,24 +77,44 @@ class SettingsComponent(private val state: Settings.State) {
         return innerPanel
     }
 
+    /**
+     * 组件的状态（对于最后一次持久化的状态来说）是否已被修改。
+     */
     fun isModified() = model.toList() != state.myShebangs
 
+    /**
+     * 组件的状态是不是（代码预设的）初始状态。
+     */
+    fun isOriginal() = model.toList() == Settings.PRESET_SHEBANGS
+
+    /**
+     * 应用设置。（即把组件中的状态持久化）
+     */
     fun apply() {
         with(state) {
             myShebangs = model.toList()
         }
     }
 
+    /**
+     * 将组件中的状态重置为最后一次持久化的状态。
+     */
     fun reset() {
         model.removeAll()
         model.addAll(0, state.myShebangs)
     }
 
+    /**
+     * 将组件的状态还原为（代码预设的）初始状态。
+     */
     fun revert() {
         model.removeAll()
-        model.addAll(0, Settings.getInstance().state.myShebangs)
+        model.addAll(0, Settings.PRESET_SHEBANGS)
     }
 
+    /**
+     * 释放组件。
+     */
     fun dispose() {
     }
 }
