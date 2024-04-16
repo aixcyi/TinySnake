@@ -3,6 +3,11 @@ package cn.aixcyi.plugin.tinysnake.storage
 import cn.aixcyi.plugin.tinysnake.Zoo
 import com.intellij.openapi.components.*
 
+/**
+ * `__all__` 格式化设置。
+ *
+ * @author <a href="https://github.com/aixcyi">砹小翼</a>
+ */
 @Service(Service.Level.APP)
 @State(name = Zoo.DUNDER_ALL_OPTIMIZATION_NAME, storages = [Storage(Zoo.PLUGIN_LEVEL_STORAGE)])
 class DunderAllOptimization : SimplePersistentStateComponent<DunderAllOptimization.State>(State()) {

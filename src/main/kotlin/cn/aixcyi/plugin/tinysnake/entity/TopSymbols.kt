@@ -10,9 +10,12 @@ import javax.swing.Icon
 /**
  * 文件内的所有顶层符号。
  *
+ * 类内部手动枚举所有符号，并递归筛选顶层符号。手动枚举是为了让不同类型的符号混合之后保持定义顺序。
+ *
  * @param file 要查找的文件。
  * @param withImports 是否包括导入。因为存在 `from xxx import *` 这样的语句，所以搜索导入的话会消耗更多时间和内存。
  * @param specifiedIcon 固定所有符号对应的图标。仅供 [TopSymbols] 自身递归使用。
+ * @author <a href="https://github.com/aixcyi">砹小翼</a>
  */
 class TopSymbols(
     file: PyFile,
@@ -40,7 +43,6 @@ class TopSymbols(
         get() = symbols.values.toList()
 
     init {
-        // 手动枚举是为了保持符号定义顺序
         file.statements.forEach { this.collect(it) }
     }
 

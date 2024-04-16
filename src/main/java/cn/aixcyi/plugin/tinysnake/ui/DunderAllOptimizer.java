@@ -9,6 +9,11 @@ import java.awt.*;
 
 import static cn.aixcyi.plugin.tinysnake.Zoo.message;
 
+/**
+ * {@code __all__} 格式化设置面板。
+ *
+ * @author <a href="https://github.com/aixcyi">砹小翼</a>
+ */
 public class DunderAllOptimizer extends DialogWrapper {
 
     public DunderAllOptimization.State state;

@@ -7,7 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * Docstring 超链接生成窗口。
+ * Docstring 超链接编辑窗口。
  *
  * @author <a href="https://github.com/aixcyi">砹小翼</a>
  */

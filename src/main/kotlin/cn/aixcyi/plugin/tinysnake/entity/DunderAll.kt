@@ -8,6 +8,10 @@ import com.jetbrains.python.psi.PyTupleExpression
 
 /**
  * `__all__` 实体。
+ *
+ * 用于聚合 `__all__` 导出的符号、表达式、表达式的值等。
+ *
+ * @author <a href="https://github.com/aixcyi">砹小翼</a>
  */
 class DunderAll(file: PyFile) {
 
