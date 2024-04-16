@@ -1,11 +1,15 @@
+import org.jetbrains.changelog.Changelog
+import org.jetbrains.changelog.date
+
 plugins {
     id("java")
     id("org.jetbrains.kotlin.jvm") version "1.9.21"
     id("org.jetbrains.intellij") version "1.13.3"
+    id("org.jetbrains.changelog") version "2.2.0"
 }
 
 group = "cn.aixcyi.plugin"
-version = "1.0.12"  // 主要版本号.次要版本号.修订号-状态标签
+version = "1.0.13"  // 主要版本号.次要版本号.修订号-状态标签
 
 repositories {
     mavenLocal()
@@ -13,10 +17,18 @@ repositories {
 }
 
 // Configure Gradle IntelliJ Plugin
-// Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
+// https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
 intellij {
     version.set("PC-2022.2.5")
     plugins.set(listOf("PythonCore"))
+}
+
+// Gradle Changelog Plugin
+// https://github.com/JetBrains/gradle-changelog-plugin
+changelog {
+    path.set(file("CHANGELOG.md").canonicalPath)
+    header = provider { "v${version.get()}，${date("yyyy-mm-dd")}" }
+    headerParserRegex.set("""v(\d+.\d+.\d+)""".toRegex())
 }
 
 tasks {
@@ -25,6 +37,7 @@ tasks {
         sourceCompatibility = "17"
         targetCompatibility = "17"
     }
+
     withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
         kotlinOptions.jvmTarget = "17"
     }
@@ -33,6 +46,12 @@ tasks {
         sinceBuild.set("222")
         untilBuild.set("241.*")
         pluginDescription.set(file("DESCRIPTION.html").readText())
+        changeNotes.set(provider {
+            changelog.renderItem(
+                changelog.getLatest().withHeader(false).withEmptySections(false),
+                Changelog.OutputType.HTML
+            )
+        })
     }
 
     signPlugin {
