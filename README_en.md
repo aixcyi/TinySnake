@@ -1,6 +1,7 @@
 # Tiny Snake
 
 [![Compatibility Badge](https://img.shields.io/badge/PyCharm-2022.2.*%20~%202024.1.*-darkgreen?style=flat-square&logo=pycharm)](https://plugins.jetbrains.com/plugin/24140-tiny-snake/versions)
+[![JetBrains Plugin Version](https://img.shields.io/jetbrains/plugin/v/24140?style=flat-square&color=purple)](https://plugins.jetbrains.com/plugin/24140-tiny-snake)
 [![开始使用](https://img.shields.io/badge/开始使用-中文-blue.svg?style=flat-square)](./README.md)
 [![Getting Started](https://img.shields.io/badge/Getting%20Started-English-green.svg?style=flat-square)](./README_en.md)
 
