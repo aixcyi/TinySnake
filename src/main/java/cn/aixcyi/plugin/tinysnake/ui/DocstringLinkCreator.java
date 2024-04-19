@@ -48,6 +48,15 @@ public class DocstringLinkCreator extends DialogWrapper {
         return this;
     }
 
+    @Override
+    public @Nullable JComponent getPreferredFocusedComponent() {
+        final String text = textField.getText();
+        final String link = linkField.getText();
+        if (!text.isEmpty() && link.isEmpty())
+            return linkField;
+        return textField;
+    }
+
     /**
      * 弹出窗口让用户编辑，并在确认后返回可以放在 docstring 中展示的超链接代码。
      * <p>
