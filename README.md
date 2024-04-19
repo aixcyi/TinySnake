@@ -12,6 +12,7 @@
 - 生成 `__all__` 变量，对变量值列表进行排序，更换引号风格和换行风格等。
 - 在 [reStructuredText](https://en.wikipedia.org/wiki/ReStructuredText) 格式的[文档字符串](https://docs.python.org/zh-cn/3/glossary.html#term-docstring)中插入超链接。
 - 插入或覆盖文件头部的 shebang，管理预置的 shebang 列表。
+- 通过图形界面创建 Django App。
 - 支持多种语言。
 
 ## 安装
@@ -65,6 +66,31 @@
 
 ![生成Shebang的示意图](./.img/generate-shebang.png)
 
+### 创建 Django App
+
+在「项目」的目录树中，点击 “右键 → 新建 → Django App” 即可调出这个窗口。
+
+![菜单示意图](./.img/django-app-creation-menu.png)
+
+窗口会自动识别当前点击的目录，并转化成 App 的路径。同时，在输入路径时，会同步生成 App 的名称。
+
+每一项都默认创建一个文件，有些时候你会需要将某个文件改为一个在 App 内的子包，选择「创建包」即可；  
+如果不需要创建某个文件，则选择「不创建」即可。程序会记住当前选择，在当前项目内有效。
+
+![创建窗口示意图](./.img/django-app-creation-popup.png)
+
+按照以上设置创建后，将会生成如下结构的目录：
+
+- `zeraora/drf/meowpass/`
+    - `admin.py`
+    - `apps.py`
+    - `models.py`
+    - `serializers/`
+        - `__init__.py`
+    - `views/`
+        - `__init__.py`
+    - `urls.py`
+
 ## 参与贡献
 
 ### 翻译
@@ -76,6 +102,6 @@
 1. 在 IntelliJ IDEA 中打开此项目，安装插件 [Resource Bundle Editor](https://plugins.jetbrains.com/plugin/17035-resource-bundle-editor)，打开新建或现有的文件，然后在底部从「文本」模式切换为「资源包」模式。
 2. 将任意一个 `properties` 文件的内容复制过来，然后按照 `key=value` 的格式去掉所有 value，并填入你需要翻译的文本。
 
-### 错误反馈
+### 反馈与跟踪
 
-前往 [issue](https://github.com/aixcyi/TinySnake/issues) 搜索错误信息或反馈错误，或者加入QQ群 418751161 。
+前往 [issue](https://github.com/aixcyi/TinySnake/issues) 搜索错误信息或反馈错误，新功能与错误修复的进度可以留意 [Tiny Snake Project](https://github.com/users/aixcyi/projects/1/views/1) ，或者加入QQ群 418751161 。

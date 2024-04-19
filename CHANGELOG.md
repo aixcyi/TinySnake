@@ -1,4 +1,11 @@
-# Change logs for Tiny Snake
+# 更新日志／Change Log
+
+## v1.1.0，2024-04-19
+
+1. 添加了一个图形界面，用于快速创建 Django App。  
+   Add a UI window to fastly create Django app.
+2. 打开插入 docstring 链接的弹窗时，现在会自动聚焦到输入框。  
+   It will autofocus to text or link input field when you open window that insert hyperlink into docstring.
 
 ## v1.0.13，2024-04-16
 

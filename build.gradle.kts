@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "cn.aixcyi.plugin"
-version = "1.0.13"  // 主要版本号.次要版本号.修订号-状态标签
+version = "1.1.0"  // 主要版本号.次要版本号.修订号-状态标签
 
 repositories {
     mavenLocal()

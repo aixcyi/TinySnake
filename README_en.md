@@ -12,6 +12,7 @@ A tiny plugin to improve Python development experience.
 - Generate variable `__all__`, sort it list, change quotes and lines style, etc.
 - Insert hyperlink into [reStructuredText](https://en.wikipedia.org/wiki/ReStructuredText) format [docstring](https://docs.python.org/3/glossary.html#term-docstring).
 - Insert or overwrite shebang line on file head, and manage preset shebang list.
+- Create a Django app via UI window. And you can create a sub-package instead of any file or skip creation of it.
 - Supports multiple languages.
 
 ## Installation
@@ -62,6 +63,32 @@ To config preset Shebang list and it's order, open settings panel (by `Control` 
 
 ![Generate Shebang Line](./.img/generate-shebang.png)
 
+### Create Django app
+
+Right click any project file on _Project_ → _New_ → _Django App_ to show this menu.
+
+![Menu of Create Django App](./.img/django-app-creation-menu.png)
+
+It will auto-translate path of current file path to Django app module, and app label will be retrieved from module path.
+
+It was created a file after confirmation for each item by default, you can choose _Do not create_ or _Create package_ to serve different purposes.
+
+The initial settings on this window were remember in project level configs.
+
+![Window of Create Django App](./.img/django-app-creation-popup.png)
+
+After the above operation is confirmed, the following directory structure will be generated:
+
+- `zeraora/drf/meowpass/`
+  - `admin.py`
+  - `apps.py`
+  - `models.py`
+  - `serializers/`
+    - `__init__.py`
+  - `views/`
+    - `__init__.py`
+  - `urls.py`
+
 ## Contributing
 
 ### Translating
@@ -76,4 +103,4 @@ There are two ways to quick start:
 
 ### Bug Track
 
-Go to [issue](https://github.com/aixcyi/TinySnake/issues) panel to search error info or report bugs.
+Go to [issue](https://github.com/aixcyi/TinySnake/issues) panel to search error info or report bugs, and sure you also can view [Tiny Snake Project](https://github.com/users/aixcyi/projects/1/views/1) to tracking progresses.
