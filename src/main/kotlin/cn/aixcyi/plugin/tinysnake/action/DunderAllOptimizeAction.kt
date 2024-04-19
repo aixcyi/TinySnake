@@ -1,8 +1,8 @@
 package cn.aixcyi.plugin.tinysnake.action
 
-import cn.aixcyi.plugin.tinysnake.SnippetGenerator
 import cn.aixcyi.plugin.tinysnake.Zoo.message
 import cn.aixcyi.plugin.tinysnake.entity.DunderAll
+import cn.aixcyi.plugin.tinysnake.entity.SnippetGenerator
 import cn.aixcyi.plugin.tinysnake.entity.TopSymbols
 import cn.aixcyi.plugin.tinysnake.ui.DunderAllOptimizer
 import com.intellij.codeInsight.hint.HintManager

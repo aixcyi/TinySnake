@@ -1,4 +1,4 @@
-package cn.aixcyi.plugin.tinysnake
+package cn.aixcyi.plugin.tinysnake.entity
 
 import cn.aixcyi.plugin.tinysnake.storage.DunderAllOptimization
 import com.intellij.psi.PsiComment
