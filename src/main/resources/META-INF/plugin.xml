@@ -24,6 +24,14 @@
     <!-- action 的 text 中的下划线被转义了，所以需要用双下划线来表示下划线，譬如 "__all__" 要写成 "____all____" -->
     <actions resource-bundle="messages.TinySnakeBundle">
 
+        <!-- 顶层菜单／新建... -->
+        <action id="GenerateDjangoApp"
+                class="cn.aixcyi.plugin.tinysnake.action.DjangoAppGenerateAction"
+                text="Django App"
+                icon="AllIcons.RunConfigurations.Application">
+            <add-to-group group-id="NewGroup" anchor="after" relative-to-action="NewPythonPackage"/>
+        </action>
+
         <!-- 顶层菜单／代码 -->
         <action id="OptimizeDunderAll"
                 class="cn.aixcyi.plugin.tinysnake.action.DunderAllOptimizeAction">

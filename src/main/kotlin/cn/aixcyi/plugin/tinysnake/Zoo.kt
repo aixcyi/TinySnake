@@ -11,6 +11,8 @@ object Zoo {
 
     // <component name="NAME"></component>
     const val PLUGIN_SETTINGS_NAME = "TinySnake.Settings"
+    const val DJANGO_APP_CREATION_NAME = "TinySnake.DjangoAppCreation"
+    const val DJANGO_APP_TEMPLATE_NAME = "TinySnake.DjangoAppTemplate"
     const val DUNDER_ALL_OPTIMIZATION_NAME = "TinySnake.DunderAllOptimization"
 
     /**
@@ -29,9 +31,20 @@ object Zoo {
      * @return properties 文件中键对应的值。
      */
     @JvmStatic
-    fun message(
-        @PropertyKey(resourceBundle = "messages.TinySnakeBundle") key: String
-    ): String {
-        return BUNDLE.getString(key)
-    }
+    fun message(@PropertyKey(resourceBundle = "messages.TinySnakeBundle") key: String): String = BUNDLE.getString(key)
+
+    /**
+     * 获取资源文件。
+     *
+     * 比如获取 ./src/main/resources/index.html 则应调用 `resource("/index.html")` 。
+     *
+     * @param path 资源文件路径。
+     * @return 资源文件。
+     * @throws IllegalArgumentException 文件不存在。
+     */
+    @Throws(IllegalArgumentException::class)
+    @JvmStatic
+    fun resource(path: String) =
+        Zoo::class.java.getResource(path)
+            ?: throw IllegalArgumentException("resource file $path was not found.")
 }
