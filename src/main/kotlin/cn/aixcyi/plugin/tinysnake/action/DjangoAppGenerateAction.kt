@@ -3,7 +3,7 @@ package cn.aixcyi.plugin.tinysnake.action
 import cn.aixcyi.plugin.tinysnake.StringUtil
 import cn.aixcyi.plugin.tinysnake.Zoo.message
 import cn.aixcyi.plugin.tinysnake.entity.PyPackageProxy
-import cn.aixcyi.plugin.tinysnake.storage.DjangoAppTemplate
+import cn.aixcyi.plugin.tinysnake.storage.DjangoAppGeneration.Template
 import cn.aixcyi.plugin.tinysnake.tailless
 import cn.aixcyi.plugin.tinysnake.ui.DjangoAppGenerator
 import com.intellij.ide.projectView.ProjectView
@@ -58,8 +58,7 @@ class DjangoAppGenerateAction : AnAction() {
         // 创建代理模型，准备模板
         val proxy = PyPackageProxy(project)
         val folder = proxy.root / dialog.name  // 实际上就是 proxy.create() 之后的 proxy.folder，只不过需要先确保文件夹不存在
-        val template = DjangoAppTemplate.getInstance(project).state
-        val appsTemplate = template.apps.format(
+        val appsTemplate = Template.APPS.format(
             // AppConfig 类名前缀
             StringUtil.snakeToUpperCamel(dialog.label).tailless("App").tailless("AppConfig"),
             dialog.creation.defaultAutoField,
@@ -77,14 +76,20 @@ class DjangoAppGenerateAction : AnAction() {
 
         // 创建 Python 包，并导航到这个包
         val runnable = {
-            proxy.create(dialog.name, template.dunderInit)
-            proxy.add("admin", template.admin, dialog.creation.admin)
+            // 创建 App 包
+            proxy.create(dialog.name, Template.DUNDER_INIT)
+            proxy.add("admin", Template.ADMIN, dialog.creation.admin)
             proxy.add("apps", appsTemplate, dialog.creation.apps)
-            proxy.add("models", template.models, dialog.creation.models)
-            proxy.add("serializers", template.serializers, dialog.creation.serializers)
-            proxy.add("views", template.views, dialog.creation.views)
-            proxy.add("urls", template.urls, dialog.creation.urls)
-            ProjectView.getInstance(project).select(null, proxy.folder.virtualFile, true)
+            proxy.add("models", Template.MODELS, dialog.creation.models)
+            proxy.add("serializers", Template.SERIALIZERS, dialog.creation.serializers)
+            proxy.add("tests", Template.TESTS, dialog.creation.tests)
+            proxy.add("views", Template.VIEWS, dialog.creation.views)
+            proxy.add("urls", Template.URLS, dialog.creation.urls)
+            val packageVF = proxy.folder.virtualFile
+            // 创建 App 包内的 migrations 子包
+            proxy.create(dialog.name.append("migrations"), Template.MIGRATIONS)
+            // 导航到 App 包
+            ProjectView.getInstance(project).select(null, packageVF, true)
         }
         WriteCommandAction.runWriteCommandAction(
             project,

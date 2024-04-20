@@ -1,5 +1,12 @@
 # 更新日志／Change Log
 
+## v1.1.1，2024-04-20
+
+1. 修复创建 Django App 后缺少测试文件和迁移记录子包的问题。  
+   Supplement file `tests.py` and sub-package `migrations` when you create a Django app.
+2. 更正视图和路由的模板。  
+   Correct templates of `views.py` and `urls.py` in Django app creation.
+
 ## v1.1.0，2024-04-19
 
 1. 添加了一个图形界面，用于快速创建 Django App。  

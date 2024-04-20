@@ -46,6 +46,20 @@ class DjangoAppGeneration : SimplePersistentStateComponent<DjangoAppGeneration.S
         var urls by property(Creation.FILE) { it == Creation.FILE }
     }
 
+    class Template {
+        companion object {
+            val MIGRATIONS = Zoo.resource("/templates/migrations/__init__.py").readText()
+            val DUNDER_INIT = Zoo.resource("/templates/__init__.py").readText()
+            val ADMIN = Zoo.resource("/templates/admin.py").readText()
+            val APPS = Zoo.resource("/templates/apps.py").readText()
+            val MODELS = Zoo.resource("/templates/models.py").readText()
+            val SERIALIZERS = Zoo.resource("/templates/serializers.py").readText()
+            val TESTS = Zoo.resource("/templates/tests.py").readText()
+            val VIEWS = Zoo.resource("/templates/views.py").readText()
+            val URLS = Zoo.resource("/templates/urls.py").readText()
+        }
+    }
+
     companion object {
         @JvmStatic
         fun getInstance(project: Project) = project.service<DjangoAppGeneration>()
