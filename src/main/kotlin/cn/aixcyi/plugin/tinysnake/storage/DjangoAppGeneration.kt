@@ -44,15 +44,32 @@ class DjangoAppGeneration : SimplePersistentStateComponent<DjangoAppGeneration.S
      */
     class Template {
         companion object {
-            val MIGRATIONS = Zoo.resource("/templates/migrations/__init__.py").readText()
-            val DUNDER_INIT = Zoo.resource("/templates/__init__.py").readText()
-            val ADMIN = Zoo.resource("/templates/admin.py").readText()
-            val APPS = Zoo.resource("/templates/apps.py").readText()
-            val MODELS = Zoo.resource("/templates/models.py").readText()
-            val SERIALIZERS = Zoo.resource("/templates/serializers.py").readText()
-            val TESTS = Zoo.resource("/templates/tests.py").readText()
-            val VIEWS = Zoo.resource("/templates/views.py").readText()
-            val URLS = Zoo.resource("/templates/urls.py").readText()
+            val MIGRATIONS = Zoo.resource("/templates/migrations/__init__.py").readText().replace("\r\n", "\n")
+            val DUNDER_INIT = Zoo.resource("/templates/__init__.py").readText().replace("\r\n", "\n")
+            val ADMIN = Zoo.resource("/templates/admin.py").readText().replace("\r\n", "\n")
+            val APPS = Zoo.resource("/templates/apps.py").readText().replace("\r\n", "\n")
+            val MODELS = Zoo.resource("/templates/models.py").readText().replace("\r\n", "\n")
+            val SERIALIZERS = Zoo.resource("/templates/serializers.py").readText().replace("\r\n", "\n")
+            val TESTS = Zoo.resource("/templates/tests.py").readText().replace("\r\n", "\n")
+            val VIEWS = Zoo.resource("/templates/views.py").readText().replace("\r\n", "\n")
+            val URLS = Zoo.resource("/templates/urls.py").readText().replace("\r\n", "\n")
+
+            fun renderApps(
+                clsPostfix: String,
+                appName: String,
+                appLabel: String?,
+                verboseName: String?,
+                defaultAutoField: String?,
+            ): String {
+                var template = APPS.format(clsPostfix, appName)
+                if (!appLabel.isNullOrEmpty())
+                    template += "    label = '$appLabel'\n"
+                if (!verboseName.isNullOrEmpty())
+                    template += "    verbose_name = '$verboseName'\n"
+                if (!defaultAutoField.isNullOrEmpty())
+                    template += "    default_auto_field = '$defaultAutoField'\n"
+                return template
+            }
         }
     }
 

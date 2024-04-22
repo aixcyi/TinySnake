@@ -40,30 +40,31 @@ class DjangoAppGenerateAction : AnAction() {
             is PsiDirectory -> selection.getQName()
 
             // ${PROJECT_ROOT}/django/db/models/__init__.py  -->  django.db.models
-            is PyFile -> if (selection.name == PyNames.INIT_DOT_PY)
+            is PyFile -> if (selection.name == PyNames.INIT_DOT_PY) {
                 selection.getQName()
+            }
 
             // ${PROJECT_ROOT}/django/db/models/aggregates.py  -->  django.db.models.aggregates
-            else
+            else {
                 selection.getQName()?.removeTail(1)
+            }
 
             else -> return
         } ?: QualifiedName.fromComponents()
 
         // 编辑 Django App 初始设置
-        val dialog = DjangoAppGenerator(project)
-        dialog.name = baseQName
+        val dialog = DjangoAppGenerator(project).setName(baseQName)
         if (!dialog.showAndGet()) return
 
         // 创建代理模型，准备模板
         val proxy = PyPackageProxy(project)
         val folder = proxy.root / dialog.name  // 实际上就是 proxy.create() 之后的 proxy.folder，只不过需要先确保文件夹不存在
-        val appsTemplate = Template.APPS.format(
-            // AppConfig 类名前缀
+        val appsTemplate = Template.renderApps(
             StringUtil.snakeToUpperCamel(dialog.label).tailless("App").tailless("AppConfig"),
-            dialog.creation.defaultAutoField,
             dialog.name.toString(),
             dialog.label,
+            dialog.verboseName,
+            dialog.creation.defaultAutoField,
         )
         if (folder.exists()) {
             Messages.showWarningDialog(

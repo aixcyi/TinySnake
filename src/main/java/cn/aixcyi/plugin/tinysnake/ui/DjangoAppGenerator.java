@@ -6,6 +6,8 @@ import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.ui.ValidationInfo;
 import com.intellij.psi.util.QualifiedName;
 import com.jetbrains.python.PyNames;
+import org.apache.commons.lang.WordUtils;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
@@ -32,6 +34,7 @@ public class DjangoAppGenerator extends DialogWrapper {
     private JPanel            contentPanel;
     private JTextField        nameField;
     private JTextField        labelField;
+    private JTextField verboseNameField;
     private JComboBox<String> defaultAutoField;
     private ButtonGroup       adminGroup;
     private ButtonGroup       appsGroup;
@@ -42,8 +45,8 @@ public class DjangoAppGenerator extends DialogWrapper {
     private ButtonGroup       urlsGroup;
 
     // ---- 内部状态 ----
-    private boolean customizing = false;  // 用于控制是否不同步 App name 和 label
-    private String  autoGenText = "";  // 用于判断是否应该断开同步
+    private @Nullable String autoLabel   = "";  // 空表示断开同步，非空表示执行同步
+    private @Nullable String autoVerbose = ""; // 空表示断开同步，非空表示执行同步
 
     public DjangoAppGenerator(Project project) {
         super(true);
@@ -60,6 +63,7 @@ public class DjangoAppGenerator extends DialogWrapper {
      * @return 包路径。Kotlin 中可以通过 {@code for c in this.name.components} 进行枚举。
      * @see <a href="https://docs.djangoproject.com/zh-hans/5.0/ref/applications/#django.apps.AppConfig.name">AppConfig.name</a>
      */
+    @NotNull
     public QualifiedName getName() {
         return QualifiedName.fromComponents(nameField.getText().split("\\."));
     }
@@ -73,24 +77,41 @@ public class DjangoAppGenerator extends DialogWrapper {
      * </ul>
      *
      * @param baseQName 包路径。可以通过 {@code QualifiedName.fromComponents("django.db.models".split("\\.")) } 这样的方式构造。
+     * @return 自身。
      * @see <a href="https://docs.djangoproject.com/zh-hans/5.0/ref/applications/#django.apps.AppConfig.name">AppConfig.name</a>
      */
-    public void setName(QualifiedName baseQName) {
+    @NotNull
+    public DjangoAppGenerator setName(QualifiedName baseQName) {
         final String text = baseQName.toString();
         if (!text.isEmpty()) {
             nameField.setText(text + ".");
             nameField.setCaretPosition(nameField.getText().length());
         }
+        return this;
     }
 
     /**
-     * 获取 Django App 的简称。默认是 {@code name} 的最后一段。
+     * 获取 Django App 的简称。
+     * <p>
+     * 如果不填，Django 默认设置为 {@code name} 的最后一段。
      *
-     * @return 一个字符串。
      * @see <a href="https://docs.djangoproject.com/zh-hans/5.0/ref/applications/#django.apps.AppConfig.label">AppConfig.label</a>
      */
+    @NotNull
     public String getLabel() {
         return labelField.getText();
+    }
+
+    /**
+     * 获取 Django App 的名称。
+     * <p>
+     * 如果不填，Django 默认设置为 {@code label.title()} 。
+     *
+     * @see <a href="https://docs.djangoproject.com/zh-hans/5.0/ref/applications/#django.apps.AppConfig.verbose_name">AppConfig.verbose_name</a>
+     */
+    @NotNull
+    public String getVerboseName() {
+        return verboseNameField.getText();
     }
 
     @Override
@@ -99,20 +120,35 @@ public class DjangoAppGenerator extends DialogWrapper {
         nameField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
-                if (customizing)
-                    return;
-                String[] parts = nameField.getText().split("\\.");
-                if (parts.length > 0) {
-                    autoGenText = parts[parts.length - 1];
-                    labelField.setText(autoGenText);
+                final String name = nameField.getText();
+                final String label = name.endsWith(".")
+                        ? ""
+                        : QualifiedName.fromComponents(name.split("\\.")).getLastComponent();
+                // label 不会为 null，因为 "".split("\\.") --> [""]
+                if (label != null && autoLabel != null) {
+                    autoLabel = label;
+                    labelField.setText(autoLabel);
+                }
+                if (label != null && autoVerbose != null) {
+                    autoVerbose = WordUtils.capitalize(label, new char[]{'_'});
+                    verboseNameField.setText(autoVerbose);
                 }
             }
         });
         labelField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
-                if (!autoGenText.equals(labelField.getText()))
-                    customizing = true;
+                final String label = labelField.getText();
+                if (!label.equals(autoLabel))
+                    autoLabel = null;
+            }
+        });
+        verboseNameField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                final String verboseName = verboseNameField.getText();
+                if (!verboseName.equals(autoVerbose))
+                    autoVerbose = null;
             }
         });
     }
@@ -182,7 +218,7 @@ public class DjangoAppGenerator extends DialogWrapper {
         final String label = labelField.getText();
         if (name.isEmpty() || !name.matches("^\\w+(\\.\\w+)*$"))
             return new ValidationInfo(message("validation.IllegalPackageName"), nameField);
-        if (label.isEmpty() || !PyNames.isIdentifier(label))
+        if (!label.isEmpty() && !PyNames.isIdentifier(label))
             return new ValidationInfo(message("validation.AppMustBeAnIdentifier"), labelField);
         return null;
     }
