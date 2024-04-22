@@ -6,7 +6,7 @@
    Ignore attributes of `Meta` that you didn't fill when creating Django app.
 2. Django App 创建对话框新增了 `verbose_name` 属性，并且会自动从 `name` 中提取。  
    Add `Meta` attribute `verbose_name` on Django app creation popup, and it also will auto retrieve from app name.
-3. 为 Django App 的 `Meta` 属性输入框添加提示。
+3. 为 Django App 的 `Meta` 属性输入框添加提示。  
    Add tooltips for fields of `Meta` attributes on Django app creation popup.
 
 ## v1.1.1，2024-04-20
