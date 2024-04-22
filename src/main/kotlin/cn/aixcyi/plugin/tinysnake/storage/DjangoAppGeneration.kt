@@ -13,23 +13,16 @@ import com.intellij.openapi.project.Project
 @State(name = Zoo.DJANGO_APP_CREATION_NAME)
 class DjangoAppGeneration : SimplePersistentStateComponent<DjangoAppGeneration.State>(State()) {
 
-    /**
-     * 创建方式。
-     */
+    /** Python 源码的创建方式。 */
     enum class Creation {
-        /**
-         * 不创建。
-         */
+
+        /** 不创建。 */
         EMPTY,
 
-        /**
-         * 创建 Python 文件。
-         */
+        /** 创建一个 Python 文件。 */
         FILE,
 
-        /**
-         * 创建 Python 包。
-         */
+        /** 创建一个 Python 包，并附带一个名为 `__init__.py` 的文件。 */
         PKG;
 
         override fun toString() = this.ordinal.toString()
@@ -46,6 +39,9 @@ class DjangoAppGeneration : SimplePersistentStateComponent<DjangoAppGeneration.S
         var urls by property(Creation.FILE) { it == Creation.FILE }
     }
 
+    /**
+     * Django App 各个文件的模板。
+     */
     class Template {
         companion object {
             val MIGRATIONS = Zoo.resource("/templates/migrations/__init__.py").readText()

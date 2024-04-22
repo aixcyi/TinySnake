@@ -12,7 +12,6 @@ object Zoo {
     // <component name="NAME"></component>
     const val PLUGIN_SETTINGS_NAME = "TinySnake.Settings"
     const val DJANGO_APP_CREATION_NAME = "TinySnake.DjangoAppCreation"
-    const val DJANGO_APP_TEMPLATE_NAME = "TinySnake.DjangoAppTemplate"
     const val DUNDER_ALL_OPTIMIZATION_NAME = "TinySnake.DunderAllOptimization"
 
     /**

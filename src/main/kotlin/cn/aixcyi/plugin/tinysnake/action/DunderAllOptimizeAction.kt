@@ -25,7 +25,7 @@ class DunderAllOptimizeAction : PyAction() {
             hint.showInformationHint(editor, message("hint.OptimizeDunderAll.missing"))
             return
         }
-        if (!dunderAll.isValidAssignment) {
+        if (!dunderAll.isValidAssignment()) {
             hint.showInformationHint(editor, message("hint.OptimizeDunderAll.invalid"))
             return
         }

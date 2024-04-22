@@ -23,14 +23,10 @@ class PyPackageProxy(project: Project) {
     private val virtualRoot = ProjectFileIndex.getInstance(project).getContentRootForFile(project.projectFile!!)!!
     private val psiRoot = PsiManager.getInstance(project).findDirectory(virtualRoot)!!
 
-    /**
-     * 项目根目录。
-     */
+    /** 项目根目录。 */
     val root = Path(virtualRoot.path)
 
-    /**
-     * **最后一次** 创建的 Python 包对应的 PSI 文件夹。
-     */
+    /** **最后一次** 创建的 Python 包对应的 PSI 文件夹。 */
     var folder = psiRoot
 
     /**

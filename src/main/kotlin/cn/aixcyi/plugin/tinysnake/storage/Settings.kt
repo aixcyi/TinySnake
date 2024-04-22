@@ -20,6 +20,9 @@ class Settings : SimplePersistentStateComponent<Settings.State>(State()) {
     }
 
     companion object {
+        /**
+         * 所有预置的 shebang。
+         */
         val PRESET_SHEBANGS = listOf(
             "/usr/bin/python3",
             "/usr/bin/env python3",

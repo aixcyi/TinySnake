@@ -15,26 +15,27 @@ object MeowUiUtil {
     /**
      * 检测是否启用了 [NewUI](https://www.jetbrains.com/help/idea/new-ui.html) 。
      *
-     * 之前唯一的检测接口 [com.intellij.ui.ExperimentalUI.isNewUI] 属于 [ApiStatus.Internal]，
-     * idea/232.5150.116 开始才有二次封装的公开接口 [com.intellij.ui.NewUI.isEnabled]，所以不得不再次封装来避免兼容性问题。
+     * - 本方法适用于任意版本的 IntelliJ 平台。
+     * - 232.5150 开始有 [com.intellij.ui.NewUI.isEnabled]。
+     * - 213.2094 开始有 [com.intellij.ui.ExperimentalUI.isNewUI]，属于 [ApiStatus.Internal]。
      */
     fun isUsingNewUI(): Boolean {
         try {
-            // since: idea/232.5150.116
+            // @since 232.5150.116
             // https://github.com/JetBrains/intellij-community/commit/ba6df8d944aa1f080d555223917c4b0aa7f43a26
-            val clazz = Class.forName("com.intellij.ui.NewUI")
-            val method = clazz.getMethod("isEnabled")
-            return method.invoke(null) as Boolean
-            // return com.intellij.ui.NewUI.isEnabled();
-        } catch (ignored: ReflectiveOperationException) {
+            // return com.intellij.ui.NewUI.isEnabled()
+            val ret = Class.forName("com.intellij.ui.NewUI").getMethod("isEnabled").invoke(null)
+            return ret as Boolean
+        } catch (e: Throwable) {
             // 喵
         }
         try {
-            val clazz = Class.forName("com.intellij.ui.ExperimentalUI")
-            val method = clazz.getMethod("isNewUI")
-            return method.invoke(null) as Boolean
-            // return com.intellij.ui.ExperimentalUI.isNewUI();
-        } catch (ignored: ReflectiveOperationException) {
+            // @since 213.2094
+            // https://github.com/JetBrains/intellij-community/blob/213.2094/platform/platform-api/src/com/intellij/ui/ExperimentalUI.java
+            // return com.intellij.ui.ExperimentalUI.isNewUI()
+            val ret = Class.forName("com.intellij.ui.ExperimentalUI").getMethod("isNewUI").invoke(null)
+            return ret as Boolean
+        } catch (e: Throwable) {
             // 喵
         }
         return false

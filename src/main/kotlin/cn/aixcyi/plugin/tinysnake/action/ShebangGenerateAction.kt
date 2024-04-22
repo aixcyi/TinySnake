@@ -99,11 +99,7 @@ class ShebangGenerateAction : PyAction() {
      * @param editor     编辑器
      * @param newShebang 新的 shebang。开头必须包含 `#!` 。
      */
-    private fun writeShebang(
-        file: PyFile,
-        editor: Editor,
-        newShebang: String
-    ) {
+    private fun writeShebang(file: PyFile, editor: Editor, newShebang: String) {
         val hint = HintManager.getInstance()
         val newComment = SnippetGenerator(file).createSingleLineComment(newShebang)
         val firstElement = file.firstChild

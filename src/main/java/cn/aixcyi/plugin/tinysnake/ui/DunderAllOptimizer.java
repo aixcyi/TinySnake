@@ -16,8 +16,10 @@ import static cn.aixcyi.plugin.tinysnake.Zoo.message;
  */
 public class DunderAllOptimizer extends DialogWrapper {
 
-    public DunderAllOptimization.State state;
+    // ---- 公开状态 ----
+    public final DunderAllOptimization.State state;
 
+    // ---- 窗口组件 ----
     private JPanel       contentPanel;
     private ButtonGroup  groupOrder;
     private JRadioButton radioAlphabetOrder;
@@ -31,12 +33,12 @@ public class DunderAllOptimizer extends DialogWrapper {
         super(true);
         setResizable(false);
         setTitle(message("command.OptimizeDunderAll"));
+        state = DunderAllOptimization.getInstance().getState();
         init();
         load();
     }
 
     private void load() {
-        state = DunderAllOptimization.getInstance().getState();
         switch (state.getMySequenceOrder()) {
             case APPEARANCE -> groupOrder.setSelected(radioAppearanceButton.getModel(), true);
             case ALPHABET -> groupOrder.setSelected(radioAlphabetOrder.getModel(), true);
@@ -69,7 +71,8 @@ public class DunderAllOptimizer extends DialogWrapper {
     }
 
     @Override
-    protected @Nullable JComponent createCenterPanel() {
+    @Nullable
+    protected JComponent createCenterPanel() {
         JPanel dialogPanel = new JPanel(new BorderLayout());
         dialogPanel.add(contentPanel, BorderLayout.CENTER);
         return dialogPanel;

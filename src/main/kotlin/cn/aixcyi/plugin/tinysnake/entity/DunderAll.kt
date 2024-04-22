@@ -29,14 +29,13 @@ class DunderAll(file: PyFile) {
      *
      * @see <a href="https://docs.python.org/3/reference/simple_stmts.html#the-import-statement">The <code>import</code> statement</a>
      */
-    val isValidAssignment
-        get() = when (assignment) {
-            // __all__ 的值必须是 a sequence of strings，
-            // 也就是说列表、元组、集合都可以视为合法值。
-            is PyListLiteralExpression,
-            is PySetLiteralExpression,
-            is PyTupleExpression -> true
-            // 注意这里判断的是字面值，所以没有其它 sequence 类型。
-            else -> false
-        }
+    fun isValidAssignment() = when (assignment) {
+        // __all__ 的值必须是 a sequence of strings，
+        // 也就是说列表、元组、集合都可以视为合法值。
+        is PyListLiteralExpression,
+        is PySetLiteralExpression,
+        is PyTupleExpression -> true
+        // 注意这里判断的是字面值，所以没有其它 sequence 类型。
+        else -> false
+    }
 }

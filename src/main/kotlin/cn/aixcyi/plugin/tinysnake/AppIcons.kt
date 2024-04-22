@@ -25,11 +25,9 @@ object AppIcons {
      * 将多个图标层叠成一个图标。
      */
     private fun loads(vararg icons: Icon): Icon {
-        val icon = LayeredIcon(icons.size)
-        for (i in icons.indices) {
-            icon.setIcon(icons[i], i)
-        }
-        return icon
+        val result = LayeredIcon(icons.size)
+        icons.forEachIndexed { layout, icon -> result.setIcon(icon, layout) }
+        return result
     }
 
     // 不是所有以双下划线开头的变量都是特殊变量，属性、函数同理。

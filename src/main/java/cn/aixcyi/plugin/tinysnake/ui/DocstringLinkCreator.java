@@ -10,15 +10,13 @@ import java.awt.*;
  * Docstring 超链接编辑窗口。
  *
  * @author <a href="https://github.com/aixcyi">砹小翼</a>
+ * @see <a href="https://peps.python.org/pep-0257/">PEP 257 – Docstring Conventions</a>
  */
 public class DocstringLinkCreator extends DialogWrapper {
     private JPanel     contentPane;
     private JTextField textField;
     private JTextField linkField;
 
-    /**
-     * @param title 窗口标题。
-     */
     public DocstringLinkCreator(String title) {
         super(true);
         setResizable(true);
@@ -49,7 +47,8 @@ public class DocstringLinkCreator extends DialogWrapper {
     }
 
     @Override
-    public @Nullable JComponent getPreferredFocusedComponent() {
+    @Nullable
+    public JComponent getPreferredFocusedComponent() {
         final String text = textField.getText();
         final String link = linkField.getText();
         if (!text.isEmpty() && link.isEmpty())

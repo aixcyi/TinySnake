@@ -30,15 +30,11 @@ class TopSymbols(
     private val symbols = mutableMapOf<String, Icon>()
     private val visitedFile = mutableSetOf<PyFile>()
 
-    /**
-     * 文件内所有顶层符号的名称。
-     */
+    /** 文件内所有顶层符号的名称。 */
     val names
         get() = symbols.keys.toList()
 
-    /**
-     * 文件内所有顶层符号对应类型的图标。
-     */
+    /** 文件内所有顶层符号对应类型的图标。 */
     val icons
         get() = symbols.values.toList()
 

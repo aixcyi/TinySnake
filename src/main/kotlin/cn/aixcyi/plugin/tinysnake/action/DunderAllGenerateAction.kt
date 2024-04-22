@@ -79,7 +79,7 @@ class DunderAllGenerateAction : PyAction() {
         val generator = SnippetGenerator(file)
         symbols.sort(choices)
 
-        if (dunderAll.isValidAssignment) {
+        if (dunderAll.isValidAssignment()) {
             runnable = Runnable {
                 for (choice in choices) {
                     dunderAll.assignment!!.add(generator.createStringLiteralFromString(choice))

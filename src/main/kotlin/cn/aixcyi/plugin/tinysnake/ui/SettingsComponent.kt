@@ -15,20 +15,29 @@ import javax.swing.JPanel
 import javax.swing.ListSelectionModel
 
 /**
- * 插件设置的页面组件。
+ * 插件设置的 UI 页面组件。
  *
- * 对应的控制器是 [SettingsConfigurable] 。
+ * - 对应的控制器是 [SettingsConfigurable] 。
+ * - [SettingsConfigurable] 可能会在后台线程中被实例化，在其构造器中创建 UI 组件可能会降低 UI 响应能力，
+ *   因此将代码分离到单独的类中进行。参见 [Implementations for Settings Extension Points](https://plugins.jetbrains.com/docs/intellij/settings-guide.html#constructors)。
  *
  * @author <a href="https://github.com/aixcyi">砹小翼</a>
  */
 class SettingsComponent(private val state: Settings.State) {
 
     private val model: CollectionListModel<String> = CollectionListModel<String>(ArrayList(state.myShebangs))
+
+    /** 根面板。存放此类所有组件的组件。 */
     val mainPanel: JPanel = FormBuilder.createFormBuilder()
         .addComponent(createShebangsPart(), 1)
         .addComponentFillVertically(JPanel(), 0)
         .panel
 
+    /**
+     * 创建 shebang 列表管理部分的组件。
+     *
+     * @return 这部分组件的父组件（也就是 **这一部分** 的根面板）。
+     */
     private fun createShebangsPart(): JPanel {
         val list = JBList(model)
         list.selectionMode = ListSelectionModel.SINGLE_SELECTION
