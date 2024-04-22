@@ -38,7 +38,7 @@ class DocstringLinkGenerateAction : PyAction() {
         val isReplace = editor.selectionModel.hasSelection()
 
         // 生成代码，或取消动作
-        val link = DocstringLinkCreator(message("DocstringLinkCreator.dialog.title"))
+        val link = DocstringLinkCreator(message("window.DocstringLinkCreator.title"))
             .setText(if (isReplace) (editor.selectionModel.selectedText ?: "") else "")
             .setLink(this.getHyperlinkFromClipboard())
             .showThenGet()

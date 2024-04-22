@@ -38,8 +38,8 @@ class DunderAllGenerateAction : PyAction() {
         val popup = PopupChooserBuilder(options)
             .setMovable(true)
             .setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION)
-            .setTitle(message("GenerateDunderAll.popup.title"))
-            .setAdText(message("GenerateDunderAll.popup.ad_text"))
+            .setTitle(message("popup.GenerateDunderAll.title"))
+            .setAdText(message("popup.GenerateDunderAll.ad_text"))
             .setItemsChosenCallback { this.onChosen(file, it, symbols, dunderAll) }
             .setRenderer(object : ColoredListCellRenderer<String>() {
                 override fun customizeCellRenderer(
@@ -56,7 +56,7 @@ class DunderAllGenerateAction : PyAction() {
             })
             .createPopup() // options 的 EmptyText 在这一步会被覆盖掉
 
-        options.emptyText.setText(message("GenerateDunderAll.popup.empty_text")) // 所以只能在这里设置 EmptyText
+        options.emptyText.setText(message("popup.GenerateDunderAll.empty_text")) // 所以只能在这里设置 EmptyText
         popup.showInBestPositionFor(event.dataContext)
     }
 

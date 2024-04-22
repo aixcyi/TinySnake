@@ -181,9 +181,9 @@ public class DjangoAppGenerator extends DialogWrapper {
         final String name = nameField.getText();
         final String label = labelField.getText();
         if (name.isEmpty() || !name.matches("^\\w+(\\.\\w+)*$"))
-            return new ValidationInfo(message("validation.info.IllegalPackageName"), nameField);
+            return new ValidationInfo(message("validation.IllegalPackageName"), nameField);
         if (label.isEmpty() || !PyNames.isIdentifier(label))
-            return new ValidationInfo(message("validation.info.AppMustBeAnIdentifier"), labelField);
+            return new ValidationInfo(message("validation.AppMustBeAnIdentifier"), labelField);
         return null;
     }
 

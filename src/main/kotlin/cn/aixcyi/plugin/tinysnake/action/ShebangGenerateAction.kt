@@ -70,8 +70,8 @@ class ShebangGenerateAction : PyAction() {
         group.add(object : AnAction(message("action.GenerateShebangFromAnyPath.text")) {
             override fun actionPerformed(e: AnActionEvent) {
                 val string = Messages.showInputDialog(
-                    message("GenerateShebang.input.message"),
-                    message("GenerateShebang.input.title"),
+                    message("input.GenerateShebang.message"),
+                    message("input.GenerateShebang.title"),
                     null
                 )
                 if (string.isNullOrEmpty()) return
@@ -80,7 +80,7 @@ class ShebangGenerateAction : PyAction() {
             }
         })
         val popup = JBPopupFactory.getInstance().createActionGroupPopup(
-            message("GenerateShebang.popup.title"),
+            message("popup.SelectOneShebang.title"),
             group,
             event.dataContext,
             JBPopupFactory.ActionSelectionAid.NUMBERING,
@@ -109,7 +109,7 @@ class ShebangGenerateAction : PyAction() {
         val runnable = if (firstComment == null) {
             Runnable { file.addBefore(newComment, firstElement) }
         } else if (firstComment == newShebang) {
-            hint.showInformationHint(editor, message("hint.GenerateShebang.same"))
+            hint.showInformationHint(editor, message("hint.ShebangExisted.text"))
             return
         } else if (firstComment.startsWith("#!")) {
             Runnable { firstElement.replace(newComment) }

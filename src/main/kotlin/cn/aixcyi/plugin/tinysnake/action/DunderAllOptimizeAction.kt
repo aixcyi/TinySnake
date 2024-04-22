@@ -22,11 +22,11 @@ class DunderAllOptimizeAction : PyAction() {
         val hint = HintManager.getInstance()
         val dunderAll = DunderAll(file)
         if (dunderAll.expression == null) {
-            hint.showInformationHint(editor, message("hint.OptimizeDunderAll.missing"))
+            hint.showInformationHint(editor, message("hint.DunderAllNotFound.text"))
             return
         }
         if (!dunderAll.isValidAssignment()) {
-            hint.showInformationHint(editor, message("hint.OptimizeDunderAll.invalid"))
+            hint.showInformationHint(editor, message("hint.InvalidDunderAll.text"))
             return
         }
 
@@ -46,6 +46,6 @@ class DunderAllOptimizeAction : PyAction() {
             null,
             { dunderAll.assignment!!.replace(statement) }
         )
-        hint.showInformationHint(editor, message("hint.OptimizeDunderAll.done"))
+        hint.showInformationHint(editor, message("hint.DunderAllOptimized.text"))
     }
 }

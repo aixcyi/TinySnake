@@ -41,13 +41,13 @@ class SettingsComponent(private val state: Settings.State) {
     private fun createShebangsPart(): JPanel {
         val list = JBList(model)
         list.selectionMode = ListSelectionModel.SINGLE_SELECTION
-        val innerPanel = MeowUiUtil.createTitledPanel(message("settings.ShebangsPart.title"))
+        val innerPanel = MeowUiUtil.createTitledPanel(message("panel.ShebangsPart.title"))
         innerPanel.add(
             ToolbarDecorator.createDecorator(list)
                 .setAddAction {
                     val string = Messages.showInputDialog(
-                        message("GenerateShebang.input.message"),
-                        message("GenerateShebang.input.title"),
+                        message("input.GenerateShebang.message"),
+                        message("input.GenerateShebang.title"),
                         null
                     )
                     if (string.isNullOrEmpty() || string.isBlank()) return@setAddAction
@@ -56,8 +56,8 @@ class SettingsComponent(private val state: Settings.State) {
                 }
                 .setEditAction {
                     val string = Messages.showInputDialog(
-                        message("GenerateShebang.input.message"),
-                        message("GenerateShebang.input.title"),
+                        message("input.GenerateShebang.message"),
+                        message("input.GenerateShebang.title"),
                         null,
                         model.getElementAt(list.selectedIndex),
                         null
@@ -69,7 +69,8 @@ class SettingsComponent(private val state: Settings.State) {
                     model.remove(list.selectedIndex)
                     list.selectionModel.leadSelectionIndex = list.leadSelectionIndex
                 }
-                .addExtraAction(object : AnActionButton(message("settings.normal.reset"), AllIcons.General.Reset) {
+                .addExtraAction(object :
+                    AnActionButton(message("action.ResetToDefaultConfigs.text"), AllIcons.General.Reset) {
                     override fun getActionUpdateThread() = ActionUpdateThread.BGT
 
                     override fun actionPerformed(e: AnActionEvent) {
