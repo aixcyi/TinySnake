@@ -63,8 +63,7 @@ public class DjangoAppGenerator extends DialogWrapper {
      * @return 包路径。Kotlin 中可以通过 {@code for c in this.name.components} 进行枚举。
      * @see <a href="https://docs.djangoproject.com/zh-hans/5.0/ref/applications/#django.apps.AppConfig.name">AppConfig.name</a>
      */
-    @NotNull
-    public QualifiedName getName() {
+    public @NotNull QualifiedName getName() {
         return QualifiedName.fromComponents(nameField.getText().split("\\."));
     }
 
@@ -80,8 +79,7 @@ public class DjangoAppGenerator extends DialogWrapper {
      * @return 自身。
      * @see <a href="https://docs.djangoproject.com/zh-hans/5.0/ref/applications/#django.apps.AppConfig.name">AppConfig.name</a>
      */
-    @NotNull
-    public DjangoAppGenerator setName(QualifiedName baseQName) {
+    public @NotNull DjangoAppGenerator setName(@NotNull QualifiedName baseQName) {
         final String text = baseQName.toString();
         if (!text.isEmpty()) {
             nameField.setText(text + ".");
@@ -97,8 +95,7 @@ public class DjangoAppGenerator extends DialogWrapper {
      *
      * @see <a href="https://docs.djangoproject.com/zh-hans/5.0/ref/applications/#django.apps.AppConfig.label">AppConfig.label</a>
      */
-    @NotNull
-    public String getLabel() {
+    public @NotNull String getLabel() {
         return labelField.getText();
     }
 
@@ -109,8 +106,7 @@ public class DjangoAppGenerator extends DialogWrapper {
      *
      * @see <a href="https://docs.djangoproject.com/zh-hans/5.0/ref/applications/#django.apps.AppConfig.verbose_name">AppConfig.verbose_name</a>
      */
-    @NotNull
-    public String getVerboseName() {
+    public @NotNull String getVerboseName() {
         return verboseNameField.getText();
     }
 
@@ -181,7 +177,7 @@ public class DjangoAppGenerator extends DialogWrapper {
      * @param group    包含 {@link JRadioButton} 的按钮组。
      * @param creation 创建方式。
      */
-    private void updateButtonGroupSelection(ButtonGroup group, DjangoAppGeneration.Creation creation) {
+    private void updateButtonGroupSelection(@NotNull ButtonGroup group, DjangoAppGeneration.Creation creation) {
         Enumeration<AbstractButton> elements = group.getElements();
         while (elements.hasMoreElements()) {
             final AbstractButton element = elements.nextElement();
@@ -195,7 +191,7 @@ public class DjangoAppGenerator extends DialogWrapper {
      * @param group 包含 {@link JRadioButton} 的按钮组。
      * @return 创建方式。
      */
-    private DjangoAppGeneration.Creation detectButtonGroupSelection(ButtonGroup group) {
+    private DjangoAppGeneration.Creation detectButtonGroupSelection(@NotNull ButtonGroup group) {
         Enumeration<AbstractButton> elements = group.getElements();
         while (elements.hasMoreElements()) {
             final AbstractButton element = elements.nextElement();
@@ -206,14 +202,12 @@ public class DjangoAppGenerator extends DialogWrapper {
     }
 
     @Override
-    @Nullable
-    public JComponent getPreferredFocusedComponent() {
+    public @Nullable JComponent getPreferredFocusedComponent() {
         return nameField;
     }
 
     @Override
-    @Nullable
-    protected ValidationInfo doValidate() {
+    protected @Nullable ValidationInfo doValidate() {
         final String name = nameField.getText();
         final String label = labelField.getText();
         if (name.isEmpty() || !name.matches("^\\w+(\\.\\w+)*$"))
@@ -233,8 +227,7 @@ public class DjangoAppGenerator extends DialogWrapper {
     }
 
     @Override
-    @Nullable
-    protected JComponent createCenterPanel() {
+    protected @Nullable JComponent createCenterPanel() {
         final JPanel dialogPanel = new JPanel(new BorderLayout());
         dialogPanel.add(contentPanel, BorderLayout.CENTER);
         return dialogPanel;

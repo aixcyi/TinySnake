@@ -1,6 +1,7 @@
 package cn.aixcyi.plugin.tinysnake.ui;
 
 import com.intellij.openapi.ui.DialogWrapper;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
@@ -13,6 +14,7 @@ import java.awt.*;
  * @see <a href="https://peps.python.org/pep-0257/">PEP 257 – Docstring Conventions</a>
  */
 public class DocstringLinkCreator extends DialogWrapper {
+
     private JPanel     contentPane;
     private JTextField textField;
     private JTextField linkField;
@@ -30,7 +32,7 @@ public class DocstringLinkCreator extends DialogWrapper {
      * @param text 任意字符串。
      * @return 自身。
      */
-    public DocstringLinkCreator setText(String text) {
+    public @NotNull DocstringLinkCreator setText(String text) {
         textField.setText(text);
         return this;
     }
@@ -41,14 +43,13 @@ public class DocstringLinkCreator extends DialogWrapper {
      * @param link 任意字符。
      * @return 自身。
      */
-    public DocstringLinkCreator setLink(String link) {
+    public @NotNull DocstringLinkCreator setLink(String link) {
         linkField.setText(link);
         return this;
     }
 
     @Override
-    @Nullable
-    public JComponent getPreferredFocusedComponent() {
+    public @Nullable JComponent getPreferredFocusedComponent() {
         final String text = textField.getText();
         final String link = linkField.getText();
         if (!text.isEmpty() && link.isEmpty())
@@ -63,8 +64,7 @@ public class DocstringLinkCreator extends DialogWrapper {
      *
      * @return 如果用户取消编辑，将返回 {@code null} 。
      */
-    @Nullable
-    public String showThenGet() {
+    public @Nullable String showThenGet() {
         if (showAndGet())
             return "`" + textField.getText() + " <" + linkField.getText() + ">`_";
         else
@@ -72,8 +72,7 @@ public class DocstringLinkCreator extends DialogWrapper {
     }
 
     @Override
-    @Nullable
-    protected JComponent createCenterPanel() {
+    protected @Nullable JComponent createCenterPanel() {
         JPanel dialogPanel = new JPanel(new BorderLayout());
         dialogPanel.add(contentPane, BorderLayout.CENTER);
         return dialogPanel;

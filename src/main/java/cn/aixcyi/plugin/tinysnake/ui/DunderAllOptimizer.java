@@ -71,8 +71,7 @@ public class DunderAllOptimizer extends DialogWrapper {
     }
 
     @Override
-    @Nullable
-    protected JComponent createCenterPanel() {
+    protected @Nullable JComponent createCenterPanel() {
         JPanel dialogPanel = new JPanel(new BorderLayout());
         dialogPanel.add(contentPanel, BorderLayout.CENTER);
         return dialogPanel;
