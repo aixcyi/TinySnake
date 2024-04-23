@@ -38,11 +38,7 @@ object Zoo {
      *
      * @param path 资源文件路径。
      * @return 资源文件。
-     * @throws IllegalArgumentException 文件不存在。
      */
-    @Throws(IllegalArgumentException::class)
     @JvmStatic
-    fun resource(path: String) =
-        Zoo::class.java.getResource(path)
-            ?: throw IllegalArgumentException("resource file $path was not found.")
+    fun resource(path: String) = Zoo::class.java.getResource(path)!!
 }
