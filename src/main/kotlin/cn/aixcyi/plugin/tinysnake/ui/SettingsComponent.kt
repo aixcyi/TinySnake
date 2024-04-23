@@ -46,8 +46,8 @@ class SettingsComponent(private val state: Settings.State) {
             ToolbarDecorator.createDecorator(list)
                 .setAddAction {
                     val string = Messages.showInputDialog(
-                        message("input.GenerateShebang.message"),
-                        message("input.GenerateShebang.title"),
+                        message("dialog.InputGenerateShebang.message"),
+                        message("dialog.InputGenerateShebang.title"),
                         null
                     )
                     if (string.isNullOrEmpty() || string.isBlank()) return@setAddAction
@@ -56,8 +56,8 @@ class SettingsComponent(private val state: Settings.State) {
                 }
                 .setEditAction {
                     val string = Messages.showInputDialog(
-                        message("input.GenerateShebang.message"),
-                        message("input.GenerateShebang.title"),
+                        message("dialog.InputGenerateShebang.message"),
+                        message("dialog.InputGenerateShebang.title"),
                         null,
                         model.getElementAt(list.selectedIndex),
                         null

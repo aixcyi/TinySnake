@@ -70,7 +70,7 @@ class DjangoAppGenerateAction : AnAction() {
             Messages.showWarningDialog(
                 project,
                 "$folder",
-                message("warning.PackageExisted.title").format(dialog.name),
+                message("dialog.PackageExistedWarning.title").format(dialog.name),
             )
             return
         }

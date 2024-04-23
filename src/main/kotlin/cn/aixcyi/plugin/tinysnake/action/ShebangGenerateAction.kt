@@ -70,8 +70,8 @@ class ShebangGenerateAction : PyAction() {
         group.add(object : AnAction(message("action.GenerateShebangFromAnyPath.text")) {
             override fun actionPerformed(e: AnActionEvent) {
                 val string = Messages.showInputDialog(
-                    message("input.GenerateShebang.message"),
-                    message("input.GenerateShebang.title"),
+                    message("dialog.InputGenerateShebang.message"),
+                    message("dialog.InputGenerateShebang.title"),
                     null
                 )
                 if (string.isNullOrEmpty()) return
