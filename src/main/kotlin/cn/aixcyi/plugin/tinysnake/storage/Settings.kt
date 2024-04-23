@@ -21,7 +21,7 @@ class Settings : SimplePersistentStateComponent<Settings.State>(State()) {
 
     companion object {
         /**
-         * 所有预置的 shebang。
+         * 插件预置的所有 shebang。
          */
         val PRESET_SHEBANGS = listOf(
             "/usr/bin/python3",

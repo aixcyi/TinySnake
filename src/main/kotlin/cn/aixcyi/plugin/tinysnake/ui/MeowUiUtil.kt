@@ -16,8 +16,8 @@ object MeowUiUtil {
      * 检测是否启用了 [NewUI](https://www.jetbrains.com/help/idea/new-ui.html) 。
      *
      * - 本方法适用于任意版本的 IntelliJ 平台。
-     * - 232.5150 开始有 [com.intellij.ui.NewUI.isEnabled]。
-     * - 213.2094 开始有 [com.intellij.ui.ExperimentalUI.isNewUI]，属于 [ApiStatus.Internal]。
+     * - 232.5150 开始有 `com.intellij.ui.NewUI.isEnabled`。
+     * - 213.2094 开始有 `com.intellij.ui.ExperimentalUI.isNewUI`，属于 [ApiStatus.Internal]。
      */
     fun isUsingNewUI(): Boolean {
         try {

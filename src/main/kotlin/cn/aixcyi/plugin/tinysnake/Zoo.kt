@@ -5,6 +5,7 @@ import org.jetbrains.annotations.PropertyKey
 import java.util.*
 
 object Zoo {
+
     // 杂项
     const val PLUGIN_DISPLAY_NAME = "Tiny Snake"
     const val PLUGIN_LEVEL_STORAGE = "aixcyi.TinySnake.xml"
@@ -14,9 +15,7 @@ object Zoo {
     const val DJANGO_APP_CREATION_NAME = "TinySnake.DjangoAppCreation"
     const val DUNDER_ALL_OPTIMIZATION_NAME = "TinySnake.DunderAllOptimization"
 
-    /**
-     * 国际化文本资源包。
-     */
+    /** 国际化文本资源包。 */
     private val BUNDLE: ResourceBundle = ResourceBundle.getBundle(
         "messages.TinySnakeBundle", DynamicBundle.getLocale()
     )
@@ -24,7 +23,7 @@ object Zoo {
     /**
      * 获取本地化翻译。
      *
-     * A utility function that provides translated message/text.
+     * Retrieve translated text via keys on "properties" file.
      *
      * @param key properties 文件中的键。
      * @return properties 文件中键对应的值。
