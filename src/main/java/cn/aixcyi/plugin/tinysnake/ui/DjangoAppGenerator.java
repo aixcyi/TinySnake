@@ -1,12 +1,12 @@
 package cn.aixcyi.plugin.tinysnake.ui;
 
+import cn.aixcyi.plugin.tinysnake.StringUtil;
 import cn.aixcyi.plugin.tinysnake.storage.DjangoAppGeneration;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.ui.ValidationInfo;
 import com.intellij.psi.util.QualifiedName;
 import com.jetbrains.python.PyNames;
-import org.apache.commons.lang.WordUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -34,7 +34,7 @@ public class DjangoAppGenerator extends DialogWrapper {
     private JPanel            contentPanel;
     private JTextField        nameField;
     private JTextField        labelField;
-    private JTextField verboseNameField;
+    private JTextField        verboseNameField;
     private JComboBox<String> defaultAutoField;
     private ButtonGroup       adminGroup;
     private ButtonGroup       appsGroup;
@@ -64,7 +64,7 @@ public class DjangoAppGenerator extends DialogWrapper {
      * @see <a href="https://docs.djangoproject.com/zh-hans/5.0/ref/applications/#django.apps.AppConfig.name">AppConfig.name</a>
      */
     public @NotNull QualifiedName getName() {
-        return QualifiedName.fromComponents(nameField.getText().split("\\."));
+        return QualifiedName.fromDottedString(nameField.getText());
     }
 
     /**
@@ -75,7 +75,7 @@ public class DjangoAppGenerator extends DialogWrapper {
      *     <li>提供非空路径后，比如 {@code "zeraora.user"} 会显示为 {@code "zeraora.user."}，方便用户输入包名。</li>
      * </ul>
      *
-     * @param baseQName 包路径。可以通过 {@code QualifiedName.fromComponents("django.db.models".split("\\.")) } 这样的方式构造。
+     * @param baseQName 包路径。可以通过 {@code QualifiedName.fromDottedString("django.db.models") } 这样的方式构造。
      * @return 自身。
      * @see <a href="https://docs.djangoproject.com/zh-hans/5.0/ref/applications/#django.apps.AppConfig.name">AppConfig.name</a>
      */
@@ -119,14 +119,14 @@ public class DjangoAppGenerator extends DialogWrapper {
                 final String name = nameField.getText();
                 final String label = name.endsWith(".")
                         ? ""
-                        : QualifiedName.fromComponents(name.split("\\.")).getLastComponent();
+                        : QualifiedName.fromDottedString(name).getLastComponent();
                 // label 不会为 null，因为 "".split("\\.") --> [""]
                 if (label != null && autoLabel != null) {
                     autoLabel = label;
                     labelField.setText(autoLabel);
                 }
                 if (label != null && autoVerbose != null) {
-                    autoVerbose = WordUtils.capitalize(label, new char[]{'_'});
+                    autoVerbose = StringUtil.capitalize(label, '_');
                     verboseNameField.setText(autoVerbose);
                 }
             }

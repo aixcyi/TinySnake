@@ -7,19 +7,23 @@ import cn.aixcyi.plugin.tinysnake.storage.DjangoAppGeneration.Template
 import cn.aixcyi.plugin.tinysnake.tailless
 import cn.aixcyi.plugin.tinysnake.ui.DjangoAppGenerator
 import com.intellij.ide.projectView.ProjectView
+import com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode
+import com.intellij.ide.projectView.impl.nodes.PsiFileNode
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnActionEvent
+import com.intellij.openapi.actionSystem.LangDataKeys
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.project.DumbAwareAction
 import com.intellij.openapi.ui.Messages
 import com.intellij.psi.PsiDirectory
+import com.intellij.psi.PsiFile
+import com.intellij.psi.PsiFileSystemItem
 import com.intellij.psi.util.QualifiedName
-import com.intellij.util.io.exists
-import com.jetbrains.extensions.getQName
-import com.jetbrains.python.PyNames
-import com.jetbrains.python.psi.PyFile
+import com.intellij.util.ui.tree.TreeUtil
+import com.jetbrains.python.psi.PyPsiFacade
 import java.nio.file.Path
 import kotlin.io.path.div
+import kotlin.io.path.exists
 
 /**
  * 使用图形界面创建 Django App。
@@ -30,26 +34,29 @@ class DjangoAppGenerateAction : DumbAwareAction() {
 
     override fun getActionUpdateThread() = ActionUpdateThread.BGT
 
+    override fun update(event: AnActionEvent) {
+        // https://github.com/JetBrains/intellij-community/blob/241.8102/python/src/com/jetbrains/python/actions/CreatePackageAction.java#L205
+        event.presentation.isVisible = run {
+            event.project ?: return@run false
+            val ideView = event.getData(LangDataKeys.IDE_VIEW) ?: return@run false
+            return@run ideView.directories.isNotEmpty()
+        }
+    }
+
     override fun actionPerformed(event: AnActionEvent) {
         val project = event.project ?: return
 
-        // 获取目录树中当前选中的文件
-        val toolwindow = ProjectView.getInstance(project)
-        val baseQName = when (val selection = toolwindow.currentProjectViewPane.selectedElement) {
-            // ${PROJECT_ROOT}/django/db/models/  -->  django.db.models
+        // 获取目录树中当前选中的树枝，因为用户可以选择多个，所以这里取第一个
+        val selection = ProjectView.getInstance(project)
+            .currentProjectViewPane
+            .selectionPaths
+            ?.firstNotNullOfOrNull(TreeUtil::getLastUserObject)
+        val baseQName = when (selection) {
+            is PsiDirectoryNode -> selection.value?.getQName()
             is PsiDirectory -> selection.getQName()
-
-            // ${PROJECT_ROOT}/django/db/models/__init__.py  -->  django.db.models
-            is PyFile -> if (selection.name == PyNames.INIT_DOT_PY) {
-                selection.getQName()
-            }
-
-            // ${PROJECT_ROOT}/django/db/models/aggregates.py  -->  django.db.models.aggregates
-            else {
-                selection.getQName()?.removeTail(1)
-            }
-
-            else -> return
+            is PsiFileNode -> (selection.parent as PsiDirectoryNode).value?.getQName()
+            is PsiFile -> selection.parent?.getQName()
+            else -> null
         } ?: QualifiedName.fromComponents()
 
         // 编辑 Django App 初始设置
@@ -106,4 +113,13 @@ private operator fun Path.div(module: QualifiedName): Path {
     for (component in module.components)
         path /= component
     return path
+}
+
+// 搬过来是为了避免兼容性警告
+/**
+ * @author Ilya.Kazakevich
+ */
+private fun PsiFileSystemItem.getQName(): QualifiedName? {
+    val name = PyPsiFacade.getInstance(this.project).findShortestImportableName(this.virtualFile, this) ?: return null
+    return QualifiedName.fromDottedString(name)
 }

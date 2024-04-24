@@ -4,6 +4,7 @@ import cn.aixcyi.plugin.tinysnake.Zoo.message
 import cn.aixcyi.plugin.tinysnake.storage.Settings
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.actionSystem.ActionUpdateThread
+import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.ui.Messages
 import com.intellij.ui.AnActionButton
@@ -41,49 +42,52 @@ class SettingsComponent(private val state: Settings.State) {
     private fun createShebangsPart(): JPanel {
         val list = JBList(model)
         list.selectionMode = ListSelectionModel.SINGLE_SELECTION
+        val toolbar = ToolbarDecorator.createDecorator(list)
+            .setAddAction {
+                val string = Messages.showInputDialog(
+                    message("dialog.InputGenerateShebang.message"),
+                    message("dialog.InputGenerateShebang.title"),
+                    null
+                )
+                if (string.isNullOrEmpty() || string.isBlank()) return@setAddAction
+                model.add(string)
+                list.selectionModel.leadSelectionIndex = model.size - 1
+            }
+            .setEditAction {
+                val string = Messages.showInputDialog(
+                    message("dialog.InputGenerateShebang.message"),
+                    message("dialog.InputGenerateShebang.title"),
+                    null,
+                    model.getElementAt(list.selectedIndex),
+                    null
+                )
+                if (string.isNullOrEmpty() || string.isBlank()) return@setEditAction
+                model.setElementAt(string, list.selectedIndex)
+            }
+            .setRemoveAction {
+                model.remove(list.selectedIndex)
+                list.selectionModel.leadSelectionIndex = list.leadSelectionIndex
+            }
+        val revertButton = object :
+            AnActionButton(message("action.ResetToDefaultConfigs.text"), AllIcons.General.Reset) {
+            override fun getActionUpdateThread() = ActionUpdateThread.BGT
+
+            override fun actionPerformed(e: AnActionEvent) {
+                revert()
+            }
+
+            override fun updateButton(e: AnActionEvent) {
+                val cc = contextComponent
+                e.presentation.isEnabled = cc != null && cc.isShowing && cc.isEnabled && !isOriginal()
+            }
+        }
+        try {
+            toolbar.javaClass.getMethod("addExtraAction", AnAction::class.java).invoke(toolbar, revertButton as AnAction)
+        } catch (_: Throwable) {
+            toolbar.javaClass.getMethod("addExtraAction", AnActionButton::class.java).invoke(toolbar, revertButton)
+        }
         val innerPanel = MeowUiUtil.createTitledPanel(message("panel.ShebangsPart.title"))
-        innerPanel.add(
-            ToolbarDecorator.createDecorator(list)
-                .setAddAction {
-                    val string = Messages.showInputDialog(
-                        message("dialog.InputGenerateShebang.message"),
-                        message("dialog.InputGenerateShebang.title"),
-                        null
-                    )
-                    if (string.isNullOrEmpty() || string.isBlank()) return@setAddAction
-                    model.add(string)
-                    list.selectionModel.leadSelectionIndex = model.size - 1
-                }
-                .setEditAction {
-                    val string = Messages.showInputDialog(
-                        message("dialog.InputGenerateShebang.message"),
-                        message("dialog.InputGenerateShebang.title"),
-                        null,
-                        model.getElementAt(list.selectedIndex),
-                        null
-                    )
-                    if (string.isNullOrEmpty() || string.isBlank()) return@setEditAction
-                    model.setElementAt(string, list.selectedIndex)
-                }
-                .setRemoveAction {
-                    model.remove(list.selectedIndex)
-                    list.selectionModel.leadSelectionIndex = list.leadSelectionIndex
-                }
-                .addExtraAction(object :
-                    AnActionButton(message("action.ResetToDefaultConfigs.text"), AllIcons.General.Reset) {
-                    override fun getActionUpdateThread() = ActionUpdateThread.BGT
-
-                    override fun actionPerformed(e: AnActionEvent) {
-                        revert()
-                    }
-
-                    override fun updateButton(e: AnActionEvent) {
-                        val cc = contextComponent
-                        e.presentation.isEnabled = cc != null && cc.isShowing && cc.isEnabled && !isOriginal()
-                    }
-                })
-                .createPanel()
-        )
+        innerPanel.add(toolbar.createPanel())
         return innerPanel
     }
 
