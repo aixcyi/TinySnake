@@ -8,9 +8,9 @@ import cn.aixcyi.plugin.tinysnake.tailless
 import cn.aixcyi.plugin.tinysnake.ui.DjangoAppGenerator
 import com.intellij.ide.projectView.ProjectView
 import com.intellij.openapi.actionSystem.ActionUpdateThread
-import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.command.WriteCommandAction
+import com.intellij.openapi.project.DumbAwareAction
 import com.intellij.openapi.ui.Messages
 import com.intellij.psi.PsiDirectory
 import com.intellij.psi.util.QualifiedName
@@ -26,7 +26,7 @@ import kotlin.io.path.div
  *
  * @author <a href="https://github.com/aixcyi">砹小翼</a>
  */
-class DjangoAppGenerateAction : AnAction() {
+class DjangoAppGenerateAction : DumbAwareAction() {
 
     override fun getActionUpdateThread() = ActionUpdateThread.BGT
 
