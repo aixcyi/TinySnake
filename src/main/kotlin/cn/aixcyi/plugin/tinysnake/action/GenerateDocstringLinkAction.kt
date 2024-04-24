@@ -23,7 +23,7 @@ import java.awt.datatransfer.DataFlavor
  * @author <a href="https://github.com/aixcyi">砹小翼</a>
  * @see [com.jetbrains.python.psi.impl.PyPlainStringElementImpl]
  */
-class DocstringLinkGenerateAction : PyAction() {
+class GenerateDocstringLinkAction : PyAction() {
 
     override fun update(editor: Editor, event: AnActionEvent, file: PyFile) {
         // 如果光标不在 docstring 中，则禁用 Action

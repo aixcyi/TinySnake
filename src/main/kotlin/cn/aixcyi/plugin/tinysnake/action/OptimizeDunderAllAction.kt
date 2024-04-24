@@ -16,7 +16,7 @@ import com.jetbrains.python.psi.PyFile
  *
  * @author <a href="https://github.com/aixcyi">砹小翼</a>
  */
-class DunderAllOptimizeAction : PyAction() {
+class OptimizeDunderAllAction : PyAction() {
 
     override fun actionPerformed(editor: Editor, event: AnActionEvent, file: PyFile) {
         val hint = HintManager.getInstance()

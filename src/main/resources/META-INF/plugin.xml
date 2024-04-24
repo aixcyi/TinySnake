@@ -26,7 +26,7 @@
 
         <!-- 顶层菜单／新建... -->
         <action id="GenerateDjangoApp"
-                class="cn.aixcyi.plugin.tinysnake.action.DjangoAppGenerateAction"
+                class="cn.aixcyi.plugin.tinysnake.action.GenerateDjangoAppAction"
                 text="Django App"
                 icon="AllIcons.RunConfigurations.Application">
             <add-to-group group-id="NewGroup" anchor="after" relative-to-action="NewPythonPackage"/>
@@ -34,7 +34,7 @@
 
         <!-- 顶层菜单／代码 -->
         <action id="OptimizeDunderAll"
-                class="cn.aixcyi.plugin.tinysnake.action.DunderAllOptimizeAction">
+                class="cn.aixcyi.plugin.tinysnake.action.OptimizeDunderAllAction">
             <add-to-group group-id="CodeFormatGroup" anchor="after" relative-to-action="OptimizeImports"/>
             <keyboard-shortcut keymap="$default" first-keystroke="ctrl shift D"/>
             <keyboard-shortcut keymap="Mac OS X" first-keystroke="control meta D"/>
@@ -44,19 +44,19 @@
         <!-- 顶层菜单／代码／生成...
              右键菜单／生成...  -->
         <action id="GenerateDunderAll"
-                class="cn.aixcyi.plugin.tinysnake.action.DunderAllGenerateAction">
+                class="cn.aixcyi.plugin.tinysnake.action.GenerateDunderAllAction">
             <add-to-group group-id="GenerateGroup" anchor="first"/>
         </action>
         <action id="GenerateDunderAllWithImports"
-                class="cn.aixcyi.plugin.tinysnake.action.DunderAllGenerateAction">
+                class="cn.aixcyi.plugin.tinysnake.action.GenerateDunderAllAction">
             <add-to-group group-id="GenerateGroup" anchor="after" relative-to-action="GenerateDunderAll"/>
         </action>
         <action id="GenerateShebang"
-                class="cn.aixcyi.plugin.tinysnake.action.ShebangGenerateAction">
+                class="cn.aixcyi.plugin.tinysnake.action.InsertShebangAction">
             <add-to-group group-id="GenerateGroup" anchor="after" relative-to-action="GenerateDunderAllWithImports"/>
         </action>
         <action id="GenerateDocstringLink"
-                class="cn.aixcyi.plugin.tinysnake.action.DocstringLinkGenerateAction">
+                class="cn.aixcyi.plugin.tinysnake.action.GenerateDocstringLinkAction">
             <add-to-group group-id="GenerateGroup" anchor="after" relative-to-action="GenerateShebang"/>
             <keyboard-shortcut keymap="$default" first-keystroke="alt L"/>
             <keyboard-shortcut keymap="Mac OS X" first-keystroke="alt L"/>
@@ -65,7 +65,7 @@
 
         <!-- 顶层菜单／帮助 -->
         <action id="GotoTinySnakeRelease"
-                class="cn.aixcyi.plugin.tinysnake.action.TinySnakeHomepageAction">
+                class="cn.aixcyi.plugin.tinysnake.action.GotoHomepageAction">
             <add-to-group group-id="HelpMenu" anchor="after" relative-to-action="HelpTopics"/>
         </action>
     </actions>

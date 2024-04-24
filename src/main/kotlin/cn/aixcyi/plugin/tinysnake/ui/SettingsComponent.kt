@@ -69,7 +69,7 @@ class SettingsComponent(private val state: Settings.State) {
                 model.remove(list.selectedIndex)
                 list.selectionModel.leadSelectionIndex = list.leadSelectionIndex
             }
-        val revertButton = object :
+        val revertAction = object :
             AnActionButton(message("action.ResetToDefaultConfigs.text"), AllIcons.General.Reset) {
             override fun getActionUpdateThread() = ActionUpdateThread.BGT
 
@@ -83,9 +83,9 @@ class SettingsComponent(private val state: Settings.State) {
             }
         }
         toolbar.javaClass.runTry {
-            getMethod("addExtraAction", AnAction::class.java).invoke(toolbar, revertButton as AnAction)
+            getMethod("addExtraAction", AnAction::class.java).invoke(toolbar, revertAction as AnAction)
         }?.runTry {
-            getMethod("addExtraAction", AnActionButton::class.java).invoke(toolbar, revertButton)
+            getMethod("addExtraAction", AnActionButton::class.java).invoke(toolbar, revertAction)
         }
         val innerPanel = MeowUiUtil.createTitledPanel(message("panel.ShebangsPart.title"))
         innerPanel.add(toolbar.createPanel())

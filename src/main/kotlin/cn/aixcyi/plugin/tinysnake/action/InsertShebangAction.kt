@@ -25,7 +25,7 @@ import org.apache.commons.lang3.StringUtils
  * @see <a href="https://github.com/JetBrains/intellij-community/blob/232/platform/platform-api/src/com/intellij/ide/actions/QuickSwitchSchemeAction.java#L59">QuickSwitchSchemeAction#showPopup</a>
  * @see <a href="https://github.com/JetBrains/intellij-community/blob/232/platform/platform-impl/src/com/intellij/ide/actions/QuickChangeKeymapAction.java#L35">QuickChangeKeymapAction#fillActions</a>
  */
-class ShebangGenerateAction : PyAction() {
+class InsertShebangAction : PyAction() {
 
     override fun actionPerformed(editor: Editor, event: AnActionEvent, file: PyFile) {
         val project = file.project

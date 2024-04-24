@@ -30,7 +30,7 @@ import kotlin.io.path.exists
  *
  * @author <a href="https://github.com/aixcyi">砹小翼</a>
  */
-class DjangoAppGenerateAction : DumbAwareAction() {
+class GenerateDjangoAppAction : DumbAwareAction() {
 
     override fun getActionUpdateThread() = ActionUpdateThread.BGT
 

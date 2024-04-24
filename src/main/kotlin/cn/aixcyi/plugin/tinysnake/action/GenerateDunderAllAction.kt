@@ -27,7 +27,7 @@ import javax.swing.ListSelectionModel
  *
  * @author <a href="https://github.com/aixcyi">砹小翼</a>
  */
-class DunderAllGenerateAction : PyAction() {
+class GenerateDunderAllAction : PyAction() {
 
     override fun actionPerformed(editor: Editor, event: AnActionEvent, file: PyFile) {
         // <action id="GenerateDunderAllWithImports">
