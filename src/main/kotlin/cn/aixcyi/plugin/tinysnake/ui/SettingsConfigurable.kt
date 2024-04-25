@@ -1,9 +1,9 @@
 package cn.aixcyi.plugin.tinysnake.ui
 
-import cn.aixcyi.plugin.tinysnake.Zoo
+import cn.aixcyi.plugin.tinysnake.Zoo.message
 import cn.aixcyi.plugin.tinysnake.storage.Settings
 import com.intellij.openapi.components.PersistentStateComponent
-import com.intellij.openapi.options.Configurable
+import com.intellij.openapi.options.SearchableConfigurable
 import javax.swing.JComponent
 
 /**
@@ -14,16 +14,27 @@ import javax.swing.JComponent
  *
  * @author <a href="https://github.com/aixcyi">砹小翼</a>
  */
-class SettingsConfigurable : Configurable {
+class SettingsConfigurable : SearchableConfigurable {
+
+    companion object {
+        const val ID = "cn.aixcyi.plugin.tinysnake.state"
+    }
 
     /** 页面组件。设置为 `null` 以释放组件。 */
     private var component: SettingsComponent? = null
 
-    override fun getDisplayName() = Zoo.PLUGIN_DISPLAY_NAME
+    override fun getId() = ID
+
+    override fun getDisplayName() = message("configurable.TinySnake.display_name")
 
     override fun createComponent(): JComponent {
         component = SettingsComponent(Settings.getInstance().state)
         return component!!.mainPanel
+    }
+
+    override fun enableSearch(option: String?): Runnable? {
+        // TODO<FUTURE>: 实现搜索
+        return null
     }
 
     override fun isModified() = component?.isModified() ?: false

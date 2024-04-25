@@ -14,7 +14,6 @@
     <extensions defaultExtensionNs="com.intellij">
         <applicationConfigurable
                 parentId="tools"
-                id="cn.aixcyi.plugin.tinysnake.state"
                 instance="cn.aixcyi.plugin.tinysnake.ui.SettingsConfigurable"
                 displayName="Tiny Snake">
         </applicationConfigurable>
