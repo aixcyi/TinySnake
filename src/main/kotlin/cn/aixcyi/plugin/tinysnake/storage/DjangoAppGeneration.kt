@@ -1,6 +1,7 @@
 package cn.aixcyi.plugin.tinysnake.storage
 
 import cn.aixcyi.plugin.tinysnake.Zoo
+import cn.aixcyi.plugin.tinysnake.Zoo.resource
 import com.intellij.openapi.components.*
 import com.intellij.openapi.project.Project
 
@@ -37,6 +38,25 @@ class DjangoAppGeneration : SimplePersistentStateComponent<DjangoAppGeneration.S
         var views by property(Creation.FILE) { it == Creation.FILE }
         var tests by property(Creation.FILE) { it == Creation.FILE }
         var urls by property(Creation.FILE) { it == Creation.FILE }
+        var adminName by property("admin") { it == "admin" }
+        var appsName by property("apps") { it == "apps" }
+        var modelsName by property("models") { it == "models" }
+        var serializersName by property("serializers") { it == "serializers" }
+        var viewsName by property("views") { it == "views" }
+        var testsName by property("tests") { it == "tests" }
+        var urlsName by property("urls") { it == "urls" }
+
+        fun isNameNotExist(name: String): Boolean {
+            return name !in setOf(
+                adminName,
+                appsName,
+                modelsName,
+                serializersName,
+                viewsName,
+                testsName,
+                urlsName,
+            )
+        }
     }
 
     /**
@@ -44,15 +64,15 @@ class DjangoAppGeneration : SimplePersistentStateComponent<DjangoAppGeneration.S
      */
     class Template {
         companion object {
-            val MIGRATIONS = Zoo.resource("/templates/migrations/__init__.py").readText().replace("\r\n", "\n")
-            val DUNDER_INIT = Zoo.resource("/templates/__init__.py").readText().replace("\r\n", "\n")
-            val ADMIN = Zoo.resource("/templates/admin.py").readText().replace("\r\n", "\n")
-            val APPS = Zoo.resource("/templates/apps.py").readText().replace("\r\n", "\n")
-            val MODELS = Zoo.resource("/templates/models.py").readText().replace("\r\n", "\n")
-            val SERIALIZERS = Zoo.resource("/templates/serializers.py").readText().replace("\r\n", "\n")
-            val TESTS = Zoo.resource("/templates/tests.py").readText().replace("\r\n", "\n")
-            val VIEWS = Zoo.resource("/templates/views.py").readText().replace("\r\n", "\n")
-            val URLS = Zoo.resource("/templates/urls.py").readText().replace("\r\n", "\n")
+            val MIGRATIONS = resource("/templates/migrations/__init__.py").readText().replace("\r\n", "\n")
+            val DUNDER_INIT = resource("/templates/__init__.py").readText().replace("\r\n", "\n")
+            val ADMIN = resource("/templates/admin.py").readText().replace("\r\n", "\n")
+            val APPS = resource("/templates/apps.py").readText().replace("\r\n", "\n")
+            val MODELS = resource("/templates/models.py").readText().replace("\r\n", "\n")
+            val SERIALIZERS = resource("/templates/serializers.py").readText().replace("\r\n", "\n")
+            val TESTS = resource("/templates/tests.py").readText().replace("\r\n", "\n")
+            val VIEWS = resource("/templates/views.py").readText().replace("\r\n", "\n")
+            val URLS = resource("/templates/urls.py").readText().replace("\r\n", "\n")
 
             fun renderApps(
                 clsPostfix: String,

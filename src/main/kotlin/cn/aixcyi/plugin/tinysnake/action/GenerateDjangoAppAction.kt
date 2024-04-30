@@ -71,7 +71,7 @@ class GenerateDjangoAppAction : DumbAwareAction() {
             dialog.name.toString(),
             dialog.label,
             dialog.verboseName,
-            dialog.creation.defaultAutoField,
+            dialog.state.defaultAutoField,
         )
         if (folder.exists()) {
             Messages.showWarningDialog(
@@ -86,13 +86,13 @@ class GenerateDjangoAppAction : DumbAwareAction() {
         val runnable = {
             // 创建 App 包
             proxy.create(dialog.name, Template.DUNDER_INIT)
-            proxy.add("admin", Template.ADMIN, dialog.creation.admin)
-            proxy.add("apps", appsTemplate, dialog.creation.apps)
-            proxy.add("models", Template.MODELS, dialog.creation.models)
-            proxy.add("serializers", Template.SERIALIZERS, dialog.creation.serializers)
-            proxy.add("tests", Template.TESTS, dialog.creation.tests)
-            proxy.add("views", Template.VIEWS, dialog.creation.views)
-            proxy.add("urls", Template.URLS, dialog.creation.urls)
+            proxy.add(dialog.state.adminName, Template.ADMIN, dialog.state.admin)
+            proxy.add(dialog.state.appsName, appsTemplate, dialog.state.apps)
+            proxy.add(dialog.state.modelsName, Template.MODELS, dialog.state.models)
+            proxy.add(dialog.state.serializersName, Template.SERIALIZERS, dialog.state.serializers)
+            proxy.add(dialog.state.viewsName, Template.TESTS, dialog.state.tests)
+            proxy.add(dialog.state.testsName, Template.VIEWS, dialog.state.views)
+            proxy.add(dialog.state.urlsName, Template.URLS, dialog.state.urls)
             val packageVF = proxy.folder.virtualFile
             // 创建 App 包内的 migrations 子包
             proxy.create(dialog.name.append("migrations"), Template.MIGRATIONS)

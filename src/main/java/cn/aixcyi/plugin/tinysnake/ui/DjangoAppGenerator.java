@@ -28,7 +28,7 @@ import static cn.aixcyi.plugin.tinysnake.Zoo.message;
 public class DjangoAppGenerator extends DialogWrapper {
 
     // ---- 公开状态 ----
-    public final DjangoAppGeneration.State creation;
+    public final DjangoAppGeneration.State state;
 
     // ---- 窗口组件 ----
     private JPanel            contentPanel;
@@ -36,6 +36,13 @@ public class DjangoAppGenerator extends DialogWrapper {
     private JTextField        labelField;
     private JTextField        verboseNameField;
     private JComboBox<String> defaultAutoField;
+    private JPanel adminNameCard;
+    private JPanel appsNameCard;
+    private JPanel modelsNameCard;
+    private JPanel serializersNameCard;
+    private JPanel testsNameCard;
+    private JPanel viewsNameCard;
+    private JPanel urlsNameCard;
     private ButtonGroup       adminGroup;
     private ButtonGroup       appsGroup;
     private ButtonGroup       modelsGroup;
@@ -45,14 +52,21 @@ public class DjangoAppGenerator extends DialogWrapper {
     private ButtonGroup       urlsGroup;
 
     // ---- 内部状态 ----
-    private @Nullable String autoLabel   = "";  // 空表示断开同步，非空表示执行同步
-    private @Nullable String autoVerbose = ""; // 空表示断开同步，非空表示执行同步
+    private @Nullable String                 autoLabel   = "";  // 空表示断开同步，非空表示执行同步
+    private @Nullable String                 autoVerbose = ""; // 空表示断开同步，非空表示执行同步
+    private           LabelEditingController adminController;
+    private           LabelEditingController appsController;
+    private           LabelEditingController modelsController;
+    private           LabelEditingController serializersController;
+    private           LabelEditingController testsController;
+    private           LabelEditingController viewsController;
+    private           LabelEditingController urlsController;
 
     public DjangoAppGenerator(Project project) {
         super(true);
         setResizable(true);
         setTitle(message("command.GenerateDjangoApp"));
-        creation = DjangoAppGeneration.getInstance(project).getState();
+        state = DjangoAppGeneration.getInstance(project).getState();
         init();
         load();
     }
@@ -147,28 +161,48 @@ public class DjangoAppGenerator extends DialogWrapper {
                     autoVerbose = null;
             }
         });
+        adminController = LabelEditingController.of(adminNameCard, state.getAdminName(), state::isNameNotExist);
+        appsController = LabelEditingController.of(appsNameCard, state.getAppsName(), state::isNameNotExist);
+        modelsController = LabelEditingController.of(modelsNameCard, state.getModelsName(), state::isNameNotExist);
+        serializersController = LabelEditingController.of(serializersNameCard, state.getSerializersName(), state::isNameNotExist);
+        testsController = LabelEditingController.of(testsNameCard, state.getTestsName(), state::isNameNotExist);
+        viewsController = LabelEditingController.of(viewsNameCard, state.getViewsName(), state::isNameNotExist);
+        urlsController = LabelEditingController.of(urlsNameCard, state.getUrlsName(), state::isNameNotExist);
     }
 
     private void load() {
-        defaultAutoField.getEditor().setItem(creation.getDefaultAutoField());
-        updateButtonGroupSelection(adminGroup, creation.getAdmin());
-        updateButtonGroupSelection(appsGroup, creation.getApps());
-        updateButtonGroupSelection(modelsGroup, creation.getModels());
-        updateButtonGroupSelection(serializersGroup, creation.getSerializers());
-        updateButtonGroupSelection(testsGroup, creation.getTests());
-        updateButtonGroupSelection(viewsGroup, creation.getViews());
-        updateButtonGroupSelection(urlsGroup, creation.getUrls());
+        defaultAutoField.getEditor().setItem(state.getDefaultAutoField());
+        updateButtonGroupSelection(adminGroup, state.getAdmin());
+        updateButtonGroupSelection(appsGroup, state.getApps());
+        updateButtonGroupSelection(modelsGroup, state.getModels());
+        updateButtonGroupSelection(serializersGroup, state.getSerializers());
+        updateButtonGroupSelection(testsGroup, state.getTests());
+        updateButtonGroupSelection(viewsGroup, state.getViews());
+        updateButtonGroupSelection(urlsGroup, state.getUrls());
+        adminController.setText(state.getAdminName());
+        appsController.setText(state.getAppsName());
+        modelsController.setText(state.getModelsName());
+        serializersController.setText(state.getSerializersName());
+        testsController.setText(state.getTestsName());
+        viewsController.setText(state.getViewsName());
+        urlsController.setText(state.getUrlsName());
     }
 
     private void save() {
-        creation.setDefaultAutoField((String) defaultAutoField.getEditor().getItem());
-        creation.setAdmin(detectButtonGroupSelection(adminGroup));
-        creation.setApps(detectButtonGroupSelection(appsGroup));
-        creation.setModels(detectButtonGroupSelection(modelsGroup));
-        creation.setSerializers(detectButtonGroupSelection(serializersGroup));
-        creation.setTests(detectButtonGroupSelection(testsGroup));
-        creation.setViews(detectButtonGroupSelection(viewsGroup));
-        creation.setUrls(detectButtonGroupSelection(urlsGroup));
+        state.setDefaultAutoField((String) defaultAutoField.getEditor().getItem());
+        state.setAdmin(detectButtonGroupSelection(adminGroup));
+        state.setApps(detectButtonGroupSelection(appsGroup));
+        state.setModels(detectButtonGroupSelection(modelsGroup));
+        state.setSerializers(detectButtonGroupSelection(serializersGroup));
+        state.setTests(detectButtonGroupSelection(testsGroup));
+        state.setViews(detectButtonGroupSelection(viewsGroup));
+        state.setUrls(detectButtonGroupSelection(urlsGroup));
+        state.setAdminName(adminController.getText());
+        state.setAppsName(appsController.getText());
+        state.setModelsName(modelsController.getText());
+        state.setSerializersName(serializersController.getText());
+        state.setTestsName(testsController.getText());
+        state.setViewsName(viewsController.getText());
     }
 
     /**
