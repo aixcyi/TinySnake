@@ -2,7 +2,7 @@ package cn.aixcyi.plugin.tinysnake.action
 
 import cn.aixcyi.plugin.tinysnake.StringUtil
 import cn.aixcyi.plugin.tinysnake.Zoo.message
-import cn.aixcyi.plugin.tinysnake.entity.PyPackageProxy
+import cn.aixcyi.plugin.tinysnake.entity.PyPackageBuilder
 import cn.aixcyi.plugin.tinysnake.storage.DjangoAppGeneration.Template
 import cn.aixcyi.plugin.tinysnake.tailless
 import cn.aixcyi.plugin.tinysnake.ui.DjangoAppGenerator
@@ -64,8 +64,8 @@ class GenerateDjangoAppAction : DumbAwareAction() {
         if (!dialog.showAndGet()) return
 
         // 创建代理模型，准备模板
-        val proxy = PyPackageProxy(project)
-        val folder = proxy.root / dialog.name  // 实际上就是 proxy.create() 之后的 proxy.folder，只不过需要先确保文件夹不存在
+        val builder = PyPackageBuilder(project)
+        val folder = builder.root / dialog.name  // 实际上就是 proxy.create() 之后的 proxy.folder，只不过需要先确保文件夹不存在
         val appsTemplate = Template.renderApps(
             StringUtil.snakeToUpperCamel(dialog.label).tailless("App").tailless("AppConfig"),
             dialog.name.toString(),
@@ -85,17 +85,17 @@ class GenerateDjangoAppAction : DumbAwareAction() {
         // 创建 Python 包，并导航到这个包
         val runnable = {
             // 创建 App 包
-            proxy.create(dialog.name, Template.DUNDER_INIT)
-            proxy.add(dialog.state.adminName, Template.ADMIN, dialog.state.admin)
-            proxy.add(dialog.state.appsName, appsTemplate, dialog.state.apps)
-            proxy.add(dialog.state.modelsName, Template.MODELS, dialog.state.models)
-            proxy.add(dialog.state.serializersName, Template.SERIALIZERS, dialog.state.serializers)
-            proxy.add(dialog.state.viewsName, Template.TESTS, dialog.state.tests)
-            proxy.add(dialog.state.testsName, Template.VIEWS, dialog.state.views)
-            proxy.add(dialog.state.urlsName, Template.URLS, dialog.state.urls)
-            val packageVF = proxy.folder.virtualFile
+            builder.create(dialog.name, Template.DUNDER_INIT)
+            builder.add(dialog.state.adminName, Template.ADMIN, dialog.state.admin)
+            builder.add(dialog.state.appsName, appsTemplate, dialog.state.apps)
+            builder.add(dialog.state.modelsName, Template.MODELS, dialog.state.models)
+            builder.add(dialog.state.serializersName, Template.SERIALIZERS, dialog.state.serializers)
+            builder.add(dialog.state.viewsName, Template.TESTS, dialog.state.tests)
+            builder.add(dialog.state.testsName, Template.VIEWS, dialog.state.views)
+            builder.add(dialog.state.urlsName, Template.URLS, dialog.state.urls)
+            val packageVF = builder.folder.virtualFile
             // 创建 App 包内的 migrations 子包
-            proxy.create(dialog.name.append("migrations"), Template.MIGRATIONS)
+            builder.create(dialog.name.append("migrations"), Template.MIGRATIONS)
             // 导航到 App 包
             ProjectView.getInstance(project).select(null, packageVF, true)
         }

@@ -12,12 +12,12 @@ import com.jetbrains.python.PythonFileType
 import kotlin.io.path.Path
 
 /**
- * Python 包代理模型。
+ * Python 包（文件与文件夹）构建工具。
  *
  * - 调用 [create] 创建一个 Python 包后，可以直接调用 [add] 往包里添加文件或子包。
  * - [create] 每次调用都会从 [root] 创建包，上一次记录的 [folder] 将会被覆盖。
  */
-class PyPackageProxy(project: Project) {
+class PyPackageBuilder(project: Project) {
 
     private val fileFactory = PsiFileFactory.getInstance(project)
     private val virtualRoot = ProjectFileIndex.getInstance(project).getContentRootForFile(project.projectFile!!)!!
