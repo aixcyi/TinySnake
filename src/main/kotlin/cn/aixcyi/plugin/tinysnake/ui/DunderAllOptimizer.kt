@@ -19,6 +19,8 @@ class DunderAllOptimizer : DialogWrapper(true) {
     init {
         isResizable = false
         title = message("command.OptimizeDunderAll")
+        setOKButtonText(message("button.OK.text"))
+        setCancelButtonText(message("button.Cancel.text"))
         super.init()
     }
 

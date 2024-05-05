@@ -31,6 +31,8 @@ class DocstringLinkCreator(
         isResizable = true
         title = message("dialog.DocstringLinkCreator.title")
         setSize(600, -1)  // 实在找不到什么方法可以设置一个相对于父窗口的宽度
+        setOKButtonText(message("button.OK.text"))
+        setCancelButtonText(message("button.Cancel.text"))
         super.init()
     }
 

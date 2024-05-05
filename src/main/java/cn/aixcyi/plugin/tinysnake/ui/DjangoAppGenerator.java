@@ -66,6 +66,8 @@ public class DjangoAppGenerator extends DialogWrapper {
         super(true);
         setResizable(true);
         setTitle(message("command.GenerateDjangoApp"));
+        setOKButtonText(message("button.OK.text"));
+        setCancelButtonText(message("button.Cancel.text"));
         state = DjangoAppGeneration.getInstance(project).getState();
         init();
         load();
