@@ -38,11 +38,12 @@ class GenerateDocstringLinkAction : PyAction() {
         val isReplace = editor.selectionModel.hasSelection()
 
         // 生成代码，或取消动作
-        val link = DocstringLinkCreator(message("dialog.DocstringLinkCreator.title"))
-            .setText(if (isReplace) (editor.selectionModel.selectedText ?: "") else "")
-            .setLink(this.getHyperlinkFromClipboard())
-            .showThenGet()
-            ?: return
+        val dialog = DocstringLinkCreator(
+            editor.project ?: return,
+            if (isReplace) (editor.selectionModel.selectedText ?: "") else "",
+            this.getHyperlinkFromClipboard(),
+        )
+        val docstring = if (dialog.showAndGet()) dialog.docstring else return
 
         // 检测前后有没有空格，如果没有则补充，不然IDE没办法正确渲染
         val context = if (isReplace)
@@ -61,7 +62,7 @@ class GenerateDocstringLinkAction : PyAction() {
             )
         val head = if (context.startsWith(' ')) "" else " "
         val tail = if (context.endsWith(' ')) "" else " "
-        val snippet = "$head$link$tail"
+        val snippet = "$head$docstring$tail"
 
         // 生成动作
         val runnable = if (!isReplace)
