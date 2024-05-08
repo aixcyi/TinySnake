@@ -1,7 +1,7 @@
 package cn.aixcyi.plugin.tinysnake.ui
 
 import cn.aixcyi.plugin.tinysnake.Zoo.message
-import cn.aixcyi.plugin.tinysnake.runTry
+import cn.aixcyi.plugin.tinysnake.chainTry
 import cn.aixcyi.plugin.tinysnake.storage.Settings
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.actionSystem.ActionUpdateThread
@@ -82,9 +82,9 @@ class SettingsComponent(private val state: Settings.State) {
                 e.presentation.isEnabled = cc != null && cc.isShowing && cc.isEnabled && !isOriginal()
             }
         }
-        toolbar.javaClass.runTry {
+        toolbar.javaClass.chainTry {
             getMethod("addExtraAction", AnAction::class.java).invoke(toolbar, revertAction as AnAction)
-        }?.runTry {
+        }?.chainTry {
             getMethod("addExtraAction", AnActionButton::class.java).invoke(toolbar, revertAction)
         }
         val innerPanel = MeowUiUtil.createTitledPanel(message("panel.ShebangsPart.title"))
