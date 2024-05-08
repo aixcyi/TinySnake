@@ -42,7 +42,7 @@ class DocstringLinkCreator(
                 .label(message("label.DocstringLinkText.text"), LabelPosition.TOP)
                 .text(this@DocstringLinkCreator.text)
                 .bindText(this@DocstringLinkCreator::text)
-                .focusIf { this.text.isEmpty() }
+                .focusIf { this@DocstringLinkCreator.text.isEmpty() }
         }
         row {
             textField()
