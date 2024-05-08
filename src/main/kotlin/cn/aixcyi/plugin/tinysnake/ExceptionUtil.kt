@@ -1,5 +1,11 @@
 package cn.aixcyi.plugin.tinysnake
 
+import com.intellij.openapi.diagnostic.logger
+
+val LOGGER = logger<ExceptionUtil>()
+
+object ExceptionUtil
+
 /**
  * 尝试调用对象的方法。
  *
@@ -12,6 +18,7 @@ inline fun <T, R> T.runTry(block: T.() -> R): T? {
         block()
         return null
     } catch (e: Throwable) {
+        LOGGER.debug(e)
         return this
     }
 }

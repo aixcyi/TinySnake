@@ -1,5 +1,6 @@
 package cn.aixcyi.plugin.tinysnake.ui
 
+import cn.aixcyi.plugin.tinysnake.runTry
 import com.intellij.openapi.util.text.TextWithMnemonic
 import com.intellij.ui.IdeBorderFactory
 import com.intellij.ui.dsl.builder.Cell
@@ -96,5 +97,25 @@ fun <T : JComponent> Cell<T>.focusIf(condition: T.() -> Boolean): Cell<T> {
  */
 fun <T : JComponent> Cell<T>.focusIf(condition: Boolean): Cell<T> {
     if (condition) this.focused()
+    return this
+}
+
+/**
+ * 让 [Cell] 填满当前的布局单元格（如果不经设置，会默认为左对齐）。
+ */
+fun <T : JComponent> Cell<T>.hFill(): Cell<T> {
+    // 兼容以下两种写法：
+    // align(com.intellij.ui.dsl.builder.AlignX.FILL)
+    // horizontalAlign(com.intellij.ui.dsl.gridLayout.HorizontalAlign.FILL)
+    javaClass.runTry {
+        val klass = Class.forName("com.intellij.ui.dsl.builder.Align")
+        val param = Class.forName("com.intellij.ui.dsl.builder.AlignX")
+            .kotlin.sealedSubclasses.first { it.simpleName == "FILL" }.objectInstance
+        getMethod("align", klass).invoke(this@hFill, param)
+    }?.runTry {
+        val klass = Class.forName("com.intellij.ui.dsl.gridLayout.HorizontalAlign")
+        val param = klass.enumConstants.map { it as Enum<*> }.first { it.name == "FILL" }
+        getMethod("horizontalAlign", klass).invoke(this@hFill, param)
+    }
     return this
 }

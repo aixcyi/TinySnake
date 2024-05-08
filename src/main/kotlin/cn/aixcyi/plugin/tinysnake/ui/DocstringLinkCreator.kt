@@ -7,7 +7,6 @@ import com.intellij.ui.dsl.builder.LabelPosition
 import com.intellij.ui.dsl.builder.bindText
 import com.intellij.ui.dsl.builder.panel
 import com.intellij.ui.dsl.builder.text
-import com.intellij.ui.dsl.gridLayout.HorizontalAlign
 
 /**
  * Docstring 超链接编辑窗口。
@@ -39,7 +38,7 @@ class DocstringLinkCreator(
     override fun createCenterPanel() = panel {
         row {
             textField()
-                .horizontalAlign(HorizontalAlign.FILL)  // 不知道为什么 resizableColumn() 无法生效。
+                .hFill()
                 .label(message("label.DocstringLinkText.text"), LabelPosition.TOP)
                 .text(this@DocstringLinkCreator.text)
                 .bindText(this@DocstringLinkCreator::text)
@@ -47,7 +46,7 @@ class DocstringLinkCreator(
         }
         row {
             textField()
-                .horizontalAlign(HorizontalAlign.FILL)
+                .hFill()
                 .label(message("label.DocstringLinkSource.text"), LabelPosition.TOP)
                 .text(this@DocstringLinkCreator.link)
                 .bindText(this@DocstringLinkCreator::link)
