@@ -1,5 +1,14 @@
 # 更新日志／Change Log
 
+## v1.1.3，2024-05-09
+
+1. 创建 Django App 时可以使用非约定的源文件命名。  
+   Allow use different file name which on django app while you creating.
+2. 翻译所有对话框的「确定」和「取消」按钮。  
+   Translate all dialog's buttons.
+3. 更正 Django App 创建对话框中预设的默认主键类型。  
+   Correct all _default auto field_ preset on Django app creation dialog.
+
 ## v1.1.2，2024-04-23
 
 1. Django App 的 `apps.py` 现在会忽略未填写的 `Meta` 属性。  
