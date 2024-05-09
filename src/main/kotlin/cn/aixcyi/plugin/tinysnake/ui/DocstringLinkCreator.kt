@@ -53,7 +53,7 @@ class DocstringLinkCreator(
                 .text(this@DocstringLinkCreator.link)
                 .bindText(this@DocstringLinkCreator::link)
                 .focusIf(this@DocstringLinkCreator.text.isNotEmpty())
-                .validationOnInput {
+                .validation {
                     if (it.text.isNotBlank() && it.text.isWebUrl())
                         null
                     else
