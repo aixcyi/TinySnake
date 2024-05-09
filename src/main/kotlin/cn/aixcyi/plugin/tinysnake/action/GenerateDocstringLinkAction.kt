@@ -1,12 +1,13 @@
 package cn.aixcyi.plugin.tinysnake.action
 
 import cn.aixcyi.plugin.tinysnake.Zoo.message
+import cn.aixcyi.plugin.tinysnake.isWebUrl
 import cn.aixcyi.plugin.tinysnake.ui.DocstringLinkCreator
+import com.intellij.codeInsight.hint.HintManager
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.util.TextRange
-import com.intellij.psi.PsiElement
 import com.jetbrains.python.PyTokenTypes
 import com.jetbrains.python.psi.PyFile
 import java.awt.Toolkit
@@ -25,23 +26,27 @@ import java.awt.datatransfer.DataFlavor
  */
 class GenerateDocstringLinkAction : PyAction() {
 
-    override fun update(editor: Editor, event: AnActionEvent, file: PyFile) {
-        // 如果光标不在 docstring 中，则禁用 Action
-        event.presentation.isEnabled = getCaretDocstring(editor, file) != null
-    }
-
     override fun actionPerformed(editor: Editor, event: AnActionEvent, file: PyFile) {
-        // 如果光标不在 docstring 中，则直接无视操作，没必要进行提示
-        getCaretDocstring(editor, file) ?: return
+        // 如果光标不是一个（多光标模式／列选择模式）或者不在 docstring 中，则进行提示
+        val hint = HintManager.getInstance()
+        if (editor.caretModel.caretCount != 1) {
+            hint.showInformationHint(editor, message("hint.NotSupportMultipleCaretMode.text"))
+            return
+        }
+        file.findElementAt(editor.caretModel.offset)?.let {
+            if (PyTokenTypes.DOCSTRING.equals(it.node.elementType)) it else null
+        } ?: let {
+            hint.showInformationHint(editor, message("hint.CaretNotOnDocstring.text"))
+            return
+        }
 
-        // 有选中文本则进行「替换」，没有则进行「插入」
+        // 要么生成代码：有选中文本则进行「替换」，没有则进行「插入」
+        // 要么取消动作
         val isReplace = editor.selectionModel.hasSelection()
-
-        // 生成代码，或取消动作
         val dialog = DocstringLinkCreator(
             file.project,
             if (isReplace) (editor.selectionModel.selectedText ?: "") else "",
-            this.getHyperlinkFromClipboard(),
+            this.getTextFromClipboard(),
         )
         val docstring = if (dialog.showAndGet()) dialog.docstring else return
 
@@ -86,33 +91,15 @@ class GenerateDocstringLinkAction : PyAction() {
     }
 
     /**
-     * 获取光标所在的 docstring 元素。
-     *
-     * @return 如果光标多于一个，或找不到 docstring 都会返回 `null` 。
-     */
-    private fun getCaretDocstring(editor: Editor, file: PyFile): PsiElement? {
-        if (editor.caretModel.caretCount > 1) return null
-        val element = file.findElementAt(editor.caretModel.offset)
-        return element?.let {
-            if (PyTokenTypes.DOCSTRING.equals(element.node.elementType)) element else null
-        }
-    }
-
-    /**
-     * 获取剪切板中的超链接。
+     * 获取剪切板中的文本。
      *
      * @return 如果没有，将返回空字符串 `""` 。
      */
-    private fun getHyperlinkFromClipboard(): String {
-        val clipText = try {
-            Toolkit.getDefaultToolkit().systemClipboard.getData(DataFlavor.stringFlavor) as String
-        } catch (_: Exception) {
-            ""
-        }
-        val lowerText = clipText.lowercase()
-        return if (lowerText.startsWith("http://") || lowerText.startsWith("https://"))
-            clipText
-        else
-            ""
+    private fun getTextFromClipboard() = try {
+        Toolkit.getDefaultToolkit().systemClipboard.getData(DataFlavor.stringFlavor) as String
+    } catch (_: Exception) {
+        ""
+    }.let {
+        if (it.isNotBlank() && it.isWebUrl()) it else ""
     }
 }

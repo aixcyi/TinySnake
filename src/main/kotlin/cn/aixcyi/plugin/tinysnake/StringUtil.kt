@@ -1,5 +1,8 @@
 package cn.aixcyi.plugin.tinysnake
 
+import java.net.MalformedURLException
+import java.net.URL
+
 /**
  * 字符串相关工具方法。
  *
@@ -42,3 +45,12 @@ fun String.tailless(tail: String, ignoreCase: Boolean = false) =
         this.substring(0, this.length - tail.length)
     else
         this
+
+/**
+ * 判断字符串是不是 HTTP 或 HTTPS 链接。
+ */
+fun String.isWebUrl() = try {
+    arrayOf("http", "https").contains(URL(this).protocol)
+} catch (_: MalformedURLException) {
+    false
+}

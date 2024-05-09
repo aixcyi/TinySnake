@@ -1,8 +1,10 @@
 package cn.aixcyi.plugin.tinysnake.ui
 
 import cn.aixcyi.plugin.tinysnake.Zoo.message
+import cn.aixcyi.plugin.tinysnake.isWebUrl
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogWrapper
+import com.intellij.openapi.ui.ValidationInfo
 import com.intellij.ui.dsl.builder.LabelPosition
 import com.intellij.ui.dsl.builder.bindText
 import com.intellij.ui.dsl.builder.panel
@@ -51,6 +53,12 @@ class DocstringLinkCreator(
                 .text(this@DocstringLinkCreator.link)
                 .bindText(this@DocstringLinkCreator::link)
                 .focusIf(this@DocstringLinkCreator.text.isNotEmpty())
+                .validationOnInput {
+                    if (it.text.isNotBlank() && it.text.isWebUrl())
+                        null
+                    else
+                        ValidationInfo(message("validation.NotAHyperlink")).asWarning()
+                }
         }
     }
 }
