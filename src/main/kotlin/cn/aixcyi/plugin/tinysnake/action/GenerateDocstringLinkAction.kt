@@ -39,7 +39,7 @@ class GenerateDocstringLinkAction : PyAction() {
 
         // 生成代码，或取消动作
         val dialog = DocstringLinkCreator(
-            editor.project ?: return,
+            file.project,
             if (isReplace) (editor.selectionModel.selectedText ?: "") else "",
             this.getHyperlinkFromClipboard(),
         )
