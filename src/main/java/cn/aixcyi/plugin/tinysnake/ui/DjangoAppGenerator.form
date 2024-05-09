@@ -72,7 +72,6 @@
             <item value="django.db.models.BigAutoField"/>
             <item value="django.db.models.SmallAutoField"/>
             <item value="django.db.models.UUIDField"/>
-            <item value="django.db.models.EmailField"/>
             <item value="django.db.models.DateTimeField"/>
           </model>
           <toolTipText resource-bundle="messages/TinySnakeBundle" key="combo.DjangoAppDefaultAutoField.tooltip"/>
