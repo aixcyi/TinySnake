@@ -31,13 +31,13 @@ class DjangoAppGeneration : SimplePersistentStateComponent<DjangoAppGeneration.S
 
     class State : BaseState() {
         var defaultAutoField by property("") { it == "" }
-        var admin by property(Creation.FILE) { it == Creation.FILE }
-        var apps by property(Creation.FILE) { it == Creation.FILE }
-        var models by property(Creation.FILE) { it == Creation.FILE }
-        var serializers by property(Creation.FILE) { it == Creation.FILE }
-        var views by property(Creation.FILE) { it == Creation.FILE }
-        var tests by property(Creation.FILE) { it == Creation.FILE }
-        var urls by property(Creation.FILE) { it == Creation.FILE }
+        var adminCreation by property(Creation.FILE) { it == Creation.FILE }
+        var appsCreation by property(Creation.FILE) { it == Creation.FILE }
+        var modelsCreation by property(Creation.FILE) { it == Creation.FILE }
+        var serializersCreation by property(Creation.FILE) { it == Creation.FILE }
+        var viewsCreation by property(Creation.FILE) { it == Creation.FILE }
+        var testsCreation by property(Creation.FILE) { it == Creation.FILE }
+        var urlsCreation by property(Creation.FILE) { it == Creation.FILE }
         var adminName by property("admin") { it == "admin" }
         var appsName by property("apps") { it == "apps" }
         var modelsName by property("models") { it == "models" }

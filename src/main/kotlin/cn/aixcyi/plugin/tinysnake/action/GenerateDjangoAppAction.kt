@@ -86,13 +86,13 @@ class GenerateDjangoAppAction : DumbAwareAction() {
         val runnable = {
             // 创建 App 包
             builder.create(dialog.name, Template.DUNDER_INIT)
-            builder.add(dialog.state.adminName, Template.ADMIN, dialog.state.admin)
-            builder.add(dialog.state.appsName, appsTemplate, dialog.state.apps)
-            builder.add(dialog.state.modelsName, Template.MODELS, dialog.state.models)
-            builder.add(dialog.state.serializersName, Template.SERIALIZERS, dialog.state.serializers)
-            builder.add(dialog.state.viewsName, Template.TESTS, dialog.state.tests)
-            builder.add(dialog.state.testsName, Template.VIEWS, dialog.state.views)
-            builder.add(dialog.state.urlsName, Template.URLS, dialog.state.urls)
+            builder.add(dialog.state.adminName, Template.ADMIN, dialog.state.adminCreation)
+            builder.add(dialog.state.appsName, appsTemplate, dialog.state.appsCreation)
+            builder.add(dialog.state.modelsName, Template.MODELS, dialog.state.modelsCreation)
+            builder.add(dialog.state.serializersName, Template.SERIALIZERS, dialog.state.serializersCreation)
+            builder.add(dialog.state.viewsName, Template.TESTS, dialog.state.testsCreation)
+            builder.add(dialog.state.testsName, Template.VIEWS, dialog.state.viewsCreation)
+            builder.add(dialog.state.urlsName, Template.URLS, dialog.state.urlsCreation)
             val packageVF = builder.folder.virtualFile
             // 创建 App 包内的 migrations 子包
             builder.create(dialog.name.append("migrations"), Template.MIGRATIONS)

@@ -174,13 +174,13 @@ public class DjangoAppGenerator extends DialogWrapper {
 
     private void load() {
         defaultAutoField.getEditor().setItem(state.getDefaultAutoField());
-        updateButtonGroupSelection(adminGroup, state.getAdmin());
-        updateButtonGroupSelection(appsGroup, state.getApps());
-        updateButtonGroupSelection(modelsGroup, state.getModels());
-        updateButtonGroupSelection(serializersGroup, state.getSerializers());
-        updateButtonGroupSelection(testsGroup, state.getTests());
-        updateButtonGroupSelection(viewsGroup, state.getViews());
-        updateButtonGroupSelection(urlsGroup, state.getUrls());
+        updateButtonGroupSelection(adminGroup, state.getAdminCreation());
+        updateButtonGroupSelection(appsGroup, state.getAppsCreation());
+        updateButtonGroupSelection(modelsGroup, state.getModelsCreation());
+        updateButtonGroupSelection(serializersGroup, state.getSerializersCreation());
+        updateButtonGroupSelection(testsGroup, state.getTestsCreation());
+        updateButtonGroupSelection(viewsGroup, state.getViewsCreation());
+        updateButtonGroupSelection(urlsGroup, state.getUrlsCreation());
         adminController.setText(state.getAdminName());
         appsController.setText(state.getAppsName());
         modelsController.setText(state.getModelsName());
@@ -192,13 +192,13 @@ public class DjangoAppGenerator extends DialogWrapper {
 
     private void save() {
         state.setDefaultAutoField((String) defaultAutoField.getEditor().getItem());
-        state.setAdmin(detectButtonGroupSelection(adminGroup));
-        state.setApps(detectButtonGroupSelection(appsGroup));
-        state.setModels(detectButtonGroupSelection(modelsGroup));
-        state.setSerializers(detectButtonGroupSelection(serializersGroup));
-        state.setTests(detectButtonGroupSelection(testsGroup));
-        state.setViews(detectButtonGroupSelection(viewsGroup));
-        state.setUrls(detectButtonGroupSelection(urlsGroup));
+        state.setAdminCreation(detectButtonGroupSelection(adminGroup));
+        state.setAppsCreation(detectButtonGroupSelection(appsGroup));
+        state.setModelsCreation(detectButtonGroupSelection(modelsGroup));
+        state.setSerializersCreation(detectButtonGroupSelection(serializersGroup));
+        state.setTestsCreation(detectButtonGroupSelection(testsGroup));
+        state.setViewsCreation(detectButtonGroupSelection(viewsGroup));
+        state.setUrlsCreation(detectButtonGroupSelection(urlsGroup));
         state.setAdminName(adminController.getText());
         state.setAppsName(appsController.getText());
         state.setModelsName(modelsController.getText());
