@@ -46,6 +46,14 @@ class DocstringLinkCreator(
                 .text(text)
                 .bindText(::text)
                 .focusIf { text.isEmpty() }
+                .validate {
+                    DialogValidation {
+                        if (this@validate.text.isEmpty())
+                            ValidationInfo(message("validation.EmptyField")).asWarning()
+                        else
+                            null
+                    }
+                }
         }
         row {
             textField()

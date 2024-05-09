@@ -8,8 +8,9 @@
    Translate all dialog's buttons.
 3. 更正 Django App 创建对话框中预设的默认主键类型。  
    Correct all _default auto field_ preset on Django app creation dialog.
-4. 编辑 docstring 超链接时，如果不是 HTTP(S) 链接，会提示并阻止插入。  
-   If the link of docstring which want to insert is not an HTTP(S) hyperlink, it will hint you and block inserting.
+4. 编辑 docstring 超链接时，会校验有没有文本、是不是 HTTP(S) 链接，若校验失败会阻止插入。  
+   If the text and link which want to insert into docstring is empty and not an HTTP(S) hyperlink, it will hint you and
+   block inserting.
 5. 光标不在 docstring 内时按下插入链接的快捷键的话，现在会弹出提示。  
    A hint will pop up if the cursor is not in docstring while you are inserting hyperlink.
 
