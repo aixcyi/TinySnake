@@ -1,6 +1,8 @@
 package cn.aixcyi.plugin.tinysnake.ui
 
 import cn.aixcyi.plugin.tinysnake.chainTry
+import com.intellij.openapi.ui.DialogPanel
+import com.intellij.openapi.ui.validation.DialogValidation
 import com.intellij.openapi.util.text.TextWithMnemonic
 import com.intellij.ui.IdeBorderFactory
 import com.intellij.ui.dsl.builder.Cell
@@ -117,5 +119,15 @@ fun <T : JComponent> Cell<T>.hFill(): Cell<T> {
         val param = klass.enumConstants.map { it as Enum<*> }.first { it.name == "FILL" }
         getMethod("horizontalAlign", klass).invoke(this@hFill, param)
     }
+    return this
+}
+
+/**
+ * Registers custom component data validations.
+ * [block] will be called on [Cell.validationRequestor] events and
+ * when [DialogPanel.apply] event is happens.
+ */
+fun <T : JComponent> Cell<T>.validate(block: T.() -> DialogValidation?): Cell<T> {
+    block(component)?.let { validation(it) }
     return this
 }

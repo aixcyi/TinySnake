@@ -5,6 +5,7 @@ import cn.aixcyi.plugin.tinysnake.isWebUrl
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.openapi.ui.ValidationInfo
+import com.intellij.openapi.ui.validation.DialogValidation
 import com.intellij.ui.dsl.builder.LabelPosition
 import com.intellij.ui.dsl.builder.bindText
 import com.intellij.ui.dsl.builder.panel
@@ -42,22 +43,24 @@ class DocstringLinkCreator(
             textField()
                 .hFill()
                 .label(message("label.DocstringLinkText.text"), LabelPosition.TOP)
-                .text(this@DocstringLinkCreator.text)
-                .bindText(this@DocstringLinkCreator::text)
-                .focusIf { this@DocstringLinkCreator.text.isEmpty() }
+                .text(text)
+                .bindText(::text)
+                .focusIf { text.isEmpty() }
         }
         row {
             textField()
                 .hFill()
                 .label(message("label.DocstringLinkSource.text"), LabelPosition.TOP)
-                .text(this@DocstringLinkCreator.link)
-                .bindText(this@DocstringLinkCreator::link)
-                .focusIf(this@DocstringLinkCreator.text.isNotEmpty())
-                .validation {
-                    if (it.text.isNotBlank() && it.text.isWebUrl())
-                        null
-                    else
-                        ValidationInfo(message("validation.NotAHyperlink")).asWarning()
+                .text(link)
+                .bindText(::link)
+                .focusIf(text.isNotEmpty())
+                .validate {
+                    DialogValidation {
+                        if (this@validate.text.isNotBlank() && this@validate.text.isWebUrl())
+                            null
+                        else
+                            ValidationInfo(message("validation.NotAHyperlink")).asWarning()
+                    }
                 }
         }
     }
