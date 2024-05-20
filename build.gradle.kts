@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "cn.aixcyi.plugin"
-version = "1.1.3"  // https://semver.org/lang/zh-CN/
+version = "1.1.4-BETA"  // https://semver.org/lang/zh-CN/
 
 repositories {
     mavenLocal()
@@ -44,7 +44,7 @@ tasks {
 
     patchPluginXml {
         sinceBuild.set("222")
-        untilBuild.set("241.*")
+        untilBuild.set("242.*")
         pluginDescription.set(file("DESCRIPTION.html").readText())
         changeNotes.set(provider {
             changelog.renderItem(
