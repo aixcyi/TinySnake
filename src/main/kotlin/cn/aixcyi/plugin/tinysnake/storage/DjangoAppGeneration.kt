@@ -6,7 +6,7 @@ import com.intellij.openapi.components.*
 import com.intellij.openapi.project.Project
 
 /**
- * Django App 创建的初始设置。
+ * 创建 Django 应用的初始设置。
  *
  * @author <a href="https://github.com/aixcyi">砹小翼</a>
  */
@@ -60,7 +60,7 @@ class DjangoAppGeneration : SimplePersistentStateComponent<DjangoAppGeneration.S
     }
 
     /**
-     * Django App 各个文件的模板。
+     * Django 应用各个文件的模板。
      */
     class Template {
         companion object {

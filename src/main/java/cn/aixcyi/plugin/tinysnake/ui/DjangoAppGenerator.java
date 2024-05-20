@@ -19,7 +19,7 @@ import java.util.Enumeration;
 import static cn.aixcyi.plugin.tinysnake.Zoo.message;
 
 /**
- * Django App 初始化设置。
+ * Django 应用初始化设置。
  *
  * @author <a href="https://github.com/aixcyi">砹小翼</a>
  * @see <a href="https://docs.djangoproject.com/zh-hans/5.0/ref/applications/">应用程序及其配置</a>
@@ -74,7 +74,7 @@ public class DjangoAppGenerator extends DialogWrapper {
     }
 
     /**
-     * 获取 Django App 包的路径。
+     * 获取 Django 应用这个包的路径。
      *
      * @return 包路径。Kotlin 中可以通过 {@code for c in this.name.components} 进行枚举。
      * @see <a href="https://docs.djangoproject.com/zh-hans/5.0/ref/applications/#django.apps.AppConfig.name">AppConfig.name</a>
@@ -84,10 +84,10 @@ public class DjangoAppGenerator extends DialogWrapper {
     }
 
     /**
-     * 设置 Django App 包所处目录的路径。
+     * 设置 Django 应用这个包所处目录的路径。
      * <p>
      * <ul>
-     *     <li>假设希望在在 ./zeraora/user 包内插入一个 Django App，那么只需提供 {@code "zeraora.user"} 这样的包路径即可。</li>
+     *     <li>假设希望在在 ./zeraora/user 包内插入一个 Django 应用，那么只需提供 {@code "zeraora.user"} 这样的包路径即可。</li>
      *     <li>提供非空路径后，比如 {@code "zeraora.user"} 会显示为 {@code "zeraora.user."}，方便用户输入包名。</li>
      * </ul>
      *
@@ -105,7 +105,7 @@ public class DjangoAppGenerator extends DialogWrapper {
     }
 
     /**
-     * 获取 Django App 的简称。
+     * 获取 Django 应用的简称。
      * <p>
      * 如果不填，Django 默认设置为 {@code name} 的最后一段。
      *
@@ -116,7 +116,7 @@ public class DjangoAppGenerator extends DialogWrapper {
     }
 
     /**
-     * 获取 Django App 的名称。
+     * 获取 Django 应用的名称。
      * <p>
      * 如果不填，Django 默认设置为 {@code label.title()} 。
      *

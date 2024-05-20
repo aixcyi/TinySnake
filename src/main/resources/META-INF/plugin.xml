@@ -26,7 +26,6 @@
         <!-- 顶层菜单／新建... -->
         <action id="GenerateDjangoApp"
                 class="cn.aixcyi.plugin.tinysnake.action.GenerateDjangoAppAction"
-                text="Django App"
                 icon="AllIcons.RunConfigurations.Application">
             <add-to-group group-id="NewGroup" anchor="after" relative-to-action="NewPythonPackage"/>
         </action>

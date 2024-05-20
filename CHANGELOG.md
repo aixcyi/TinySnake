@@ -2,11 +2,11 @@
 
 ## v1.1.3，2024-05-09
 
-1. 创建 Django App 时可以使用非约定的源文件命名。  
+1. 创建 Django 应用时可以使用非约定的源文件命名。  
    Allow use different file name which on django app while you creating.
 2. 翻译所有对话框的「确定」和「取消」按钮。  
    Translate all dialog's buttons.
-3. 更正 Django App 创建对话框中预设的默认主键类型。  
+3. 更正 Django 应用创建对话框中预设的默认主键类型。  
    Correct all _default auto field_ preset on Django app creation dialog.
 4. 编辑 docstring 超链接时，会校验有没有文本、是不是 HTTP(S) 链接，若校验失败会阻止插入。  
    If the text and link which want to insert into docstring is empty and not an HTTP(S) hyperlink, it will hint you and
@@ -16,16 +16,16 @@
 
 ## v1.1.2，2024-04-23
 
-1. Django App 的 `apps.py` 现在会忽略未填写的 `Meta` 属性。  
+1. Django 应用的 `apps.py` 现在会忽略未填写的 `Meta` 属性。  
    Ignore attributes of `Meta` that you didn't fill when creating Django app.
-2. Django App 创建对话框新增了 `verbose_name` 属性，并且会自动从 `name` 中提取。  
+2. Django 应用创建对话框新增了 `verbose_name` 属性，并且会自动从 `name` 中提取。  
    Add `Meta` attribute `verbose_name` on Django app creation popup, and it also will auto retrieve from app name.
-3. 为 Django App 的 `Meta` 属性输入框添加提示。  
+3. 为 Django 应用的 `Meta` 属性输入框添加提示。  
    Add tooltips for fields of `Meta` attributes on Django app creation popup.
 
 ## v1.1.1，2024-04-20
 
-1. 修复创建 Django App 后缺少测试文件和迁移记录子包的问题。  
+1. 修复创建 Django 应用后缺少测试文件和迁移记录子包的问题。  
    Supplement file `tests.py` and sub-package `migrations` when you create a Django app.
 2. 更正视图和路由的模板。  
    Correct templates of `views.py` and `urls.py` in Django app creation.

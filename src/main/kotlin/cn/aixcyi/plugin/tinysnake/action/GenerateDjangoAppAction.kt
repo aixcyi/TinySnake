@@ -26,7 +26,7 @@ import kotlin.io.path.div
 import kotlin.io.path.exists
 
 /**
- * 使用图形界面创建 Django App。
+ * 使用图形界面创建 Django 应用。
  *
  * @author <a href="https://github.com/aixcyi">砹小翼</a>
  */
@@ -59,7 +59,7 @@ class GenerateDjangoAppAction : DumbAwareAction() {
             else -> null
         } ?: QualifiedName.fromComponents()
 
-        // 编辑 Django App 初始设置
+        // 编辑 Django 应用的初始设置
         val dialog = DjangoAppGenerator(project).setName(baseQName)
         if (!dialog.showAndGet()) return
 

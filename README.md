@@ -12,7 +12,7 @@
 - 生成 `__all__` 变量，对变量值列表进行排序，更换引号风格和换行风格等。
 - 在 [reStructuredText](https://en.wikipedia.org/wiki/ReStructuredText) 格式的[文档字符串](https://docs.python.org/zh-cn/3/glossary.html#term-docstring)中插入超链接。
 - 插入或覆盖文件头部的 shebang，管理预置的 shebang 列表。
-- 通过图形界面创建 Django App。
+- 通过图形界面创建 Django 应用。
 - 支持多种语言。
 
 ## 安装
@@ -66,9 +66,9 @@
 
 ![生成Shebang的示意图](./.img/generate-shebang.png)
 
-### 创建 Django App
+### 创建 Django 应用
 
-在「项目」的目录树中，点击 “右键 → 新建 → Django App” 即可调出这个窗口。
+在「项目」的目录树中，点击 “右键 → 新建 → Django 应用” 即可调出这个窗口。
 
 ![菜单示意图](./.img/django-app-creation-menu.png)
 
