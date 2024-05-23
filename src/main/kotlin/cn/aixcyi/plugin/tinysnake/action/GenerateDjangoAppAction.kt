@@ -90,8 +90,8 @@ class GenerateDjangoAppAction : DumbAwareAction() {
             builder.add(dialog.state.appsName, appsTemplate, dialog.state.appsCreation)
             builder.add(dialog.state.modelsName, Template.MODELS, dialog.state.modelsCreation)
             builder.add(dialog.state.serializersName, Template.SERIALIZERS, dialog.state.serializersCreation)
-            builder.add(dialog.state.viewsName, Template.TESTS, dialog.state.testsCreation)
-            builder.add(dialog.state.testsName, Template.VIEWS, dialog.state.viewsCreation)
+            builder.add(dialog.state.testsName, Template.TESTS, dialog.state.testsCreation)
+            builder.add(dialog.state.viewsName, Template.VIEWS, dialog.state.viewsCreation)
             builder.add(dialog.state.urlsName, Template.URLS, dialog.state.urlsCreation)
             val packageVF = builder.folder.virtualFile
             // 创建 App 包内的 migrations 子包

@@ -1,9 +1,11 @@
 # 更新日志／Change Log
 
-## v1.1.4-BETA
+## v1.1.4，2024-05-23
 
 1. 插件兼容范围扩大到 `2024.2.*`，即 `242.*`。  
    Compatible with version `2024.2.*` (`242.*`).
+2. 更正 `views.py` 和 `tests.py` 两个模板。  
+   Swap the names of `views.py` and `tests.py` on Django app.
 
 ## v1.1.3，2024-05-09
 
