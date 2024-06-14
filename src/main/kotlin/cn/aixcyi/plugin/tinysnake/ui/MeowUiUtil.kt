@@ -23,27 +23,21 @@ object MeowUiUtil {
      * - 232.5150 开始有 `com.intellij.ui.NewUI.isEnabled`。
      * - 213.2094 开始有 `com.intellij.ui.ExperimentalUI.isNewUI`，属于 [ApiStatus.Internal]。
      */
-    fun isUsingNewUI(): Boolean {
-        try {
-            // @since 232.5150.116
-            // https://github.com/JetBrains/intellij-community/commit/ba6df8d944aa1f080d555223917c4b0aa7f43a26
-            // return com.intellij.ui.NewUI.isEnabled()
-            val ret = Class.forName("com.intellij.ui.NewUI").getMethod("isEnabled").invoke(null)
-            return ret as Boolean
-        } catch (e: Throwable) {
-            // 喵
-        }
-        try {
-            // @since 213.2094
-            // https://github.com/JetBrains/intellij-community/blob/213.2094/platform/platform-api/src/com/intellij/ui/ExperimentalUI.java
-            // return com.intellij.ui.ExperimentalUI.isNewUI()
-            val ret = Class.forName("com.intellij.ui.ExperimentalUI").getMethod("isNewUI").invoke(null)
-            return ret as Boolean
-        } catch (e: Throwable) {
-            // 喵
-        }
-        return false
-    }
+    fun isUsingNewUI(): Boolean = try {
+        // @since 232.5150.116
+        // https://github.com/JetBrains/intellij-community/commit/ba6df8d944aa1f080d555223917c4b0aa7f43a26
+        // return com.intellij.ui.NewUI.isEnabled()
+        Class.forName("com.intellij.ui.NewUI").getMethod("isEnabled").invoke(null) as Boolean
+    } catch (_: Exception) {
+        null
+    } ?: try {
+        // @since 213.2094
+        // https://github.com/JetBrains/intellij-community/blob/213.2094/platform/platform-api/src/com/intellij/ui/ExperimentalUI.java
+        // return com.intellij.ui.ExperimentalUI.isNewUI()
+        Class.forName("com.intellij.ui.ExperimentalUI").getMethod("isNewUI").invoke(null) as Boolean
+    } catch (_: Exception) {
+        null
+    } ?: false
 
     /**
      * 创建一个带有标题和分割线的 [JPanel] ，常用于设置界面创建分组。
