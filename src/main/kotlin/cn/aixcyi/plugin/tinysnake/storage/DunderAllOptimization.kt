@@ -35,7 +35,6 @@ class DunderAllOptimization : SimplePersistentStateComponent<DunderAllOptimizati
     }
 
     companion object {
-        @JvmStatic
         fun getInstance() = service<DunderAllOptimization>()
     }
 }

@@ -37,7 +37,6 @@ object IOUtil {
      * @param path 资源文件路径。
      * @return 资源文件。
      */
-    @JvmStatic
     fun resource(path: String) = Zoo::class.java.getResource(path)!!
 }
 

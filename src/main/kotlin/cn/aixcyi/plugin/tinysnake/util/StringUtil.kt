@@ -13,7 +13,6 @@ object StringUtil {
     /**
      * `"snake_to_upper_camel"`　→　`"SnakeToUpperCamel"`
      */
-    @JvmStatic
     fun snakeToUpperCamel(s: String) =
         s.split('_').joinToString("") { it.replaceFirstChar { c -> c.uppercase() } }
 
