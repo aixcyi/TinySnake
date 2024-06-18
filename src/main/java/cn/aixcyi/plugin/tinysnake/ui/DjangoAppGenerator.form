@@ -28,7 +28,7 @@
           </grid>
         </constraints>
         <properties>
-          <toolTipText resource-bundle="messages/TinySnakeBundle" key="text.DjangoAppName.tooltip"/>
+          <toolTipText resource-bundle="messages/TinySnakeBundle" key="label.DjangoAppName.tooltip"/>
         </properties>
       </component>
       <component id="3aafd" class="javax.swing.JLabel">
@@ -46,7 +46,7 @@
           </grid>
         </constraints>
         <properties>
-          <toolTipText resource-bundle="messages/TinySnakeBundle" key="text.DjangoAppLabel.tooltip"/>
+          <toolTipText resource-bundle="messages/TinySnakeBundle" key="label.DjangoAppLabel.tooltip"/>
         </properties>
       </component>
       <component id="f8bf5" class="javax.swing.JLabel">
@@ -394,7 +394,7 @@
           </grid>
         </constraints>
         <properties>
-          <toolTipText resource-bundle="messages/TinySnakeBundle" key="text.DjangoAppVerboseName.tooltip"/>
+          <toolTipText resource-bundle="messages/TinySnakeBundle" key="label.DjangoAppVerboseName.tooltip"/>
         </properties>
       </component>
       <grid id="a44ce" binding="adminNameCard" layout-manager="CardLayout" hgap="0" vgap="0" show="68244">
