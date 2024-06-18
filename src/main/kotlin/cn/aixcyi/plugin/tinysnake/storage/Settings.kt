@@ -15,10 +15,6 @@ import com.intellij.openapi.components.*
 @State(name = Zoo.PLUGIN_SETTINGS_NAME, storages = [Storage(Zoo.PLUGIN_LEVEL_STORAGE)])
 class Settings : SimplePersistentStateComponent<Settings.State>(State()) {
 
-    class State : BaseState() {
-        var myShebangs by property(PRESET_SHEBANGS) { it == PRESET_SHEBANGS }
-    }
-
     companion object {
         /**
          * 插件预置的所有 shebang。
@@ -31,5 +27,9 @@ class Settings : SimplePersistentStateComponent<Settings.State>(State()) {
         )
 
         fun getInstance() = service<Settings>()
+    }
+
+    class State : BaseState() {
+        var myShebangs by property(PRESET_SHEBANGS) { it == PRESET_SHEBANGS }
     }
 }

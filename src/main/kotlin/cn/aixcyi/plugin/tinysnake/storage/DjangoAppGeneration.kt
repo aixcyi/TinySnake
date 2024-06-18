@@ -14,6 +14,11 @@ import com.intellij.openapi.project.Project
 @State(name = Zoo.DJANGO_APP_CREATION_NAME)
 class DjangoAppGeneration : SimplePersistentStateComponent<DjangoAppGeneration.State>(State()) {
 
+    companion object {
+        @JvmStatic
+        fun getInstance(project: Project) = project.service<DjangoAppGeneration>()
+    }
+
     /** Python 源码的创建方式。 */
     enum class Creation {
 
@@ -91,10 +96,5 @@ class DjangoAppGeneration : SimplePersistentStateComponent<DjangoAppGeneration.S
                 return template
             }
         }
-    }
-
-    companion object {
-        @JvmStatic
-        fun getInstance(project: Project) = project.service<DjangoAppGeneration>()
     }
 }

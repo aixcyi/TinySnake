@@ -12,6 +12,10 @@ import com.intellij.openapi.components.*
 @State(name = Zoo.DUNDER_ALL_OPTIMIZATION_NAME, storages = [Storage(Zoo.PLUGIN_LEVEL_STORAGE)])
 class DunderAllOptimization : SimplePersistentStateComponent<DunderAllOptimization.State>(State()) {
 
+    companion object {
+        fun getInstance() = service<DunderAllOptimization>()
+    }
+
     /** 序列字面值中各个元素的排序方式。 */
     enum class Order {
 
@@ -32,9 +36,5 @@ class DunderAllOptimization : SimplePersistentStateComponent<DunderAllOptimizati
         var isUseSingleQuote by property(false)
         var isEndsWithComma by property(false)
         var isLineByLine by property(false)
-    }
-
-    companion object {
-        fun getInstance() = service<DunderAllOptimization>()
     }
 }
