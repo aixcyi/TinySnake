@@ -81,22 +81,6 @@ fun <T : JComponent> Cell<T>.mnemonic(): Cell<T> {
 }
 
 /**
- * 组件内部条件 `condition()` 判定为 `true` 则请求获取焦点。
- */
-fun <T : JComponent> Cell<T>.focusIf(condition: T.() -> Boolean): Cell<T> {
-    if (condition.invoke(this.component)) this.focused()
-    return this
-}
-
-/**
- * 外部条件 `condition` 判定为 `true` 则请求获取焦点。
- */
-fun <T : JComponent> Cell<T>.focusIf(condition: Boolean): Cell<T> {
-    if (condition) this.focused()
-    return this
-}
-
-/**
  * 让 [Cell] 填满当前的布局单元格（如果不经设置，会默认为左对齐）。
  */
 fun <T : JComponent> Cell<T>.hFill(): Cell<T> {

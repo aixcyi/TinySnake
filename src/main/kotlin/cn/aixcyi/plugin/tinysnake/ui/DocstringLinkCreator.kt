@@ -45,7 +45,7 @@ class DocstringLinkCreator(
                 .label(message("label.DocstringLinkText.text"), LabelPosition.TOP)
                 .text(text)
                 .bindText(::text)
-                .focusIf { text.isEmpty() }
+                .apply { if (isFocusText) focused() }
                 .validate {
                     DialogValidation {
                         if (this@validate.text.isEmpty())
@@ -61,7 +61,7 @@ class DocstringLinkCreator(
                 .label(message("label.DocstringLinkSource.text"), LabelPosition.TOP)
                 .text(link)
                 .bindText(::link)
-                .focusIf(text.isNotEmpty())
+                .apply { if (!isFocusText) focused() }
                 .validate {
                     DialogValidation {
                         if (this@validate.text.isNotBlank() && this@validate.text.isWebUrl())

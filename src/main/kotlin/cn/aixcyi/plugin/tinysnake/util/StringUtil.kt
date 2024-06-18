@@ -35,10 +35,6 @@ fun String.capitalize() =
 
 /**
  * 去除字符串的结尾（如果有的话）。
- *
- * @param tail 结尾字符串。
- * @param ignoreCase 判断结尾时是否忽略大小写。
- * @return 去除结尾后的新的字符串，或者原字符串自身。
  */
 fun String.tailless(tail: String, ignoreCase: Boolean = false) =
     if (tail.isNotEmpty() && this.endsWith(tail, ignoreCase = ignoreCase))
