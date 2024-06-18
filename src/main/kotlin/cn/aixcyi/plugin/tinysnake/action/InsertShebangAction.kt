@@ -1,8 +1,8 @@
 package cn.aixcyi.plugin.tinysnake.action
 
-import cn.aixcyi.plugin.tinysnake.Zoo.message
 import cn.aixcyi.plugin.tinysnake.entity.SnippetGenerator
 import cn.aixcyi.plugin.tinysnake.storage.Settings
+import cn.aixcyi.plugin.tinysnake.util.IOUtil.message
 import com.intellij.codeInsight.hint.HintManager
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent

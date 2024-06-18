@@ -1,10 +1,15 @@
 package cn.aixcyi.plugin.tinysnake.util
 
-import com.intellij.openapi.diagnostic.logger
+import com.intellij.openapi.diagnostic.thisLogger
 
-val LOGGER = logger<ExceptionUtil>()
-
-object ExceptionUtil
+/**
+ * 流程控制相关工具。
+ *
+ * @author <a href="https://github.com/aixcyi">砹小翼</a>
+ */
+object FlowUtil {
+    val LOGGER = thisLogger()
+}
 
 /**
  * `try` 的链式执行。
@@ -18,7 +23,7 @@ inline fun <T> T.chainTry(block: T.() -> Unit): T? {
         block()
         return null
     } catch (e: Throwable) {
-        LOGGER.debug(e)
+        FlowUtil.LOGGER.debug(e)
         return this
     }
 }

@@ -1,8 +1,8 @@
 package cn.aixcyi.plugin.tinysnake.action
 
-import cn.aixcyi.plugin.tinysnake.Zoo.message
 import cn.aixcyi.plugin.tinysnake.entity.DocstringFormatSuggestion
 import cn.aixcyi.plugin.tinysnake.ui.DocstringLinkCreator
+import cn.aixcyi.plugin.tinysnake.util.IOUtil.message
 import cn.aixcyi.plugin.tinysnake.util.isURL
 import com.intellij.codeInsight.hint.HintManager
 import com.intellij.openapi.actionSystem.AnActionEvent

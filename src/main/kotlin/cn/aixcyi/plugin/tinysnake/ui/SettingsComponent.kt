@@ -1,7 +1,8 @@
 package cn.aixcyi.plugin.tinysnake.ui
 
-import cn.aixcyi.plugin.tinysnake.Zoo.message
 import cn.aixcyi.plugin.tinysnake.storage.Settings
+import cn.aixcyi.plugin.tinysnake.util.IOUtil.message
+import cn.aixcyi.plugin.tinysnake.util.MeowUiUtil
 import cn.aixcyi.plugin.tinysnake.util.chainTry
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.actionSystem.ActionUpdateThread

@@ -1,10 +1,12 @@
 package cn.aixcyi.plugin.tinysnake.action
 
-import cn.aixcyi.plugin.tinysnake.Zoo.message
 import cn.aixcyi.plugin.tinysnake.entity.PyPackageBuilder
 import cn.aixcyi.plugin.tinysnake.storage.DjangoAppGeneration.Template
 import cn.aixcyi.plugin.tinysnake.ui.DjangoAppGenerator
+import cn.aixcyi.plugin.tinysnake.util.IOUtil.message
 import cn.aixcyi.plugin.tinysnake.util.StringUtil
+import cn.aixcyi.plugin.tinysnake.util.div
+import cn.aixcyi.plugin.tinysnake.util.getQName
 import cn.aixcyi.plugin.tinysnake.util.tailless
 import com.intellij.ide.projectView.ProjectView
 import com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode
@@ -17,12 +19,8 @@ import com.intellij.openapi.project.DumbAwareAction
 import com.intellij.openapi.ui.Messages
 import com.intellij.psi.PsiDirectory
 import com.intellij.psi.PsiFile
-import com.intellij.psi.PsiFileSystemItem
 import com.intellij.psi.util.QualifiedName
 import com.intellij.util.ui.tree.TreeUtil
-import com.jetbrains.python.psi.PyPsiFacade
-import java.nio.file.Path
-import kotlin.io.path.div
 import kotlin.io.path.exists
 
 /**
@@ -106,20 +104,4 @@ class GenerateDjangoAppAction : DumbAwareAction() {
             runnable,
         )
     }
-}
-
-private operator fun Path.div(module: QualifiedName): Path {
-    var path = this
-    for (component in module.components)
-        path /= component
-    return path
-}
-
-// 搬过来是为了避免兼容性警告
-/**
- * @author Ilya.Kazakevich
- */
-private fun PsiFileSystemItem.getQName(): QualifiedName? {
-    val name = PyPsiFacade.getInstance(this.project).findShortestImportableName(this.virtualFile, this) ?: return null
-    return QualifiedName.fromDottedString(name)
 }

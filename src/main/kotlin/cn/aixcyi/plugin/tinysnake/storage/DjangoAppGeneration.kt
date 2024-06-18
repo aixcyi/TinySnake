@@ -1,7 +1,7 @@
 package cn.aixcyi.plugin.tinysnake.storage
 
 import cn.aixcyi.plugin.tinysnake.Zoo
-import cn.aixcyi.plugin.tinysnake.Zoo.resource
+import cn.aixcyi.plugin.tinysnake.util.IOUtil.resource
 import com.intellij.openapi.components.*
 import com.intellij.openapi.project.Project
 

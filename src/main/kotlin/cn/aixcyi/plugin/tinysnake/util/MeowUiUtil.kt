@@ -1,6 +1,5 @@
-package cn.aixcyi.plugin.tinysnake.ui
+package cn.aixcyi.plugin.tinysnake.util
 
-import cn.aixcyi.plugin.tinysnake.util.chainTry
 import com.intellij.openapi.ui.DialogPanel
 import com.intellij.openapi.ui.validation.DialogValidation
 import com.intellij.openapi.util.text.TextWithMnemonic
@@ -10,7 +9,7 @@ import org.jetbrains.annotations.ApiStatus
 import javax.swing.*
 
 /**
- * 图形界面相关的工具函数。
+ * 图形界面相关工具。
  *
  * @author <a href="https://github.com/aixcyi">砹小翼</a>
  */

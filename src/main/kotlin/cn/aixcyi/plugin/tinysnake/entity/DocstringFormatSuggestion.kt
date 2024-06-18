@@ -1,6 +1,6 @@
 package cn.aixcyi.plugin.tinysnake.entity
 
-import cn.aixcyi.plugin.tinysnake.Zoo.message
+import cn.aixcyi.plugin.tinysnake.util.IOUtil.message
 import com.intellij.notification.NotificationAction
 import com.intellij.notification.NotificationGroupManager
 import com.intellij.notification.NotificationType

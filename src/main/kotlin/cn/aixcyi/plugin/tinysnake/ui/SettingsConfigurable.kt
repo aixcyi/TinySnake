@@ -1,7 +1,7 @@
 package cn.aixcyi.plugin.tinysnake.ui
 
-import cn.aixcyi.plugin.tinysnake.Zoo.message
 import cn.aixcyi.plugin.tinysnake.storage.Settings
+import cn.aixcyi.plugin.tinysnake.util.IOUtil.message
 import com.intellij.openapi.components.PersistentStateComponent
 import com.intellij.openapi.options.SearchableConfigurable
 import javax.swing.JComponent

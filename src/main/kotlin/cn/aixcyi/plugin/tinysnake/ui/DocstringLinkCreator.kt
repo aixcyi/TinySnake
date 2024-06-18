@@ -1,7 +1,9 @@
 package cn.aixcyi.plugin.tinysnake.ui
 
-import cn.aixcyi.plugin.tinysnake.Zoo.message
+import cn.aixcyi.plugin.tinysnake.util.IOUtil.message
+import cn.aixcyi.plugin.tinysnake.util.hFill
 import cn.aixcyi.plugin.tinysnake.util.isURL
+import cn.aixcyi.plugin.tinysnake.util.validate
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.openapi.ui.ValidationInfo

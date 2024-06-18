@@ -1,9 +1,11 @@
 package cn.aixcyi.plugin.tinysnake.action
 
-import cn.aixcyi.plugin.tinysnake.Zoo.message
 import cn.aixcyi.plugin.tinysnake.entity.DunderAll
 import cn.aixcyi.plugin.tinysnake.entity.SnippetGenerator
 import cn.aixcyi.plugin.tinysnake.entity.TopSymbols
+import cn.aixcyi.plugin.tinysnake.util.IOUtil.message
+import cn.aixcyi.plugin.tinysnake.util.isEncodingDefine
+import cn.aixcyi.plugin.tinysnake.util.isShebang
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.editor.Editor
@@ -133,10 +135,3 @@ class GenerateDunderAllAction : PyAction() {
         return file.firstChild
     }
 }
-
-// 见 https://peps.python.org/pep-0263/#defining-the-encoding
-private val REGEX_ENCODING_DEFINE: Regex
-    get() = "^[ \\t\\f]*#.*?coding[:=][ \\t]*([-_.a-zA-Z0-9]+)".toRegex()
-
-private fun PsiComment.isShebang() = this.text.startsWith("#!")
-private fun PsiComment.isEncodingDefine() = REGEX_ENCODING_DEFINE.containsMatchIn(this.text)

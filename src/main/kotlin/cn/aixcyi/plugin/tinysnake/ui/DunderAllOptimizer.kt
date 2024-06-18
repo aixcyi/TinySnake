@@ -1,7 +1,8 @@
 package cn.aixcyi.plugin.tinysnake.ui
 
-import cn.aixcyi.plugin.tinysnake.Zoo.message
 import cn.aixcyi.plugin.tinysnake.storage.DunderAllOptimization
+import cn.aixcyi.plugin.tinysnake.util.IOUtil.message
+import cn.aixcyi.plugin.tinysnake.util.mnemonic
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.ui.dsl.builder.bind
 import com.intellij.ui.dsl.builder.bindSelected

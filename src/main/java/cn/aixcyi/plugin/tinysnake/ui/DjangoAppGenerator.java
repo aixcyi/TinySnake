@@ -16,7 +16,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.Enumeration;
 
-import static cn.aixcyi.plugin.tinysnake.Zoo.message;
+import static cn.aixcyi.plugin.tinysnake.util.IOUtil.message;
 
 /**
  * Django 应用初始化设置。

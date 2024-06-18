@@ -4,7 +4,7 @@ import java.net.MalformedURLException
 import java.net.URL
 
 /**
- * 字符串相关工具方法。
+ * 字符串相关工具。
  *
  * @author <a href="https://github.com/aixcyi">砹小翼</a>
  */
