@@ -4,13 +4,12 @@ import cn.aixcyi.plugin.tinysnake.entity.SnippetGenerator
 import cn.aixcyi.plugin.tinysnake.storage.Settings
 import cn.aixcyi.plugin.tinysnake.util.IOUtil.message
 import com.intellij.codeInsight.hint.HintManager
-import com.intellij.openapi.actionSystem.AnAction
-import com.intellij.openapi.actionSystem.AnActionEvent
-import com.intellij.openapi.actionSystem.DefaultActionGroup
+import com.intellij.openapi.actionSystem.*
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.fileChooser.FileChooser
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
+import com.intellij.openapi.project.DumbAwareAction
 import com.intellij.openapi.roots.ProjectFileIndex
 import com.intellij.openapi.ui.Messages
 import com.intellij.openapi.ui.popup.JBPopupFactory
@@ -25,9 +24,20 @@ import org.apache.commons.lang3.StringUtils
  * @see <a href="https://github.com/JetBrains/intellij-community/blob/232/platform/platform-api/src/com/intellij/ide/actions/QuickSwitchSchemeAction.java#L59">QuickSwitchSchemeAction#showPopup</a>
  * @see <a href="https://github.com/JetBrains/intellij-community/blob/232/platform/platform-impl/src/com/intellij/ide/actions/QuickChangeKeymapAction.java#L35">QuickChangeKeymapAction#fillActions</a>
  */
-class InsertShebangAction : PyAction() {
+class InsertShebangAction : DumbAwareAction() {
 
-    override fun actionPerformed(editor: Editor, event: AnActionEvent, file: PyFile) {
+    override fun getActionUpdateThread() = ActionUpdateThread.BGT
+
+    override fun update(event: AnActionEvent) {
+        // 如果不在编辑器中则隐藏菜单
+        // 如果不在 Python 文件中则禁用菜单
+        event.presentation.isVisible = event.getData(LangDataKeys.EDITOR_EVEN_IF_INACTIVE) != null
+        event.presentation.isEnabled = event.getData(CommonDataKeys.PSI_FILE) is PyFile
+    }
+
+    override fun actionPerformed(event: AnActionEvent) {
+        val editor = event.getData(LangDataKeys.EDITOR_EVEN_IF_INACTIVE) ?: return
+        val file = (event.getData(CommonDataKeys.PSI_FILE).takeIf { it is PyFile } ?: return) as PyFile
         val project = file.project
         val state = Settings.getInstance().state
         val group = DefaultActionGroup(null as String?, true)
