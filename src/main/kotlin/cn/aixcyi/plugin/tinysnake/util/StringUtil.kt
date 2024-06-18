@@ -6,8 +6,6 @@ import java.net.URL
 /**
  * 字符串相关工具方法。
  *
- * **该工具类不具备通用性！！！**
- *
  * @author <a href="https://github.com/aixcyi">砹小翼</a>
  */
 object StringUtil {
@@ -43,10 +41,15 @@ fun String.tailless(tail: String, ignoreCase: Boolean = false) =
         this
 
 /**
- * 判断字符串是不是 HTTP 或 HTTPS 链接。
+ * 判断字符串是不是 [URL]，并且使用了给定的协议（如果指定了的话）。
  */
-fun String.isWebUrl() = try {
-    arrayOf("http", "https").contains(URL(this).protocol)
+fun String.isURL(vararg protocol: String) = try {
+    if (protocol.isNotEmpty()) {
+        protocol.contains(URL(this).protocol)
+    } else {
+        URL(this)
+        true
+    }
 } catch (_: MalformedURLException) {
     false
 }
