@@ -1,11 +1,14 @@
 # 更新日志／Change Log
 
-## v1.1.5，2024-06-18
+## v1.1.5-SNAPSHOT，2024-06-18
+
+> 该版本尚未发布。  
+> This version has not been released yet.
 
 1. 执行文档字符串相关操作时，建议用户切换到 reStructuredText 格式。  
    Suggest user that switch to reStructuredText format when performing docstring operations.
 2. 生成文档字符串链接时，会从编辑器选中文本以及剪贴板中获取标题和链接；另外，优化了生成后首尾空格的插入。  
-   It can retrieve text and link from selection of editor and clipboard when you open docstring link generator,
+   It will auto retrieve text and link from selection of editor and clipboard when you open docstring link generator,
    and adjusted the insertion of leading and trailing spaces after generation.
 
 ## v1.1.4，2024-05-23

@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "cn.aixcyi.plugin"
-version = "1.1.5"  // https://semver.org/lang/zh-CN/
+version = "1.1.5-SNAPSHOT"  // https://semver.org/lang/zh-CN/
 
 repositories {
     mavenLocal()
@@ -28,7 +28,7 @@ intellij {
 changelog {
     path.set(file("CHANGELOG.md").canonicalPath)
     header = provider { "v${version.get()}，${date("yyyy-mm-dd")}" }
-    headerParserRegex.set("""v(\d+.\d+.\d+)""".toRegex())
+    headerParserRegex.set("""v(\d+.\d+.\d+).*""".toRegex())
 }
 
 tasks {
