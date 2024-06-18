@@ -1,6 +1,7 @@
 package cn.aixcyi.plugin.tinysnake.action
 
 import cn.aixcyi.plugin.tinysnake.Zoo.message
+import cn.aixcyi.plugin.tinysnake.entity.DocstringFormatSuggestion
 import cn.aixcyi.plugin.tinysnake.ui.DocstringLinkCreator
 import cn.aixcyi.plugin.tinysnake.util.isURL
 import com.intellij.codeInsight.hint.HintManager
@@ -25,7 +26,12 @@ import com.jetbrains.python.psi.PyFile
 class GenerateDocstringLinkAction : PyAction() {
 
     override fun actionPerformed(editor: Editor, event: AnActionEvent, file: PyFile) {
+        // 如果光标不是一个（多光标模式／列选择模式）或者不在 docstring 中，则进行提示
         val hint = HintManager.getInstance()
+
+        // 是否需要提示用户切换 docstring 格式以便正确渲染
+        val suggestion = DocstringFormatSuggestion(file)
+        val notification = if (suggestion.isRestFormat) null else suggestion.notification
 
         // 如果光标不在 docstring 中
         file.findElementAt(editor.caretModel.offset)?.let {
@@ -76,6 +82,7 @@ class GenerateDocstringLinkAction : PyAction() {
                     )
                 }
         )
+        notification?.notify(file.project)
     }
 
     private fun shouldPatchHead(editor: Editor): Boolean {

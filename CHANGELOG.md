@@ -1,5 +1,10 @@
 # 更新日志／Change Log
 
+## v1.1.5，2024-06-18
+
+1. 执行文档字符串相关操作时，建议用户切换到 reStructuredText 格式。  
+   Suggest user that switch to reStructuredText format when performing docstring operations.
+
 ## v1.1.4，2024-05-23
 
 1. 插件兼容范围扩大到 `2024.2.*`，即 `242.*`。  
