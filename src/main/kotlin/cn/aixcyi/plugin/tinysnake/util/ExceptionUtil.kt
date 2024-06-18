@@ -1,4 +1,4 @@
-package cn.aixcyi.plugin.tinysnake
+package cn.aixcyi.plugin.tinysnake.util
 
 import com.intellij.openapi.diagnostic.logger
 

@@ -1,7 +1,7 @@
 package cn.aixcyi.plugin.tinysnake.ui;
 
-import cn.aixcyi.plugin.tinysnake.StringUtil;
 import cn.aixcyi.plugin.tinysnake.storage.DjangoAppGeneration;
+import cn.aixcyi.plugin.tinysnake.util.StringUtil;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.ui.ValidationInfo;

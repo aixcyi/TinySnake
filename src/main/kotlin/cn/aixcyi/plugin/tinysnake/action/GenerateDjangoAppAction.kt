@@ -1,11 +1,11 @@
 package cn.aixcyi.plugin.tinysnake.action
 
-import cn.aixcyi.plugin.tinysnake.StringUtil
 import cn.aixcyi.plugin.tinysnake.Zoo.message
 import cn.aixcyi.plugin.tinysnake.entity.PyPackageBuilder
 import cn.aixcyi.plugin.tinysnake.storage.DjangoAppGeneration.Template
-import cn.aixcyi.plugin.tinysnake.tailless
 import cn.aixcyi.plugin.tinysnake.ui.DjangoAppGenerator
+import cn.aixcyi.plugin.tinysnake.util.StringUtil
+import cn.aixcyi.plugin.tinysnake.util.tailless
 import com.intellij.ide.projectView.ProjectView
 import com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode
 import com.intellij.ide.projectView.impl.nodes.PsiFileNode

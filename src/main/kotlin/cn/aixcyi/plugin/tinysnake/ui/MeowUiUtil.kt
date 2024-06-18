@@ -1,6 +1,6 @@
 package cn.aixcyi.plugin.tinysnake.ui
 
-import cn.aixcyi.plugin.tinysnake.chainTry
+import cn.aixcyi.plugin.tinysnake.util.chainTry
 import com.intellij.openapi.ui.DialogPanel
 import com.intellij.openapi.ui.validation.DialogValidation
 import com.intellij.openapi.util.text.TextWithMnemonic

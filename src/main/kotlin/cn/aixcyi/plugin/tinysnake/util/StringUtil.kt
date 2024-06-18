@@ -1,4 +1,4 @@
-package cn.aixcyi.plugin.tinysnake
+package cn.aixcyi.plugin.tinysnake.util
 
 import java.net.MalformedURLException
 import java.net.URL
