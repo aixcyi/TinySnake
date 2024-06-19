@@ -10,6 +10,8 @@
 2. 生成文档字符串链接时，会从编辑器选中文本以及剪贴板中获取标题和链接；另外，优化了生成后首尾空格的插入。  
    It will auto retrieve text and link from selection of editor and clipboard when you open docstring link generator,
    and adjusted the insertion of leading and trailing spaces after generation.
+3. Shebang 列表新增一个选项，可以直接跳转到 **设置** 窗口进行配置。  
+   Added an option to shebang list to go to _settings_ window to configure it.
 
 ## v1.1.4，2024-05-23
 

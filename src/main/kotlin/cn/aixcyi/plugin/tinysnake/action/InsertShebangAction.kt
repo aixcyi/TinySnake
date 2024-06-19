@@ -2,6 +2,7 @@ package cn.aixcyi.plugin.tinysnake.action
 
 import cn.aixcyi.plugin.tinysnake.entity.SnippetGenerator
 import cn.aixcyi.plugin.tinysnake.storage.Settings
+import cn.aixcyi.plugin.tinysnake.ui.SettingsConfigurable
 import cn.aixcyi.plugin.tinysnake.util.IOUtil.message
 import com.intellij.codeInsight.hint.HintManager
 import com.intellij.openapi.actionSystem.*
@@ -9,6 +10,7 @@ import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.fileChooser.FileChooser
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
+import com.intellij.openapi.options.ShowSettingsUtil
 import com.intellij.openapi.project.DumbAwareAction
 import com.intellij.openapi.roots.ProjectFileIndex
 import com.intellij.openapi.ui.Messages
@@ -87,6 +89,15 @@ class InsertShebangAction : DumbAwareAction() {
                 if (string.isNullOrEmpty()) return
                 val newShebang = StringUtils.stripStart(string, "#!") // 避免 #!#、#!!、#!#!
                 writeShebang(file, editor, "#!$newShebang")
+            }
+        })
+        group.addSeparator()
+        group.add(object : AnAction(message("action.GotoConfiguration.text")) {
+            override fun actionPerformed(e: AnActionEvent) {
+                ShowSettingsUtil.getInstance().showSettingsDialog(
+                    event.project,
+                    SettingsConfigurable::class.java,
+                )
             }
         })
         val popup = JBPopupFactory.getInstance().createActionGroupPopup(
