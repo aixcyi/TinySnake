@@ -1,6 +1,6 @@
 # 更新日志／Change Log
 
-## v1.1.5，2024-06-20
+## v2.0.0，2024-06-20
 
 1. 执行文档字符串相关操作时，建议用户切换到 reStructuredText 格式。  
    Suggest user that switch to reStructuredText format when performing docstring operations.
@@ -9,6 +9,8 @@
    and adjusted the insertion of leading and trailing spaces after generation.
 3. Shebang 列表新增一个选项，可以直接跳转到 **设置** 窗口进行配置。  
    Added an option to shebang list to go to _settings_ window to configure it.
+4. 将插件兼容上限从尚在 EAP 预览的 `2024.2.*` 降低至已正式发布的 `2024.1.*` 。  
+   Downgrade compatibility ceiling from `2024.2.*` to `2024.1.*`.
 
 ## v1.1.4，2024-05-23
 
