@@ -1,9 +1,6 @@
 # 更新日志／Change Log
 
-## v1.1.5-SNAPSHOT，2024-06-18
-
-> 该版本尚未发布。  
-> This version has not been released yet.
+## v1.1.5，2024-06-20
 
 1. 执行文档字符串相关操作时，建议用户切换到 reStructuredText 格式。  
    Suggest user that switch to reStructuredText format when performing docstring operations.

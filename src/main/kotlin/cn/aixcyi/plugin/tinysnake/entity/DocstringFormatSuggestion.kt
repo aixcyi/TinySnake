@@ -7,7 +7,7 @@ import com.intellij.notification.NotificationType
 import com.intellij.openapi.module.ModuleManager
 import com.intellij.openapi.module.ModuleUtilCore
 import com.intellij.openapi.options.ShowSettingsUtil
-import com.jetbrains.python.configuration.PyIntegratedToolsConfigurable
+import com.jetbrains.python.configuration.PyIntegratedToolsModulesConfigurable
 import com.jetbrains.python.documentation.PyDocumentationSettings
 import com.jetbrains.python.documentation.docstrings.DocStringFormat
 import com.jetbrains.python.psi.PyFile
@@ -41,12 +41,12 @@ class DocstringFormatSuggestion(private val file: PyFile) {
         .addAction(NotificationAction.create(message("text.GotoDocstringFormatSettings")) { event, notification ->
             ShowSettingsUtil.getInstance().showSettingsDialog(
                 event.project,
-                PyIntegratedToolsConfigurable::class.java,
+                PyIntegratedToolsModulesConfigurable::class.java,
             )
             notification.hideBalloon()
         })
 
-    /** 当前是否将文档字符串设置为 reStructuredText 格式。 */
+    /** 当前是否将文档字符串设置为了 reStructuredText 格式。 */
     val isRestFormat
         get() = settings.getFormatForFile(file.containingFile) == DocStringFormat.REST
 }
