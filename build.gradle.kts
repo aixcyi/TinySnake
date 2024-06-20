@@ -1,5 +1,4 @@
 import org.jetbrains.changelog.Changelog
-import org.jetbrains.changelog.date
 
 plugins {
     id("java")
@@ -16,7 +15,7 @@ repositories {
     mavenCentral()
 }
 
-// Configure Gradle IntelliJ Plugin
+// Gradle IntelliJ Plugin
 // https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
 intellij {
     version.set("PC-2022.2.5")
@@ -27,21 +26,30 @@ intellij {
 // https://github.com/JetBrains/gradle-changelog-plugin
 changelog {
     path.set(file("CHANGELOG.md").canonicalPath)
-    header = provider { "v${version.get()}，${date("yyyy-mm-dd")}" }
+    header = provider { "v${version.get()}" }
     headerParserRegex.set("""v(\d+.\d+.\d+).*""".toRegex())
 }
 
+// https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html#tasks
 tasks {
-    // Set the JVM compatibility versions
+    // 设置 JVM 兼容范围
     withType<JavaCompile> {
         sourceCompatibility = "17"
         targetCompatibility = "17"
     }
-
     withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
         kotlinOptions.jvmTarget = "17"
     }
 
+    initializeIntelliJPlugin {
+        // selfUpdateCheck = false
+    }
+    runIde {
+        jvmArgs = listOf(
+            // "-Duser.language=en_US",
+            // "-XX:+UnlockDiagnosticVMOptions",
+        )
+    }
     patchPluginXml {
         sinceBuild.set("222")
         untilBuild.set("241.*")
@@ -53,13 +61,11 @@ tasks {
             )
         })
     }
-
     signPlugin {
         certificateChainFile.set(file("./.secret/chain.crt"))
         privateKeyFile.set(file("./.secret/private.pem"))
         password.set(System.getenv("PRIVATE_KEY_PASSWORD"))
     }
-
     publishPlugin {
         token.set(System.getenv("PUBLISH_TOKEN"))
     }
