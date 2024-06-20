@@ -22,20 +22,16 @@ object MeowUiUtil {
      * - 232.5150 开始有 `com.intellij.ui.NewUI.isEnabled`。
      * - 213.2094 开始有 `com.intellij.ui.ExperimentalUI.isNewUI`，属于 [ApiStatus.Internal]。
      */
-    fun isUsingNewUI(): Boolean = try {
+    fun isUsingNewUI(): Boolean = eval {
         // @since 232.5150.116
         // https://github.com/JetBrains/intellij-community/commit/ba6df8d944aa1f080d555223917c4b0aa7f43a26
         // return com.intellij.ui.NewUI.isEnabled()
         Class.forName("com.intellij.ui.NewUI").getMethod("isEnabled").invoke(null) as Boolean
-    } catch (_: Exception) {
-        null
-    } ?: try {
+    } ?: eval {
         // @since 213.2094
         // https://github.com/JetBrains/intellij-community/blob/213.2094/platform/platform-api/src/com/intellij/ui/ExperimentalUI.java
         // return com.intellij.ui.ExperimentalUI.isNewUI()
         Class.forName("com.intellij.ui.ExperimentalUI").getMethod("isNewUI").invoke(null) as Boolean
-    } catch (_: Exception) {
-        null
     } ?: false
 
     /**
@@ -86,15 +82,15 @@ fun <T : JComponent> Cell<T>.hFill(): Cell<T> {
     // 兼容以下两种写法：
     // align(com.intellij.ui.dsl.builder.AlignX.FILL)
     // horizontalAlign(com.intellij.ui.dsl.gridLayout.HorizontalAlign.FILL)
-    javaClass.chainTry {
+    exec {
         val klass = Class.forName("com.intellij.ui.dsl.builder.Align")
         val param = Class.forName("com.intellij.ui.dsl.builder.AlignX")
             .kotlin.sealedSubclasses.first { it.simpleName == "FILL" }.objectInstance
-        getMethod("align", klass).invoke(this@hFill, param)
-    }?.chainTry {
+        javaClass.getMethod("align", klass).invoke(this, param)
+    }?.exec {
         val klass = Class.forName("com.intellij.ui.dsl.gridLayout.HorizontalAlign")
         val param = klass.enumConstants.map { it as Enum<*> }.first { it.name == "FILL" }
-        getMethod("horizontalAlign", klass).invoke(this@hFill, param)
+        javaClass.getMethod("horizontalAlign", klass).invoke(this, param)
     }
     return this
 }
