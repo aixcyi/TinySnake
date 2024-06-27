@@ -51,7 +51,7 @@ class InsertShebangAction : DumbAwareAction() {
             })
         }
         group.addSeparator()
-        group.add(object : AnAction(message("action.GenerateShebangFromRelativePath.text")) {
+        group.add(object : AnAction(message("action.TinySnake.Shebang.FromRelativePath.text")) {
             override fun actionPerformed(e: AnActionEvent) {
                 val profile = project.projectFile ?: return
                 val root = ProjectFileIndex.getInstance(project).getContentRootForFile(profile) ?: return
@@ -69,7 +69,7 @@ class InsertShebangAction : DumbAwareAction() {
                 writeShebang(file, editor, "#!$newShebang")
             }
         })
-        group.add(object : AnAction(message("action.GenerateShebangFromAbsolutePath.text")) {
+        group.add(object : AnAction(message("action.TinySnake.Shebang.FromAbsolutePath.text")) {
             override fun actionPerformed(e: AnActionEvent) {
                 val descriptor = FileChooserDescriptorFactory.createSingleFileOrExecutableAppDescriptor()
                 descriptor.title = e.presentation.text
@@ -79,7 +79,7 @@ class InsertShebangAction : DumbAwareAction() {
                 writeShebang(file, editor, "#!$newShebang")
             }
         })
-        group.add(object : AnAction(message("action.GenerateShebangFromAnyPath.text")) {
+        group.add(object : AnAction(message("action.TinySnake.Shebang.FromAnyPath.text")) {
             override fun actionPerformed(e: AnActionEvent) {
                 val string = Messages.showInputDialog(
                     message("dialog.InputGenerateShebang.message"),
@@ -92,7 +92,7 @@ class InsertShebangAction : DumbAwareAction() {
             }
         })
         group.addSeparator()
-        group.add(object : AnAction(message("action.GotoConfiguration.text")) {
+        group.add(object : AnAction(message("action.TinySnake.GotoConfiguration.text")) {
             override fun actionPerformed(e: AnActionEvent) {
                 ShowSettingsUtil.getInstance().showSettingsDialog(
                     event.project,

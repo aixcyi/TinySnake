@@ -27,7 +27,7 @@ class DocstringFormatSuggestion(private val file: PyFile) {
 
     /** 带有“切换格式”和“打开设置”两个链接的通知泡泡。 */
     val notification = NotificationGroupManager.getInstance()
-        .getNotificationGroup("tinysnake.SuggestionsGroup")
+        .getNotificationGroup("TinySnake.SuggestionsGroup")
         .createNotification(
             message("notification.DocstringFormatSuggestion.title"),
             message("notification.DocstringFormatSuggestion.content"),

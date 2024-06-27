@@ -70,7 +70,7 @@ class SettingsConfigurable : SearchableConfigurable {
             list.selectionModel.leadSelectionIndex = list.leadSelectionIndex
         }
         .putExtraAction(object :
-            AnActionButton(message("action.ResetToDefaultConfigs.text"), AllIcons.General.Reset) {
+            AnActionButton(message("action.TinySnake.ResetToDefaultConfigs.text"), AllIcons.General.Reset) {
             override fun getActionUpdateThread() = ActionUpdateThread.BGT
 
             override fun actionPerformed(e: AnActionEvent) {
