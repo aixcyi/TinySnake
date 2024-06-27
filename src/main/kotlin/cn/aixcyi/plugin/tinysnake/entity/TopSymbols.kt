@@ -57,9 +57,12 @@ class TopSymbols(
     }
 
     /**
-     * 解析表达式，并收集该表达式的符号（类定义的类名、函数定义的函数名、赋值语句的变量名等）。
+     * 解析并收集表达式 [statement] 的符号，包括
      *
-     * @param statement 一条顶层表达式。
+     * - 类定义中的类名
+     * - 函数定义中的函数名
+     * - 赋值语句、判断语句中定义的变量名
+     * - 导入语句所导入的符号名或其别名
      */
     private fun collect(statement: PyStatement) {
         // 类定义
@@ -101,28 +104,32 @@ class TopSymbols(
         // 判断语句
         else if (statement is PyIfStatement) {
             for (ps in statement.getIfPart().statementList.statements) {
-                collect(ps)
+                this.collect(ps)
             }
         }
-        // import 符号 as 别名
-        // import 符号
-        // import xxx.yyy.zzz.符号  实际上就是导入  xxx
-        else if (withImports && statement is PyImportStatement) {
-            for (element in statement.importElements) {
-                symbols[element.asName ?: element.visibleName ?: continue] = specifiedIcon ?: AllIcons.Nodes.Include
-            }
-        }
-        // from xxx import 符号 as 别名
-        // from xxx import 符号
-        // from xxx import *
+        // from 根包.子包 import 孙包
+        // from 根包.子包 import 孙包 as 别名
+        // from 根包.子包.孙包 import 符号
+        // from 根包.子包.孙包 import 符号 as 别名
+        // from 根包.子包.孙包 import *
         else if (withImports && statement is PyFromImportStatement) {
-            if (statement.isFromFuture) return
+            if (statement.isFromFuture)
+                return
             if (statement.isStarImport) {
-                this.collect(statement)
+                this.parseFromStarImport(statement)
                 return
             }
             for (element in statement.importElements) {
-                symbols[element.asName ?: element.visibleName ?: continue] = specifiedIcon ?: AllIcons.Nodes.Include
+                symbols[element.visibleName ?: continue] = specifiedIcon ?: AllIcons.Nodes.Include
+            }
+        }
+        // import 根包
+        // import 根包.子包
+        // import 根包.子包.孙包
+        // import 根包.子包.孙包 as 孙包别名
+        else if (withImports && statement is PyImportStatement) {
+            for (element in statement.importElements) {
+                symbols[element.visibleName ?: continue] = specifiedIcon ?: AllIcons.Nodes.Include
             }
         }
     }
@@ -133,13 +140,17 @@ class TopSymbols(
      * - 如果包提供了 `__all__` 的话会直接合入这个列表。
      * - 如果包没有提供 `__all__` 则使用 [TopSymbols] 递归搜索顶级符号，递归层数见 [TopSymbols.LIMIT_FILE_VISITS_QTY]。
      */
-    private fun collect(statement: PyFromImportStatement) {
+    private fun parseFromStarImport(statement: PyFromImportStatement) {
         if (visitedFile.size >= LIMIT_FILE_VISITS_QTY) return
         val file = PyUtil.turnDirIntoInit(statement.resolveImportSource())
         if (file !is PyFile) return
-        if (file in visitedFile) return else visitedFile.add(file)
+        if (file in visitedFile) return
+        visitedFile.add(file)
+
         if (file.dunderAll != null) {
-            file.dunderAll!!.forEach { symbols[it] = specifiedIcon ?: AllIcons.Nodes.Include }
+            file.dunderAll!!.forEach {
+                symbols[it] = specifiedIcon ?: AllIcons.Nodes.Include
+            }
         } else {
             val entity = TopSymbols(file, withImports, AllIcons.Nodes.Include)
             symbols.putAll(entity.symbols)
