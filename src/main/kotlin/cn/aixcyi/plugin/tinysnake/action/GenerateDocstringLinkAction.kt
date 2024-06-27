@@ -3,13 +3,16 @@ package cn.aixcyi.plugin.tinysnake.action
 import cn.aixcyi.plugin.tinysnake.entity.DocstringFormatSuggestion
 import cn.aixcyi.plugin.tinysnake.ui.DocstringLinkCreator
 import cn.aixcyi.plugin.tinysnake.util.IOUtil.message
+import cn.aixcyi.plugin.tinysnake.util.getEditor
+import cn.aixcyi.plugin.tinysnake.util.getPyFile
 import cn.aixcyi.plugin.tinysnake.util.isURL
 import com.intellij.codeInsight.hint.HintManager
+import com.intellij.openapi.actionSystem.ActionUpdateThread
+import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.editor.Editor
 import com.jetbrains.python.PyTokenTypes
-import com.jetbrains.python.psi.PyFile
 
 /**
  * 在文档字符串 [docstring](https://docs.python.org/zh-cn/3/glossary.html#term-docstring) 中插入超链接。
@@ -23,11 +26,19 @@ import com.jetbrains.python.psi.PyFile
  *
  * @author <a href="https://github.com/aixcyi">砹小翼</a>
  */
-class GenerateDocstringLinkAction : PyAction() {
+class GenerateDocstringLinkAction : AnAction() {
 
-    override fun actionPerformed(editor: Editor, event: AnActionEvent, file: PyFile) {
-        // 如果光标不是一个（多光标模式／列选择模式）或者不在 docstring 中，则进行提示
-        val hint = HintManager.getInstance()
+    override fun getActionUpdateThread() = ActionUpdateThread.BGT
+
+    override fun update(event: AnActionEvent) {
+        // 如果不在 Python 文件中则禁用菜单
+        event.presentation.isEnabled = event.getPyFile() != null
+    }
+
+    override fun actionPerformed(event: AnActionEvent) {
+        val editor = event.getEditor(true) ?: return
+        val file = event.getPyFile() ?: return
+        val hint = HintManager.getInstance()  // 如果光标不是一个（多光标模式／列选择模式）或者不在 docstring 中，则进行提示
 
         // 是否需要提示用户切换 docstring 格式以便正确渲染
         val suggestion = DocstringFormatSuggestion(file)

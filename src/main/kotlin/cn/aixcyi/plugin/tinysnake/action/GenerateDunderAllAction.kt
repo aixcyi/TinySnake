@@ -4,11 +4,13 @@ import cn.aixcyi.plugin.tinysnake.entity.DunderAll
 import cn.aixcyi.plugin.tinysnake.entity.SnippetGenerator
 import cn.aixcyi.plugin.tinysnake.entity.TopSymbols
 import cn.aixcyi.plugin.tinysnake.util.IOUtil.message
+import cn.aixcyi.plugin.tinysnake.util.getPyFile
 import cn.aixcyi.plugin.tinysnake.util.isEncodingDefine
 import cn.aixcyi.plugin.tinysnake.util.isShebang
+import com.intellij.openapi.actionSystem.ActionUpdateThread
+import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.command.WriteCommandAction
-import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.ui.popup.PopupChooserBuilder
 import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiElement
@@ -29,9 +31,18 @@ import javax.swing.ListSelectionModel
  *
  * @author <a href="https://github.com/aixcyi">砹小翼</a>
  */
-class GenerateDunderAllAction : PyAction() {
+class GenerateDunderAllAction : AnAction() {
 
-    override fun actionPerformed(editor: Editor, event: AnActionEvent, file: PyFile) {
+    override fun getActionUpdateThread() = ActionUpdateThread.BGT
+
+    override fun update(event: AnActionEvent) {
+        // 如果不在 Python 文件中则禁用菜单
+        event.presentation.isEnabled = event.getPyFile() != null
+    }
+
+    override fun actionPerformed(event: AnActionEvent) {
+        val file = event.getPyFile() ?: return
+
         // <action id="GenerateDunderAllWithImports">
         val isWithImports = event.actionManager.getId(this)!!.lowercase().contains("import")
         val dunderAll = DunderAll(file)

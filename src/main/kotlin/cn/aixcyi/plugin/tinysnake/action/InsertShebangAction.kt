@@ -4,6 +4,7 @@ import cn.aixcyi.plugin.tinysnake.entity.SnippetGenerator
 import cn.aixcyi.plugin.tinysnake.storage.Settings
 import cn.aixcyi.plugin.tinysnake.ui.SettingsConfigurable
 import cn.aixcyi.plugin.tinysnake.util.IOUtil.message
+import cn.aixcyi.plugin.tinysnake.util.getPyFile
 import com.intellij.codeInsight.hint.HintManager
 import com.intellij.openapi.actionSystem.*
 import com.intellij.openapi.command.WriteCommandAction
@@ -31,10 +32,8 @@ class InsertShebangAction : DumbAwareAction() {
     override fun getActionUpdateThread() = ActionUpdateThread.BGT
 
     override fun update(event: AnActionEvent) {
-        // 如果不在编辑器中则隐藏菜单
         // 如果不在 Python 文件中则禁用菜单
-        event.presentation.isVisible = event.getData(LangDataKeys.EDITOR_EVEN_IF_INACTIVE) != null
-        event.presentation.isEnabled = event.getData(CommonDataKeys.PSI_FILE) is PyFile
+        event.presentation.isEnabled = event.getPyFile() != null
     }
 
     override fun actionPerformed(event: AnActionEvent) {

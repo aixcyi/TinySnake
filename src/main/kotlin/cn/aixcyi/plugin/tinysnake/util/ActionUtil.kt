@@ -1,16 +1,14 @@
 package cn.aixcyi.plugin.tinysnake.util
 
+import com.intellij.openapi.actionSystem.AnActionEvent
+import com.intellij.openapi.actionSystem.CommonDataKeys
+import com.intellij.openapi.actionSystem.LangDataKeys
+import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiFileSystemItem
 import com.intellij.psi.util.QualifiedName
+import com.jetbrains.python.psi.PyFile
 import com.jetbrains.python.psi.PyPsiFacade
-
-/**
- * [PSI](https://plugins.jetbrains.com/docs/intellij/psi.html) 相关工具。
- *
- * @author <a href="https://github.com/aixcyi">砹小翼</a>
- */
-class PsiUtil
 
 /**
  * @see <a href="https://peps.python.org/pep-0263/#defining-the-encoding">PEP 263 - Defining the Encoding</a>
@@ -31,4 +29,19 @@ fun PsiFileSystemItem.getQName(): QualifiedName? {
         .findShortestImportableName(this.virtualFile, this)
         ?: return null
     return QualifiedName.fromDottedString(name)
+}
+
+/** 获取 [PyFile] 。 */
+fun AnActionEvent.getPyFile(): PyFile? = eval { this.getData(CommonDataKeys.PSI_FILE) as PyFile }
+
+/**
+ * 获取编辑器。
+ *
+ * @param evenIfInactive 见 [LangDataKeys.EDITOR_EVEN_IF_INACTIVE]
+ * @return 见 [Editor]
+ */
+fun AnActionEvent.getEditor(evenIfInactive: Boolean = false): Editor? {
+    if (!evenIfInactive)
+        return this.getData(LangDataKeys.EDITOR)
+    return this.getData(LangDataKeys.EDITOR_EVEN_IF_INACTIVE)
 }
