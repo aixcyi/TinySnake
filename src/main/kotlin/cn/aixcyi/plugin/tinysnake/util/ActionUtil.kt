@@ -45,3 +45,28 @@ fun AnActionEvent.getEditor(evenIfInactive: Boolean = false): Editor? {
         return this.getData(LangDataKeys.EDITOR)
     return this.getData(LangDataKeys.EDITOR_EVEN_IF_INACTIVE)
 }
+
+/** 选中范围开始位置（未选中则使用光标位置）的左侧是否为空白（即没有字符，或为任一 [blankChar] 或空格）。 */
+fun Editor.isSelectionStartLeftBlank(vararg blankChar: Char): Boolean {
+    val position = this.offsetToLogicalPosition(this.selectionModel.selectionStart)
+    if (position.column == 0)  // 列号为 column+1，0 表示在行首。
+        return true
+    // 因为列号不为 0，说明前面肯定还有字符，因此以下代码不会报错
+    val leftChar = this.document.charsSequence[this.selectionModel.selectionStart - 1]
+    if (blankChar.isEmpty())
+        return leftChar == ' '
+    return blankChar.any { it == leftChar }
+}
+
+/** 选中范围结束位置（未选中则使用光标位置）的右侧是否为空白（即没有字符，或为任一 [blankChar] 或空格）。 */
+fun Editor.isSelectionEndRightBlank(vararg blankChar: Char): Boolean {
+    val position = this.offsetToLogicalPosition(this.selectionModel.selectionEnd)
+    val lineEnd = this.offsetToLogicalPosition(this.document.getLineEndOffset(position.line)).column
+    if (position.column == lineEnd)
+        return true
+    // 字符数组下标为 n 的那个字符的右侧索引是 n+1，因此下标可能会超出范围，也就是到达行尾
+    val rightChar = eval { this.document.charsSequence[this.selectionModel.selectionEnd] } ?: return true
+    if (blankChar.isEmpty())
+        return rightChar == ' '
+    return blankChar.any { it == rightChar }
+}

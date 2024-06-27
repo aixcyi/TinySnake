@@ -5,6 +5,12 @@ import com.intellij.openapi.util.IconLoader
 import com.intellij.ui.LayeredIcon
 import javax.swing.Icon
 
+// 必须 @JvmField 和 @JvmStatic，
+// 否则 plugin.xml／idea-plugin／actions／group.icon 无法读取，
+// 会报
+// java.lang.IllegalAccessException: member is private: cn.aixcyi.plugin.tinysnake.AppIcons.String/javax.swing.Icon/getStatic, from class com.intellij.openapi.util.IconLoader (……)
+// com.intellij.diagnostic.PluginException: Icon cannot be found in 'cn.aixcyi.plugin.tinysnake.AppIcons.String', action 'cn.aixcyi.plugin.tinysnake.action.DocstringGroup' (……))
+
 /**
  * Python 相关图标。
  *
@@ -14,31 +20,43 @@ import javax.swing.Icon
  */
 object AppIcons {
 
+    // 不是所有以双下划线开头的变量都是特殊变量，属性、函数同理。
+
+    /** 16x16，PythonPsiApiIcons／icons／com／jetbrains／python／nodes／cyan dot */
+    @JvmField
+    val CyanDot: Icon = load("/icons/cyan-dot.svg")
+
+    /** 16x16。特殊变量（它们都以双下划线开头）。*/
+    @JvmField
+    val Variable: Icon = loads(AllIcons.Nodes.Variable, CyanDot)
+
+    /** 16x16，DatabaseIcons／icons／string */
+    @JvmField
+    val Docstring: Icon = load("/icons/string.svg")
+
+    /** 16x16，MarkdownIcons／icons／editor_actions／Link */
+    @JvmField
+    val Hyperlink: Icon = load("/icons/Link.svg")
+
+    /** 16x16，MarkdownIcons／icons／editor_actions／Bold */
+    @JvmField
+    val Bold: Icon = load("/icons/Bold.svg")
+
+    /** 16x16，MarkdownIcons／icons／editor_actions／Italic */
+    @JvmField
+    val Italic: Icon = load("/icons/Italic.svg")
+
     /**
      * 载入包内的图标。
      */
-    private fun load(path: String): Icon {
-        return IconLoader.getIcon(path, AppIcons::class.java.classLoader)
-    }
+    @JvmStatic
+    private fun load(path: String) = IconLoader.getIcon(path, AppIcons::class.java.classLoader)
 
     /**
      * 将多个图标层叠成一个图标。
      */
-    private fun loads(vararg icons: Icon): Icon {
-        val result = LayeredIcon(icons.size)
-        icons.forEachIndexed { layout, icon -> result.setIcon(icon, layout) }
-        return result
+    @JvmStatic
+    private fun loads(vararg icons: Icon) = LayeredIcon(icons.size).also {
+        icons.forEachIndexed { layout, icon -> it.setIcon(icon, layout) }
     }
-
-    // 不是所有以双下划线开头的变量都是特殊变量，属性、函数同理。
-
-    /**
-     * 16x16
-     */
-    val CyanDot: Icon = load("/icons/cyan-dot.svg")
-
-    /**
-     * 16x16。特殊变量（它们都以双下划线开头）。
-     */
-    val Variable: Icon = loads(AllIcons.Nodes.Variable, CyanDot)
 }

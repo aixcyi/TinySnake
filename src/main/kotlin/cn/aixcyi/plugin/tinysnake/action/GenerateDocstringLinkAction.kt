@@ -1,18 +1,16 @@
 package cn.aixcyi.plugin.tinysnake.action
 
-import cn.aixcyi.plugin.tinysnake.entity.DocstringFormatSuggestion
 import cn.aixcyi.plugin.tinysnake.ui.DocstringLinkCreator
 import cn.aixcyi.plugin.tinysnake.util.IOUtil.message
-import cn.aixcyi.plugin.tinysnake.util.getEditor
 import cn.aixcyi.plugin.tinysnake.util.getPyFile
+import cn.aixcyi.plugin.tinysnake.util.isSelectionEndRightBlank
+import cn.aixcyi.plugin.tinysnake.util.isSelectionStartLeftBlank
 import cn.aixcyi.plugin.tinysnake.util.isURL
-import com.intellij.codeInsight.hint.HintManager
 import com.intellij.openapi.actionSystem.ActionUpdateThread
-import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.editor.Editor
-import com.jetbrains.python.PyTokenTypes
+import com.intellij.openapi.project.Project
 
 /**
  * 在文档字符串 [docstring](https://docs.python.org/zh-cn/3/glossary.html#term-docstring) 中插入超链接。
@@ -25,8 +23,9 @@ import com.jetbrains.python.PyTokenTypes
  * - 如果选中了文本，则将其替换成生成的链接。
  *
  * @author <a href="https://github.com/aixcyi">砹小翼</a>
+ * @see <a href="https://devguide.python.org/documentation/markup/">reStructuredText markup</a>
  */
-class GenerateDocstringLinkAction : AnAction() {
+class GenerateDocstringLinkAction : DocstringAction() {
 
     override fun getActionUpdateThread() = ActionUpdateThread.BGT
 
@@ -35,50 +34,25 @@ class GenerateDocstringLinkAction : AnAction() {
         event.presentation.isEnabled = event.getPyFile() != null
     }
 
-    override fun actionPerformed(event: AnActionEvent) {
-        val editor = event.getEditor(true) ?: return
-        val file = event.getPyFile() ?: return
-        val hint = HintManager.getInstance()  // 如果光标不是一个（多光标模式／列选择模式）或者不在 docstring 中，则进行提示
-
-        // 是否需要提示用户切换 docstring 格式以便正确渲染
-        val suggestion = DocstringFormatSuggestion(file)
-        val notification = if (suggestion.isRestFormat) null else suggestion.notification
-
-        // 如果光标不在 docstring 中
-        file.findElementAt(editor.caretModel.offset)?.let {
-            if (PyTokenTypes.DOCSTRING.equals(it.node.elementType)) it else null
-        } ?: let {
-            hint.showInformationHint(editor, message("hint.CaretNotOnDocstring.text"))
-            return
-        }
-
-        // 如果光标不止一个（多光标模式／列选择模式）
-        if (editor.caretModel.caretCount > 1)
-            editor.caretModel.removeSecondaryCarets()
-
-        // 避免跨行选择
-        val selection = editor.selectionModel.selectedText ?: ""
-        if (selection.contains("[\\r\\n]".toRegex()))
-            editor.selectionModel.removeSelection()
-
+    override fun actionPerformed(editor: Editor, project: Project, selection: String): Any? {
         // 如果选中了URL就填到链接字段，选中了普通文本就填到标题字段，啥都没选中就不填
         val dialog = DocstringLinkCreator(
-            file.project,
+            project,
             if (selection.isURL("http", "https")) "" else selection,  // “没选中导致设置了空字符串”与“默认空字符串”是等价的
             if (selection.isURL("http", "https")) selection else "",
         )
         if (!dialog.showAndGet())
-            return
+            return Any()
 
         // 检测前后有没有空格，如果没有则补充，不然IDE没办法正确渲染
-        val head = if (this.shouldPatchHead(editor)) " " else ""
-        val tail = if (this.shouldPatchTail(editor)) " " else ""
+        val head = if (editor.isSelectionStartLeftBlank()) "" else " "
+        val tail = if (editor.isSelectionEndRightBlank()) "" else " "
         val snippet = "$head${dialog.docstring}$tail"
 
         // 没有选中文本则进行「插入」，选中了文本则进行「替换」
         WriteCommandAction.runWriteCommandAction(
-            file.project,
-            message("command.GenerateDocstringLink"),
+            project,
+            message("command.Docstring.CreateLink"),
             null,
             if (selection.isEmpty())
                 Runnable {
@@ -93,27 +67,6 @@ class GenerateDocstringLinkAction : AnAction() {
                     )
                 }
         )
-        notification?.notify(file.project)
-    }
-
-    private fun shouldPatchHead(editor: Editor): Boolean {
-        val position = editor.offsetToLogicalPosition(editor.selectionModel.selectionStart)
-        if (position.column == 0)  // 列号为 column+1，0 表示在行首。
-            return false
-        // 因为列号不为 0，说明前面肯定还有字符，因此以下代码不会报错
-        return editor.document.charsSequence[editor.selectionModel.selectionStart - 1] != ' '
-    }
-
-    private fun shouldPatchTail(editor: Editor): Boolean {
-        val position = editor.offsetToLogicalPosition(editor.selectionModel.selectionEnd)
-        val endColumn = editor.offsetToLogicalPosition(editor.document.getLineEndOffset(position.line)).column
-        if (position.column == endColumn)
-            return false
-        // 字符数组下标为 n 的那个字符的右侧索引是 n+1，因此以下代码有可能会报错
-        return try {
-            editor.document.charsSequence[editor.selectionModel.selectionEnd] != ' '
-        } catch (_: IndexOutOfBoundsException) {
-            false
-        }
+        return null
     }
 }

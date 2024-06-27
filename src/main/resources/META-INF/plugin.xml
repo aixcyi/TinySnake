@@ -22,22 +22,17 @@
         <notificationGroup
                 displayType="BALLOON"
                 id="TinySnake.SuggestionsGroup"
-                key="notification.SuggestionGroup.name"
-        />
+                key="notification.SuggestionGroup.name"/>
     </extensions>
 
     <!-- action 的 text 中的下划线被转义了，所以需要用双下划线来表示下划线，譬如 "__all__" 要写成 "____all____" -->
     <actions resource-bundle="messages.TinySnakeBundle">
-
-        <!-- 顶层菜单／新建... -->
         <action id="TinySnake.GenerateDjangoApp"
                 class="cn.aixcyi.plugin.tinysnake.action.GenerateDjangoAppAction"
                 icon="AllIcons.RunConfigurations.Application">
             <add-to-group group-id="NewGroup" anchor="after" relative-to-action="NewPythonPackage"/>
             <!-- add-to-group group-id="Django.Structure.ContextMenu.App" anchor="after" relative-to-action="django.structure.create.new.app"/ -->
         </action>
-
-        <!-- 顶层菜单／代码 -->
         <action id="TinySnake.DunderAll.Optimize"
                 class="cn.aixcyi.plugin.tinysnake.action.OptimizeDunderAllAction">
             <add-to-group group-id="CodeFormatGroup" anchor="after" relative-to-action="OptimizeImports"/>
@@ -45,9 +40,6 @@
             <keyboard-shortcut keymap="Mac OS X" first-keystroke="control meta D"/>
             <keyboard-shortcut keymap="Mac OS X 10.5+" first-keystroke="control meta D"/>
         </action>
-
-        <!-- 顶层菜单／代码／生成...
-             右键菜单／生成...  -->
         <action id="TinySnake.DunderAll.Generate"
                 class="cn.aixcyi.plugin.tinysnake.action.GenerateDunderAllAction">
             <add-to-group group-id="GenerateGroup" anchor="first"/>
@@ -63,18 +55,39 @@
                           relative-to-action="TinySnake.DunderAll.GenerateWithImports"/>
         </action>
         <action id="TinySnake.Docstring.GenerateLink"
-                class="cn.aixcyi.plugin.tinysnake.action.GenerateDocstringLinkAction">
+                class="cn.aixcyi.plugin.tinysnake.action.GenerateDocstringLinkAction"
+                icon="cn.aixcyi.plugin.tinysnake.AppIcons.Hyperlink">
             <add-to-group group-id="GenerateGroup" anchor="after" relative-to-action="TinySnake.Shebang.Generate"/>
             <keyboard-shortcut keymap="$default" first-keystroke="alt L"/>
             <keyboard-shortcut keymap="Mac OS X" first-keystroke="alt L"/>
             <keyboard-shortcut keymap="Mac OS X 10.5+" first-keystroke="alt L"/>
         </action>
-
-        <!-- 顶层菜单／帮助 -->
         <action id="TinySnake.GotoTinySnakeRelease"
                 class="cn.aixcyi.plugin.tinysnake.action.GotoHomepageAction">
             <add-to-group group-id="HelpMenu" anchor="after" relative-to-action="HelpTopics"/>
         </action>
+        <action id="TinySnake.Docstring.BoldFont"
+                class="cn.aixcyi.plugin.tinysnake.action.BoldDocstringFontAction"
+                icon="cn.aixcyi.plugin.tinysnake.AppIcons.Bold">
+            <keyboard-shortcut keymap="$default" first-keystroke="ctrl B"/>
+            <keyboard-shortcut keymap="Mac OS X" first-keystroke="control B"/>
+            <keyboard-shortcut keymap="Mac OS X 10.5+" first-keystroke="control B"/>
+        </action>
+        <action id="TinySnake.Docstring.ItalicFont"
+                class="cn.aixcyi.plugin.tinysnake.action.ItalicDocstringFontAction"
+                icon="cn.aixcyi.plugin.tinysnake.AppIcons.Italic">
+            <keyboard-shortcut keymap="$default" first-keystroke="ctrl I"/>
+            <keyboard-shortcut keymap="Mac OS X" first-keystroke="control I"/>
+            <keyboard-shortcut keymap="Mac OS X 10.5+" first-keystroke="control I"/>
+        </action>
+        <group id="TinySnake.DocstringGroup"
+               icon="cn.aixcyi.plugin.tinysnake.AppIcons.Docstring"
+               popup="true">
+            <reference ref="TinySnake.Docstring.GenerateLink"/>
+            <reference ref="TinySnake.Docstring.ItalicFont"/>
+            <reference ref="TinySnake.Docstring.BoldFont"/>
+            <add-to-group group-id="CodeFormatGroup" anchor="last"/>
+        </group>
     </actions>
 
 </idea-plugin>
