@@ -35,9 +35,11 @@ class OptimizeDunderAllAction : PyAction() {
         if (!dialog.showAndGet()) return
 
         // 构造优化后的代码
-        val exports = dunderAll.exports.toMutableList()
-        TopSymbols(file).sort(exports, dialog.state.mySequenceOrder)
-        val statement = SnippetGenerator(file).createStringListLiteral(exports, dialog.state)
+        val handler = TopSymbols(file)
+        val statement = dunderAll.exports.toMutableList()
+            .apply { handler.sort(this, dialog.state.mySequenceOrder) }
+            .apply { if (dialog.state.isAutoRemoveNonexistence) handler.remove(this) }
+            .let { SnippetGenerator(file).createStringListLiteral(it, dialog.state) }
 
         // 写入编辑器并产生一个撤销选项
         WriteCommandAction.runWriteCommandAction(

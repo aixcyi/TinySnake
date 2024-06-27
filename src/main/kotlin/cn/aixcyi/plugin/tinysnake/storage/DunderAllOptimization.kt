@@ -36,5 +36,6 @@ class DunderAllOptimization : SimplePersistentStateComponent<DunderAllOptimizati
         var isUseSingleQuote by property(false)
         var isEndsWithComma by property(false)
         var isLineByLine by property(false)
+        var isAutoRemoveNonexistence by property(false)
     }
 }

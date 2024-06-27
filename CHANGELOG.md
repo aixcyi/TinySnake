@@ -1,5 +1,12 @@
 # 更新日志／Change Log
 
+## v2.1.0-SNAPSHOT
+
+1. 优化 `__all__` 时允许删除不存在的符号。  
+   It can automatically remove non-existed symbols when you optimize `__all__`.
+
+_尚未发布 UNRELEASED_
+
 ## v2.0.0
 
 1. 执行文档字符串相关操作时，建议用户切换到 reStructuredText 格式。  

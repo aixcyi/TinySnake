@@ -43,16 +43,24 @@ class TopSymbols(
     }
 
     /**
-     * 参照文件内符号的定义顺序，对给定的一批符号进行排序。
-     *
-     * @param list 符号。
-     * @param order 顺序。
+     * 参照文件内符号的定义顺序，按照自定义顺序 [order] 对 [list] 进行排序。
      */
     fun sort(list: MutableList<String>, order: Order = Order.APPEARANCE) {
         when (order) {
             Order.CHARSET -> list.sortWith { s1, s2 -> s1.compareTo(s2) }
             Order.ALPHABET -> list.sortWith { s1, s2 -> s1.compareTo(s2, ignoreCase = true) }
             Order.APPEARANCE -> list.sortWith { s1, s2 -> names.indexOf(s1).compareTo(names.indexOf(s2)) }
+        }
+    }
+
+    /**
+     * 移除 [list] 中不存在于文件内的符号。
+     */
+    fun remove(list: MutableList<String>) {
+        for (index in list.indices.reversed()) {
+            if (!symbols.keys.contains(list[index])) {
+                list.removeAt(index)
+            }
         }
     }
 

@@ -30,18 +30,18 @@ class DunderAllOptimizer : DialogWrapper(true) {
             buttonsGroup {
                 row {
                     radioButton(
-                        message("radio.DunderAllOrderByAppearance.text"), DunderAllOptimization.Order.APPEARANCE
-                    ).mnemonic()
+                        message("radio.DunderAllOrderByAppearance.text"),
+                        DunderAllOptimization.Order.APPEARANCE
+                    )
+                        .mnemonic()
                 }
                 row {
-                    radioButton(
-                        message("radio.DunderAllOrderByAlphabet.text"), DunderAllOptimization.Order.ALPHABET
-                    ).mnemonic()
+                    radioButton(message("radio.DunderAllOrderByAlphabet.text"), DunderAllOptimization.Order.ALPHABET)
+                        .mnemonic()
                 }
                 row {
-                    radioButton(
-                        message("radio.DunderAllOrderByCharacter.text"), DunderAllOptimization.Order.CHARSET
-                    ).mnemonic()
+                    radioButton(message("radio.DunderAllOrderByCharacter.text"), DunderAllOptimization.Order.CHARSET)
+                        .mnemonic()
                 }
             }.bind(state::mySequenceOrder)
         }
@@ -59,6 +59,11 @@ class DunderAllOptimizer : DialogWrapper(true) {
             row {
                 checkBox(message("checkbox.DunderAllLineByLine.text"))
                     .bindSelected(state::isLineByLine)
+                    .mnemonic()
+            }
+            row {
+                checkBox(message("checkbox.DunderAllRemoveNonexistence.text"))
+                    .bindSelected(state::isAutoRemoveNonexistence)
                     .mnemonic()
             }
         }
