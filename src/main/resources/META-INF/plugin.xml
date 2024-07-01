@@ -69,16 +69,16 @@
         <action id="TinySnake.Docstring.BoldFont"
                 class="cn.aixcyi.plugin.tinysnake.action.BoldDocstringFontAction"
                 icon="cn.aixcyi.plugin.tinysnake.AppIcons.Bold">
-            <keyboard-shortcut keymap="$default" first-keystroke="ctrl B"/>
-            <keyboard-shortcut keymap="Mac OS X" first-keystroke="control B"/>
-            <keyboard-shortcut keymap="Mac OS X 10.5+" first-keystroke="control B"/>
+            <!--<keyboard-shortcut keymap="$default" first-keystroke="ctrl B"/>-->
+            <!--<keyboard-shortcut keymap="Mac OS X" first-keystroke="control B"/>-->
+            <!--<keyboard-shortcut keymap="Mac OS X 10.5+" first-keystroke="control B"/>-->
         </action>
         <action id="TinySnake.Docstring.ItalicFont"
                 class="cn.aixcyi.plugin.tinysnake.action.ItalicDocstringFontAction"
                 icon="cn.aixcyi.plugin.tinysnake.AppIcons.Italic">
-            <keyboard-shortcut keymap="$default" first-keystroke="ctrl I"/>
-            <keyboard-shortcut keymap="Mac OS X" first-keystroke="control I"/>
-            <keyboard-shortcut keymap="Mac OS X 10.5+" first-keystroke="control I"/>
+            <!--<keyboard-shortcut keymap="$default" first-keystroke="ctrl I"/>-->
+            <!--<keyboard-shortcut keymap="Mac OS X" first-keystroke="control I"/>-->
+            <!--<keyboard-shortcut keymap="Mac OS X 10.5+" first-keystroke="control I"/>-->
         </action>
         <group id="TinySnake.DocstringGroup"
                icon="cn.aixcyi.plugin.tinysnake.AppIcons.Docstring"
@@ -86,7 +86,7 @@
             <reference ref="TinySnake.Docstring.GenerateLink"/>
             <reference ref="TinySnake.Docstring.ItalicFont"/>
             <reference ref="TinySnake.Docstring.BoldFont"/>
-            <add-to-group group-id="CodeFormatGroup" anchor="last"/>
+            <!--<add-to-group group-id="CodeFormatGroup" anchor="last"/>-->
         </group>
     </actions>
 

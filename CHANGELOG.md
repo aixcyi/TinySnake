@@ -1,11 +1,11 @@
 # 更新日志／Change Log
 
-## v2.1.0-SNAPSHOT
+## v2.1.0
 
 1. 优化 `__all__` 时允许删除不存在的符号。  
    It can automatically remove non-existed symbols when you optimize `__all__`.
 
-_尚未发布 UNRELEASED_
+_Built in 2024-07-01_
 
 ## v2.0.0
 
